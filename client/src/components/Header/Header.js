@@ -8,10 +8,10 @@ const Header = () => {
 
             {/* Page Links */}
             <div className="topnav-right">
-                <Link className="topnav-link" to="/Home">Home</Link>
-                <Link className="topnav-link" to='/User'>User</Link>
-                <Link className="topnav-link" to='/Vendor'>Vendor</Link>
-                <Link className="topnav-link" to='/Admin'>Admin</Link>
+                <Link className="topnav-link" to="/home">Home</Link>
+                <Link className="topnav-link" to='/user'>User</Link>
+                <Link className="topnav-link" to='/vendor'>Vendor</Link>
+                <Link className="topnav-link" to='/admin'>Admin</Link>
             </div>
         </div>
     )

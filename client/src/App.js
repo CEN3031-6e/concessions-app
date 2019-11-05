@@ -11,11 +11,11 @@ const App = () => {
     <div>
       <Header />
       <Switch>
-        <Route exact path="/Home" component={Home} />
+        <Route exact path="/home" component={Home} />
         <Route exact path="/">
-          <Redirect to="/Home" />
+          <Redirect to="/home" />
         </Route>
-        <Route exact path="/User" component={User} />
+        <Route exact path="/user" component={User} />
         <Route component={NotFound}/>
       </Switch>
     </div>
