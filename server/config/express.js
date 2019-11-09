@@ -6,7 +6,7 @@ const path = require('path'),
     exampleRouter = require('../routes/examples.server.routes');
 
 module.exports.init = () => {
-    /* 
+    /*
         connect to database
         - reference README for db uri
     */
@@ -28,16 +28,16 @@ module.exports.init = () => {
     // add a router
     app.use('/api/example', exampleRouter);
 
-    if (process.env.NODE_ENV === 'production') {
+    //if (process.env.NODE_ENV === 'production') {
         // Serve any static files
         app.use(express.static(path.join(__dirname, '../../client/build')));
 
         // Handle React routing, return all requests to React app
-        app.get('*', function(req, res) {
-            res.sendFile(path.join(__dirname, '../../client/build', 'index.html'));
+        app.all('/*', function(req, res) {
+            res.sendFile(path.resolve(__dirname, '../../client/public', 'index.html'));
+            res.send("hello");
         });
-    }
+    //}
 
     return app
 }
-
