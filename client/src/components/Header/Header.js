@@ -8,20 +8,12 @@ const Header = () => {
 
             {/* Page Links */}
             <div className="topnav-right">
-                <Link className="topnav-link" to="/home">Home</Link>
-                <Link className="topnav-link" to='/user'>User</Link>
-                <Link className="topnav-link" to='/vendor'>Vendor</Link>
-                <Link className="topnav-link" to='/admin'>Admin</Link>
+                <Link className="topnav-link" to='/home'>Home</Link>
+                <Link className="topnav-link" to='/users'>Users</Link>
+                <Link className="topnav-link" to='/vendors'>Vendors</Link>
             </div>
         </div>
     )
 }
 
 export default Header;
-
-/*
-{Logo}
-<Link id="logo-link" to="/">
-<img className="topnav-logo" src={ "/logo192.png" } alt="React logo" />
-</Link>
-*/
