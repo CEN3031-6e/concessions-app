@@ -6,6 +6,8 @@ import Goods from '../../components/User/Goods'
 import Return from '../../components/User/Return'
 import ShowCart from '../../components/User/ShowCart'
 import Search from '../../components/User/Search'
+import { Link } from 'react-router-dom'
+import './User.css'
 
 class User extends React.Component {
 
@@ -13,6 +15,7 @@ class User extends React.Component {
         super(props);
     
         this.state = {
+          userID: null,
           filter: '',
           selectedVenue: null,
           selectedVendor: null,
@@ -23,10 +26,14 @@ class User extends React.Component {
     returnPage() {
         if (this.state.selectedVendor) this.setState({filter: '', selectedVendor: null});
         else if (this.state.selectedVenue) this.setState({filter: '', selectedVenue: null});
-        else console.log("Logging out");
+        else this.props.history.push('/home');
     }
     showCart() {
-        console.log("Displaying cart: ", this.state.order);
+        if (/*user.loggedIn()*/ true) {
+          this.props.history.push('/user/cart');
+        } else {
+          this.props.history.push('/user/login');
+        }
     }
     filterUpdate(event) {
         this.setState({filter: event.target.value});
@@ -36,16 +43,18 @@ class User extends React.Component {
         let selectedId = event.currentTarget.getAttribute('id')
         let selectedVenue = data.find((venue) => venue.id == selectedId);
         this.setState({filter: '', selectedVenue: selectedVenue});
+        this.props.history.push(this.props.history.location.pathname+'/'+selectedVenue.name.toLowerCase().replace(/[_\W]+/g, ""));
     }
     selectVendor(event) {
         let selectedId = event.currentTarget.getAttribute('id');
         let selectedVendor = this.state.selectedVenue.vendors.find((vendor) => vendor.id == selectedId);
         this.setState({filter: '', selectedVendor: selectedVendor});
+        this.props.history.push(this.props.history.location.pathname+'/'+selectedVendor.name.toLowerCase().replace(/[_\W]+/g, ""));
     }
     selectGood(event) {
         let selectedId = event.currentTarget.getAttribute('id');
         let selectedGood = this.state.selectedVendor.goods.find((good) => good.id == selectedId);
-        console.log("Adding ", selectedGood.name, " to order.");
+        console.log("Adding", selectedGood.name, "to order.");
     }
 
     render() {
@@ -75,7 +84,9 @@ class User extends React.Component {
             <header className="app-header">
               <Return returnPage={this.returnPage.bind(this)}/>
               <ShowCart showCart={this.showCart.bind(this)}/>
+              <Link className='reg-link' to='/users/register'>Register</Link>
               <Search filterValue={this.state.filter} filterUpdate={this.filterUpdate.bind(this)}/>
+              
             </header>
             {page}
           </div>
