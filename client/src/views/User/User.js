@@ -87,7 +87,6 @@ class User extends React.Component {
             <header className="app-header">
               <Return returnPage={this.returnPage.bind(this)}/>
               <ShowCart showCart={this.showCart.bind(this)}/>
-              <Link className='reg-link' to='/users/register'>Register</Link>
               <Search filterValue={this.state.filter} filterUpdate={this.filterUpdate.bind(this)}/>
 
             </header>
