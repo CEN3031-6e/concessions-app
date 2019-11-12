@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from "react-router-dom";
+
 
 const UserHeader = (props) => {
 
@@ -9,13 +11,13 @@ const UserHeader = (props) => {
       	<div> </div>
 
       	<div className='VendrLogo'>
-            	<a href='/home'> Vendr </a>
+            	<Link to='/home'> Vendr </Link>
         </div>
 
         <div className='toolbarMenu'> 
         	<ul>
         		<li> 
-        			<a href='/users'>Order</a>
+        			<Link to='/users'>Order</Link>
         		</li>
 
         		<li>
