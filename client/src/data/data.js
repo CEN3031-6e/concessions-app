@@ -9,37 +9,49 @@ export default [
             {
                 id: 1,
                 name: "Domino's Pizza",
+                venueID: 1,
                 goods: [
                     {
                         id: 1,
                         name: 'Cheese Pizza',
-                        price: 7.99
+                        price: 7.99,
+                        venueID: 1,
+                        vendorID: 1
                     },
                     {
                         id: 2,
                         name: 'Pepperoni Pizza',
-                        price: 8.49
+                        price: 8.49,
+                        venueID: 1,
+                        vendorID: 1
                     },
                     {
                         id: 3,
                         name: 'Gatorade',
-                        price: 2.99
+                        price: 2.99,
+                        venueID: 1,
+                        vendorID: 1
                     }
                 ]
             },
             {
                 id: 2,
                 name: 'Lemonade Stand',
+                venueID: 1,
                 goods: [
                     {
                         id: 1,
                         name: 'Frozen Lemonade',
-                        price: 4.99
+                        price: 4.99,
+                        venueID: 1,
+                        vendorID: 2
                     },
                     {
                         id: 2,
                         name: 'Chilled Lemonade',
-                        price: 3.99
+                        price: 3.99,
+                        venueID: 1,
+                        vendorID: 2
                     }
                 ]
             }
@@ -53,21 +65,28 @@ export default [
             {
                 id: 1,
                 name: 'The High Dive Bar',
+                venueID: 2,
                 goods: [
                     {
                         id: 1,
                         name: 'Vodka Tonic',
-                        price: 3.99
+                        price: 3.99,
+                        venueID: 2,
+                        vendorID: 1
                     },
                     {
                         id: 2,
                         name: 'Long Island Iced Tea',
-                        price: 4.99
+                        price: 4.99,
+                        venueID: 2,
+                        vendorID: 1
                     },
                     {
                         id: 3,
                         name: 'Water Bottle',
-                        price: 2.99
+                        price: 2.99,
+                        vendueID: 2,
+                        vendorID: 1
                     }
                 ]
             }
