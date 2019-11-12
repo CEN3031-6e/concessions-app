@@ -13,13 +13,14 @@ class User extends React.Component {
 
     constructor(props) {
         super(props);
-    
+
         this.state = {
           userID: null,
           filter: '',
           selectedVenue: null,
           selectedVendor: null,
-          order: null
+          order: null,
+          goods: []
         };
     }
 
@@ -38,7 +39,7 @@ class User extends React.Component {
     filterUpdate(event) {
         this.setState({filter: event.target.value});
     }
-    
+
     selectVenue(event) {
         let selectedId = event.currentTarget.getAttribute('id')
         let selectedVenue = data.find((venue) => venue.id == selectedId);
@@ -55,30 +56,32 @@ class User extends React.Component {
         let selectedId = event.currentTarget.getAttribute('id');
         let selectedGood = this.state.selectedVendor.goods.find((good) => good.id == selectedId);
         console.log("Adding", selectedGood.name, "to order.");
+        this.state.goods.push(selectedGood)
+        console.log("Added",   this.state.goods[0].name, "to order.");
     }
 
     render() {
         let page = <p>Uh-oh! Looks like we got lost some where. Try refreshing the page :)</p>;
         if (this.state.selectedVendor) {
-          page = <Goods 
-            selectedVendor={this.state.selectedVendor} 
-            selectGood={this.selectGood.bind(this)} 
+          page = <Goods
+            selectedVendor={this.state.selectedVendor}
+            selectGood={this.selectGood.bind(this)}
             filter={this.state.filter}
           />
         } else if (this.state.selectedVenue) {
-          page = <Vendors 
-            selectedVenue={this.state.selectedVenue} 
+          page = <Vendors
+            selectedVenue={this.state.selectedVenue}
             selectVendor={this.selectVendor.bind(this)}
             filter={this.state.filter}
           />
         } else {
-          page = <Venues 
-            venues={data} 
+          page = <Venues
+            venues={data}
             selectVenue={this.selectVenue.bind(this)}
             filter={this.state.filter}
           />
         }
-    
+
         return (
           <div className="">
             <header className="app-header">
@@ -86,7 +89,7 @@ class User extends React.Component {
               <ShowCart showCart={this.showCart.bind(this)}/>
               <Link className='reg-link' to='/users/register'>Register</Link>
               <Search filterValue={this.state.filter} filterUpdate={this.filterUpdate.bind(this)}/>
-              
+
             </header>
             {page}
           </div>
