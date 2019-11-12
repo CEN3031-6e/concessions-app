@@ -1,0 +1,11 @@
+.register-button{
+  width: 64px;
+  margin: 8px;
+  background: #ddd;
+}
+.login-button{
+  width: 64px;
+  margin: 8px;
+  background: #ddf;
+}
+
