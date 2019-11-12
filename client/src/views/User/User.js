@@ -6,7 +6,6 @@ import Goods from '../../components/User/Goods'
 import Return from '../../components/User/Return'
 import ShowCart from '../../components/User/ShowCart'
 import Search from '../../components/User/Search'
-import { Link } from 'react-router-dom'
 import './User.css'
 
 class User extends React.Component {
@@ -25,16 +24,19 @@ class User extends React.Component {
     }
 
     returnPage() {
+        //If changing vendors, the user should be asked to confirm, as this should clear the user's cart
         if (this.state.selectedVendor) this.setState({filter: '', selectedVendor: null});
         else if (this.state.selectedVenue) this.setState({filter: '', selectedVenue: null});
         else this.props.history.push('/home');
     }
     showCart() {
-        if (/*user.loggedIn()*/ true) {
-          this.props.history.push('/user/cart');
-        } else {
-          this.props.history.push('/user/login');
-        }
+      let subtotal = 0;
+      for (const good of this.state.goods) {
+        let str = good.name + ': $' + good.price;
+        subtotal = subtotal + good.price;
+        console.log(str);
+      }
+      console.log("Subtotal: $" + subtotal.toFixed(2));
     }
     filterUpdate(event) {
         this.setState({filter: event.target.value});
@@ -44,20 +46,19 @@ class User extends React.Component {
         let selectedId = event.currentTarget.getAttribute('id')
         let selectedVenue = data.find((venue) => venue.id == selectedId);
         this.setState({filter: '', selectedVenue: selectedVenue});
-        this.props.history.push(this.props.history.location.pathname+'/'+selectedVenue.name.toLowerCase().replace(/[_\W]+/g, ""));
+        //this.props.history.push(this.props.history.location.pathname+'/'+selectedVenue.name.toLowerCase().replace(/[_\W]+/g, ""));
     }
     selectVendor(event) {
         let selectedId = event.currentTarget.getAttribute('id');
         let selectedVendor = this.state.selectedVenue.vendors.find((vendor) => vendor.id == selectedId);
         this.setState({filter: '', selectedVendor: selectedVendor});
-        this.props.history.push(this.props.history.location.pathname+'/'+selectedVendor.name.toLowerCase().replace(/[_\W]+/g, ""));
+        //this.props.history.push(this.props.history.location.pathname+'/'+selectedVendor.name.toLowerCase().replace(/[_\W]+/g, ""));
     }
     selectGood(event) {
         let selectedId = event.currentTarget.getAttribute('id');
         let selectedGood = this.state.selectedVendor.goods.find((good) => good.id == selectedId);
-        console.log("Adding", selectedGood.name, "to order.");
         this.state.goods.push(selectedGood)
-        console.log("Added",   this.state.goods[0].name, "to order.");
+        console.log("Added",   this.state.goods[this.state.goods.length - 1].name, "to order.");
     }
 
     render() {
@@ -88,7 +89,7 @@ class User extends React.Component {
               <Return returnPage={this.returnPage.bind(this)}/>
               <ShowCart showCart={this.showCart.bind(this)}/>
               <Search filterValue={this.state.filter} filterUpdate={this.filterUpdate.bind(this)}/>
-
+              <h1>{this.state.selectedVendor ? this.state.selectedVendor.name : this.state.selectedVenue ? this.state.selectedVenue.name : 'Venues'}</h1>
             </header>
             {page}
           </div>
