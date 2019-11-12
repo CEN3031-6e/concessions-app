@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import { Redirect } from 'react-router-dom'
-import Button from 'react-bootstrap'
+import './Register.css'
 
 class Register extends React.Component {
 
@@ -104,7 +104,7 @@ class Register extends React.Component {
                         <input type="password" name="password2" required className="form-control" value={this.state.password2} onChange={e => this.onChange(e)}/>
                     </div>
                     <div className="form-group">
-                        <input type="submit" value="Register Now!" className="btn btn-info btn-sm"/>
+                        <input type="submit" value="Register Now!" className="register-button"/>
                     </div>
                 </form>
             </div>

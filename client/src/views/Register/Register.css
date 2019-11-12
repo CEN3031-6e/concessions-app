@@ -1,6 +1,11 @@
-.register-button{
-  width: 64px;
+.register-error-message {
+  color: red;
+}
+
+.register-button {
+  border: thin;
+  width: 128px;
   margin: 8px;
-  background: #ddd;
+  background: SkyBlue;
 }
 
