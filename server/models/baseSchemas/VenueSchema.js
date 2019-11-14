@@ -6,9 +6,7 @@ const venueSchema = new Schema({
     name: {type: String, required: true},
     address: {type: String, required: true},
     vendors: [
-        /*array of vendors*/
-        vendorName,     // Vendor Name 
-        vendorID        // Links to unique vendor ID
+       {type: String}   // Array of strings of vendor ID's 
     ]
 
 });
