@@ -1,5 +1,4 @@
-var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+const mongoose = require('mongoose');
 
 var adminSchema = new Schema ({
     id: {type: String, required: true, unique = true},

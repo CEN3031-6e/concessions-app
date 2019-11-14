@@ -11,8 +11,7 @@ const userSchema = new Schema ({
         default: Date.now()
     },
     cart: [
-        item [itemID, price], // Array of itemID and linked price
-        total // Sum of prices 
+        {type: String} // Array of strings of item ID's
     ]
     // pastOrders: {/* Array of array of carts? */}
 });
