@@ -1,23 +1,28 @@
 import React from 'react';
-import logo from '../../assets/logo.svg';
 import './Home.css';
+import DefaultHome from './DefaultHome'
+import UserHome from './UserHome'
+import VendorHome from './VendorHome'
+import AdminHome from './AdminHome'
 
-function Home() {
+function Home(props) {
+
+     let pageView = <DefaultHome/>;
+
+    if (props.isUser) {
+        pageView = <UserHome/>;
+    }
+    else if (props.isVendor) {
+        pageView = <VendorHome/>;
+    }
+    else if (props.isAdmin) {
+        pageView = <AdminHome/>;
+    }
+   
+
     return (
         <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <p>
-                    Edit <code>src/App.js</code> and save to reload.
-                </p>
-                <a
-                    className="App-link"
-                    href="https://reactjs.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                </a>
-            </header>
+        {pageView}
         </div>
     );
 }
