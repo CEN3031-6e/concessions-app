@@ -62,8 +62,9 @@ class VendorLogin extends React.Component {
 		       			/>
 
 		       			<label> Password: </label>
-		       			<input 
-		       				type="text" 
+						   <input 
+						    id= 'password'
+		       				type="password" 
 		       				value={this.state.password} 
 		       				onChange={this.changePassword}
 		       			/> 

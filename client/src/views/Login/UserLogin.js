@@ -68,7 +68,7 @@ class UserLogin extends React.Component {
 						<label> Password: </label>
 		       			<input 
 		       				id= 'password'
-		       				type='text' 
+		       				type='password' 
 		       				value={this.state.password} 
 		       				onChange={this.changePassword}
 		       			/> 
