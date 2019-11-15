@@ -1,70 +1,157 @@
-import React from 'react';
-import UserLogin from './UserLogin'
-import VendorLogin from './VendorLogin'
+import React from 'react'
+import axios from 'axios'
+import { Redirect, withRouter } from 'react-router-dom'
 import './Login.css'
 
 class Login extends React.Component {
 
-	constructor(props) {
-	    super(props);
-	    this.state = {
-	      isUser: false,
-	      isVendor: false,
-	      isAdmin: false,
-	    };
+  constructor(props) {
+    super(props);
 
-	     this.userClick = this.userClick.bind(this);
-	     this.vendorClick = this.vendorClick.bind(this);
+    this.setRoleUser = this.setRoleUser.bind(this);
+    this.setRoleVendor = this.setRoleVendor.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
 
-	    
-	    // this.adminClick = this.adminClick.bind(this); //to be implemented
+    this.state = {
+      role: null,
+      email: '',
+      password: '',
+      loginError: '',
+      isLoading: false,
+      redirTo: null,
+      user: null
+    };
+  }
 
-	}
+  setRoleUser = () => this.setState({role: 'User'});
+  setRoleVendor = () => this.setState({role: 'Vendor'});
+  onChange = (e) => this.setState({[e.target.name]: e.target.value});
 
-	userClick() {
-		this.setState({isUser: true})
+  onSubmit(e) {
+    this.setState({isLoading: true});
+    e.preventDefault();
 
-	}
+    const { email, password, role } = this.state;
+    const user = {
+      email,
+      password,
+      role
+    };
 
-	vendorClick() {
-		this.setState({isVendor: true});
+    //User login
+    if (user.role === 'User') {
+      axios.post('/users/login', user).then(res => {
+        if (res.data.success) {
 
-	}
+          user.id = res.data.id;
+          user.name = res.data.name;
+          this.setState({
+            email: '',
+            password: '',
+            loginError: '',
+            isLoading: false,
+            redirTo: `/users/${user.id}`
+          });
+          this.props.logIn(user);
 
-	//adminClick(event) {
+        } else {
+          this.setState({
+            email: '',
+            password: '',
+            loginError: res.data.message,
+            isLoading: false
+          });
+        }
+      })
+    } 
 
-	//}
+    //Vendor login
+    else {
+      axios.post('/vendors/login', user).then(res => {
+        if (res.data.success) {
+          this.setState({
+            email: '',
+            password: '',
+            loginError: '',
+            isLoading: false,
+            redirTo: '/vendors'
+          });
 
-	render() {
+          user.id = res.data.id;
+          user.name = res.data.name;
+          this.props.logIn(user);
+  
+        } else {
+          this.setState({
+            email: '',
+            password: '',
+            loginError: res.data.message,
+            isLoading: false
+          });
+        }
+      })
+    }
+  }
+  
+  render() {
 
-		if (this.state.isUser === true) {
-			return(
-				<UserLogin handleUser={this.props.handleUser}/>
-			)
-		}
-		else if (this.state.isVendor === true) {
-			return(
-				<VendorLogin handleVendor={this.props.handleVendor}/>
-			)
-		}
-		else {
-			return(
-				<div>
-					<button className='loginButton' onClick={this.userClick}>
-						User
-					</button>
+    if (this.state.redirTo) return <Redirect to={this.state.redirTo}/>;
+    if (this.state.isLoading) return <p>Loading...</p>
 
-					<button className='loginButton' onClick={this.vendorClick}>
-						Vendor
-					</button>
+    if (!this.state.role) {
+      return (
+        <div>
+          <button className="loginButton" onClick={this.setRoleUser}>User</button>
+          <button className="loginButton" onClick={this.setRoleVendor}>Vendor</button>
+        </div>
+      );
+    }
 
-				</div>
-			)
-		}
-
-
-	}
-
+    return (
+      <div className="login-view-container">
+        <div className="login-container">
+          <div className="login-input-container">
+            <h3>{this.state.role} Login</h3>
+            <br />
+          </div>
+          {this.state.loginError ? <p>{this.state.loginError}</p> : null}
+          <form
+            onSubmit={e => this.onSubmit(e)}
+            className="login-form-container"
+          >
+            <div className="login-input-container">
+              <label htmlFor="email"></label>
+              <input
+                type="email"
+                name="email"
+                placeholder="Enter Email"
+                required
+                className="login-input"
+                value={this.state.email}
+                onChange={e => this.onChange(e)}
+              />
+            </div>
+            <div className="login-input-container">
+              <label htmlFor="password"></label>
+              <input
+                type="password"
+                name="password"
+                placeholder="Enter Password"
+                required
+                className="login-input"
+                value={this.state.password}
+                onChange={e => this.onChange(e)}
+              />
+            </div>
+            <div className="login-input-container">
+              <input type="submit" value="Login" className="login-button" />
+            </div>
+          </form>
+        </div>
+      </div>
+    );
+  }
 }
 
-export default Login;
+export default withRouter(Login);
