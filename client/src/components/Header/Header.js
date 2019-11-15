@@ -1,39 +1,28 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 import './Header.css';
-import DefaultHeader from './DefaultHeader'
-import UserHeader from './UserHeader'
 
-/*
-import VendorHeader from './VendorHeader'
-import AdminHeader from './AdminHeader'
-*/
+class Header extends React.Component {
 
-const Header = (props) => {
+    render() {
 
-    let view = <DefaultHeader/>
-
-    
-
-    if(props.isUser === true) {
-        view = <UserHeader/>;
+        let l1 = this.props.loginState ? <Link to="/">{this.props.loginState.email}</Link> : <Link to="/login">Login</Link>
+        let l2 = this.props.loginState ? <Link to="/" onClick={this.props.logOut}>Log Out</Link> : <Link to="/register">Register</Link>
+        
+        return (
+            <div className='mainNav'>
+                <nav className="toolbarNavigation">
+                    <div className='VendrLogo'><Link to='/home'> Vendr </Link></div>
+                    <div className='toolbarMenu'> 
+                        <ul>
+                            <li>{l1}</li>
+                            <li>{l2}</li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        );
     }
-
-    /*
-    else if (props.isVendor === true) {
-        view = <VendorHeader/>;
-    }
-    else if (props.isAdmin === true) {
-        view = <AdminHeader/>;
-    } 
-
-    */
-
-    return (
-        <div className='mainNav'>           
-            {view}
-        </div>
-    )
-
 }
 
 export default Header;
