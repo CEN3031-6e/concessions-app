@@ -1,4 +1,5 @@
 import React from 'react'
+import { Redirect, withRouter } from 'react-router-dom'
 import data from '../../data/data'
 import Venues from '../../components/User/Venues'
 import Vendors from '../../../src/components/User/Vendors'
@@ -14,7 +15,6 @@ class User extends React.Component {
         super(props);
 
         this.state = {
-          userID: null,
           filter: '',
           selectedVenue: null,
           selectedVendor: null,
@@ -37,6 +37,7 @@ class User extends React.Component {
         console.log(str);
       }
       console.log("Subtotal: $" + subtotal.toFixed(2));
+    
     }
     filterUpdate(event) {
         this.setState({filter: event.target.value});
@@ -62,6 +63,8 @@ class User extends React.Component {
     }
 
     render() {
+        //if (!this.props.username) return <Redirect to="/login"/>
+
         let page = <p>Uh-oh! Looks like we got lost some where. Try refreshing the page :)</p>;
         if (this.state.selectedVendor) {
           page = <Goods
@@ -86,6 +89,8 @@ class User extends React.Component {
         return (
           <div className="">
             <header className="app-header">
+              <h3>Welcome, {this.props.username}</h3>
+              <p>You do {this.props.adminPriv ? '' : 'not '}have admin privileges</p>
               <Return returnPage={this.returnPage.bind(this)}/>
               <ShowCart showCart={this.showCart.bind(this)}/>
               <Search filterValue={this.state.filter} filterUpdate={this.filterUpdate.bind(this)}/>
@@ -97,4 +102,4 @@ class User extends React.Component {
       }
 }
 
-export default User;
+export default withRouter(User);
