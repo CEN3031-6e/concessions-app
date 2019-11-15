@@ -1,4 +1,7 @@
 const express = require('express');
+//const passport = require("passport");
+const bcrypt = require('bcryptjs')
+
 const router = express.Router();
 
 //User Model
@@ -43,10 +46,8 @@ router.get("/verify", (req, res) => {
 
 //Register Handle
 router.post("/register", (req, res) => {
-    const { name, password, password2 } = req.body;
-  
-    //ensures email isn't case sensitive
-    let { email } = req.body;
+
+    let { name, email, password, password2 } = req.body;
     email = email.toLowerCase();
   
     //Do server-side form validation here: password length
@@ -109,5 +110,37 @@ router.post("/register", (req, res) => {
       });
     });
   });
-  
+
+  router.post("/login", (req, res) => {
+
+    let { email, password } = req.body;
+    email = email.toLowerCase();
+
+    User.findOne({ email }).then(user => {
+      if (!user) {
+        return res.send({
+          success: false,
+          message: "Email or password is incorrect"
+        });
+      }
+
+      bcrypt.compare(password, user.password, (err, isMatch) => {
+        if (err) throw err;
+        if (isMatch) {
+          return res.send({
+            success: true,
+            message: "Success",
+            id: user._id,
+            name: user.name
+          });
+        } else {
+          return res.send({
+            success: false,
+            message: "Email or password is incorrect"
+          });
+        }
+      });
+    })
+  })
+
 module.exports = router;
