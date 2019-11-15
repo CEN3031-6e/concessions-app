@@ -1,6 +1,6 @@
 import React from 'react';
 import {Redirect} from 'react-router-dom'
-import './UserLogin.css'
+import './Login.css'
 
 class UserLogin extends React.Component {
 
@@ -75,7 +75,7 @@ class UserLogin extends React.Component {
 					</p>
 		       			
 
-		       		<button className='button'>Log in</button>
+		       		<button className='userLoginbutton'>Log in</button>
 		       	</form>
 
 	       	</div>

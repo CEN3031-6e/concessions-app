@@ -60,7 +60,7 @@ class VendorLogin extends React.Component {
 		       				value={this.state.username} 
 		       				onChange={this.changeUsername}
 		       			/>
-
+						<p>
 		       			<label> Password: </label>
 						   <input 
 						    id= 'password'
@@ -68,8 +68,8 @@ class VendorLogin extends React.Component {
 		       				value={this.state.password} 
 		       				onChange={this.changePassword}
 		       			/> 
-
-		       			<button>Log in</button>
+						</p>
+		       			<button className= 'userLoginbutton'>Log in</button>
 		       	</form>
 
 	       	</div>
