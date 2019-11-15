@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import { Redirect } from 'react-router-dom'
+import { Redirect, withRouter } from 'react-router-dom'
 import './Register.css'
 
 class Register extends React.Component {
@@ -18,7 +18,7 @@ class Register extends React.Component {
             password2: '',
             registerErrors: [],
             isLoading: false,
-            isSuccess: false
+            redirTo: null
         };
     }
 
@@ -50,7 +50,7 @@ class Register extends React.Component {
                     password2: '',
                     registerErrors: [],
                     isLoading: false,
-                    isSuccess: true
+                    redirTo: '/login'
                 });
 
                 console.log(`Finished! ${JSON.stringify(res.data)}`);
@@ -68,14 +68,9 @@ class Register extends React.Component {
     }
 
     render() {
-        if (this.state.isSuccess) return <Redirect to='/login'/>
-        if (this.state.loading) {
-            return (
-                <div>
-                    <p>Loading...</p>
-                </div>
-            )
-        }
+        if (this.state.redirTo) return <Redirect to={this.state.redirTo}/>
+        if (this.state.isLoading) return <p>Loading...</p>
+
         return (
             <div>
                 <h3>User Registration</h3>
@@ -112,4 +107,4 @@ class Register extends React.Component {
     }
 }
 
-export default Register;
+export default withRouter(Register);
