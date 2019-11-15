@@ -1,5 +1,6 @@
 import React from 'react';
 import {Redirect} from 'react-router-dom'
+import './UserLogin.css'
 
 class UserLogin extends React.Component {
 
@@ -50,27 +51,31 @@ class UserLogin extends React.Component {
 
 			<div>
 
-				<p> Welcome, user! </p>
+				<p> Welcome, User! </p>
 
 		       <form onSubmit={this.loginAttempt}>
-
-		       			<label> Username: </label>
+					<p>
+						<label> Username: </label>
 		       			<input 
 		       				id= 'username'
 		       				type='text' 
 		       				value={this.state.username} 
 		       				onChange={this.changeUsername}
 		       			/>
-
-		       			<label> Password: </label>
+					</p>
+		       			
+					<p>
+						<label> Password: </label>
 		       			<input 
 		       				id= 'password'
 		       				type='text' 
 		       				value={this.state.password} 
 		       				onChange={this.changePassword}
 		       			/> 
+					</p>
+		       			
 
-		       			<button>Log in</button>
+		       		<button className='button'>Log in</button>
 		       	</form>
 
 	       	</div>

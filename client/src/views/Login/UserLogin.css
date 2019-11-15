@@ -1,0 +1,20 @@
+
+.button {
+  display: inline-block;
+  padding: 15px 25px;
+  font-size: 12px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color:  SkyBlue;
+  border: none;
+}
+
+.button:hover {background-color: #7b8182}
+
+.button:active {
+  background-color: skyblue;
+  transform: translateY(4px);
+}
