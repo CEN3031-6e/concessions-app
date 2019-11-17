@@ -170,7 +170,7 @@ class Login extends React.Component {
               />
             </div>
             <div className="login-input-container">
-              <input type="submit" value="Login" className="login-button" />
+              <input type="submit" value="Login" className="userLoginbutton" />
             </div>
           </form>
         </div>
