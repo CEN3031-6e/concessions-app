@@ -19,7 +19,7 @@ class AuthenticatedComponent extends React.Component {
       //move them to the login page to get a new session
       if (!data.success) {
         console.log("Session ended: " + JSON.stringify(data));
-        this.props.history.push("/users/login");
+        this.props.history.push("/login");
       } else {
         console.log("Authenticated user data: " + JSON.stringify(data));
       }
