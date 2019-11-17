@@ -14,18 +14,18 @@ class Login extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
-      role: null,
+      role: '',
       email: '',
       password: '',
       loginError: '',
       isLoading: false,
-      redirTo: null,
-      user: null
+      redirTo: '/login',
+      user: {}
     };
   }
 
-  setRoleUser = () => this.setState({role: 'User'});
-  setRoleVendor = () => this.setState({role: 'Vendor'});
+  setRoleUser = () => this.setState({role: 'user'});
+  setRoleVendor = () => this.setState({role: 'vendor'});
   onChange = (e) => this.setState({[e.target.name]: e.target.value});
 
   onSubmit(e) {
@@ -40,36 +40,64 @@ class Login extends React.Component {
     };
 
     //User login
-    if (user.role === 'User') {
-      axios.post('/users/login', user).then(res => {
+    if (user.role === 'user') {
+      console.log(user);
+      this.props.login("/users/login", user, data => {
+        if (data.success) {
+          this.setState({
+            email: "",
+            password: "",
+            isLoading: false,
+            loginError: "",
+            redirTo: "/users"
+          });
+  
+          console.log(`Successfully logged in! ${JSON.stringify(data)}`);
+  
+          //this.props.history.push("/users");
+        } else {
+          this.setState({
+            email: "",
+            password: "",
+            isLoading: false,
+            loginError: data.message,
+          });
+          //this.props.history.push("/login");
+        }
+      });
+
+      // axios.post('/users/login', user).then(res => {
+      //   if (res.data.success) {
+
+      //     user.id = res.data.id;
+      //     user.name = res.data.name;
+      //     this.setState({
+      //       email: '',
+      //       password: '',
+      //       loginError: '',
+      //       isLoading: false,
+      //       redirTo: '/users'
+      //     });
+      //     this.props.login(user);
+      //
+      //   } else {
+      //     this.setState({
+      //       email: '',
+      //       password: '',
+      //       loginError: res.data.message,
+      //       isLoading: false
+      //     });
+      //   }
+      // })
+    } 
+
+    //Vendor login
+    else if (user.role === 'vendor') {
+      axios.post('/vendors/login', user).then(res => {
         if (res.data.success) {
 
           user.id = res.data.id;
           user.name = res.data.name;
-          this.setState({
-            email: '',
-            password: '',
-            loginError: '',
-            isLoading: false,
-            redirTo: `/users/${user.id}`
-          });
-          this.props.logIn(user);
-
-        } else {
-          this.setState({
-            email: '',
-            password: '',
-            loginError: res.data.message,
-            isLoading: false
-          });
-        }
-      })
-    } 
-
-    //Vendor login
-    else {
-      axios.post('/vendors/login', user).then(res => {
-        if (res.data.success) {
           this.setState({
             email: '',
             password: '',
@@ -77,11 +105,8 @@ class Login extends React.Component {
             isLoading: false,
             redirTo: '/vendors'
           });
+          this.props.login(user);
 
-          user.id = res.data.id;
-          user.name = res.data.name;
-          this.props.logIn(user);
-  
         } else {
           this.setState({
             email: '',
@@ -96,7 +121,7 @@ class Login extends React.Component {
   
   render() {
 
-    if (this.state.redirTo) return <Redirect to={this.state.redirTo}/>;
+    if (this.props.loggedIn) return <Redirect to={this.state.redirTo}/>;
     if (this.state.isLoading) return <p>Loading...</p>
 
     if (!this.state.role) {

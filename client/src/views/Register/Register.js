@@ -54,6 +54,7 @@ class Register extends React.Component {
                 });
 
                 console.log(`Finished! ${JSON.stringify(res.data)}`);
+                this.props.history.push('/login');
             } else {
                 this.setState({
                     password: '',
@@ -68,7 +69,7 @@ class Register extends React.Component {
     }
 
     render() {
-        if (this.state.redirTo) return <Redirect to={this.state.redirTo}/>
+        if (this.props.loggedIn) return <Redirect to='/users'/>
         if (this.state.isLoading) return <p>Loading...</p>
 
         return (

@@ -1,7 +1,5 @@
 const express = require('express');
-//const passport = require("passport");
-const bcrypt = require('bcryptjs')
-
+const passport = require("passport"); //ADD PASSPORT
 const router = express.Router();
 
 //User Model
@@ -9,15 +7,11 @@ const User = require('../models/users.server.model');
 
 //Verify - this is for the frontend
 router.get("/verify", (req, res) => {
-    console.log(
-      "This is res.locals.session from /verify" +
-        JSON.stringify(res.locals.session)
-    );
-    console.log("This is req.session from /verify" + JSON.stringify(req.session));
-    console.log(
-      "This is res.locals.user from /verify" + JSON.stringify(res.locals.user)
-    );
-    console.log("This is req.user from /verify" + JSON.stringify(req.user));
+    console.log("verifying: " + req + res);
+    //console.log("This is res.locals.session from /verify" + JSON.stringify(res.locals.session));
+    //console.log("This is req.session from /verify" + JSON.stringify(req.session));
+    //console.log("This is res.locals.user from /verify" + JSON.stringify(res.locals.user));
+    //console.log("This is req.user from /verify" + JSON.stringify(req.user));
     if (req.isAuthenticated()) {
       const clientUser = {
         id: req.user._id,
@@ -77,7 +71,7 @@ router.post("/register", (req, res) => {
     //Validation passed
     User.findOne({ email }).then(user => {
       if (user) {
-          console.log("found match");
+        console.log("found match");
         //Flash the error
         errors.push({ msg: "Email is already registered" });
         return res.send({
@@ -111,36 +105,44 @@ router.post("/register", (req, res) => {
     });
   });
 
-  router.post("/login", (req, res) => {
+  router.post("/login", passport.authenticate("local"), (req, res) => {
 
-    let { email, password } = req.body;
-    email = email.toLowerCase();
+    console.log("logging in: " + req + res);
+    //console.log("This is req.user from /login: " + JSON.stringify(req.user));
+    //console.log("This is req.session from /login: " + JSON.stringify(req.session));
+    //console.log("This is req.body from /login: " + req.body);
 
-    User.findOne({ email }).then(user => {
-      if (!user) {
+    req.session.userId = req.user._id;
+    res.locals.user = req.user;
+    res.locals.session = req.session;
+    const clientUser = {
+      id: req.user._id,
+      name: req.user.name,
+      email: req.user.email,
+      loggedIn: true
+    };
+
+    return res.send({
+      success: true,
+      message: "successful login",
+      user: req.user
+    });
+  })
+
+  router.post("/logout", (req, res) => {
+    req.session.destroy(err => {
+      if (err) {
         return res.send({
           success: false,
-          message: "Email or password is incorrect"
+          message: "Server error: couldn't destroy session (log user out)"
         });
       }
-
-      bcrypt.compare(password, user.password, (err, isMatch) => {
-        if (err) throw err;
-        if (isMatch) {
-          return res.send({
-            success: true,
-            message: "Success",
-            id: user._id,
-            name: user.name
-          });
-        } else {
-          return res.send({
-            success: false,
-            message: "Email or password is incorrect"
-          });
-        }
+      req.logout();
+      res.clearCookie("sid").send({
+        success: true,
+        message: "Successfully logged out"
       });
-    })
-  })
+    });
+  });
 
 module.exports = router;
