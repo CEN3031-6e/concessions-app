@@ -4,15 +4,23 @@ import './Header.css';
 
 class Header extends React.Component {
 
+    logoutSelect() {
+        this.props.logout("/users/logout", "/login");
+    }
+
+    homeSelect() {
+        this.props.logout("/users/logout", "/");
+    }
+
     render() {
 
-        let l1 = this.props.loginState ? <Link to="/">{this.props.loginState.email}</Link> : <Link to="/login">Login</Link>
-        let l2 = this.props.loginState ? <Link to="/" onClick={this.props.logOut}>Log Out</Link> : <Link to="/register">Register</Link>
+        let l1 = this.props.loggedIn ? <Link to="/">MyAccount</Link> : <Link to="/login">Login</Link>
+        let l2 = this.props.loggedIn ? <Link to="/login" onClick={this.logoutSelect.bind(this)}>Log Out</Link> : <Link to="/register">Register</Link>
         
         return (
             <div className='mainNav'>
                 <nav className="toolbarNavigation">
-                    <div className='VendrLogo'><Link to='/home'> Vendr </Link></div>
+                    <div className='VendrLogo'><Link to='/home' onClick={this.homeSelect.bind(this)}> Vendr </Link></div>
                     <div className='toolbarMenu'> 
                         <ul>
                             <li>{l1}</li>
