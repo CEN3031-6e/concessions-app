@@ -1,39 +1,36 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 import './Header.css';
-import DefaultHeader from './DefaultHeader'
-import UserHeader from './UserHeader'
 
-/*
-import VendorHeader from './VendorHeader'
-import AdminHeader from './AdminHeader'
-*/
+class Header extends React.Component {
 
-const Header = (props) => {
-
-    let view = <DefaultHeader/>
-
-    
-
-    if(props.isUser === true) {
-        view = <UserHeader/>;
+    logoutSelect() {
+        this.props.logout("/users/logout", "/login");
     }
 
-    /*
-    else if (props.isVendor === true) {
-        view = <VendorHeader/>;
+    homeSelect() {
+        this.props.logout("/users/logout", "/");
     }
-    else if (props.isAdmin === true) {
-        view = <AdminHeader/>;
-    } 
 
-    */
+    render() {
 
-    return (
-        <div className='mainNav'>           
-            {view}
-        </div>
-    )
-
+        let l1 = this.props.loggedIn ? <Link to="/">MyAccount</Link> : <Link to="/login">Login</Link>
+        let l2 = this.props.loggedIn ? <Link to="/login" onClick={this.logoutSelect.bind(this)}>Log Out</Link> : <Link to="/register">Register</Link>
+        
+        return (
+            <div className='mainNav'>
+                <nav className="toolbarNavigation">
+                    <div className='VendrLogo'><Link to='/home' onClick={this.homeSelect.bind(this)}> Vendr </Link></div>
+                    <div className='toolbarMenu'> 
+                        <ul>
+                            <li>{l1}</li>
+                            <li>{l2}</li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        );
+    }
 }
 
 export default Header;
