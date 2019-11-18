@@ -1,5 +1,7 @@
 import React from 'react';
 import {Redirect} from 'react-router-dom'
+import {Button} from 'react-bootstrap'
+import {Card} from 'react-bootstrap'
 
 class VendorLogin extends React.Component {
 
@@ -48,30 +50,37 @@ class VendorLogin extends React.Component {
 		return (
 
 			<div>
-
-				<p> Welcome, vendor! </p>
-
-		       <form onSubmit={this.loginAttempt}>
-
-		       			<label> Username: </label>
-		       			<input 
+				<center>
+				<p> WELCOME VENDOR </p>
+		       		<form onSubmit={this.loginAttempt}>
+				   		<label className = "vendorUsernameLabel"> Username: </label>
+						   <div class="col-sm-4">
+						   <input 
+						   	class="form-control"
 		       				id= 'username'
 		       				type='text' 
 		       				value={this.state.username} 
 		       				onChange={this.changeUsername}
 		       			/>
+						   </div>
 						<p>
 		       			<label> Password: </label>
+						   <div class="col-sm-4">
 						   <input 
+						    class="form-control"
 						    id= 'password'
 		       				type="password" 
 		       				value={this.state.password} 
 		       				onChange={this.changePassword}
 		       			/> 
+						   </div>
 						</p>
-		       			<button className= 'userLoginbutton'>Log in</button>
+						<Card style={{ width: '14rem' }}>
+							<Button className="userLoginButton">Log in</Button>
+						</Card>
+		       			
 		       	</form>
-
+				</center>
 	       	</div>
 
 

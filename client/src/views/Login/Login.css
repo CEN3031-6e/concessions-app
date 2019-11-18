@@ -23,6 +23,12 @@
   background-color:  SkyBlue;
   border: none;
 }
+.vendorUsernameLabel{
+  font-size: 17px;
+}
+.vendorPasswordLabel{
+  font-size: 17px;
+}
 
 .userLoginbutton:hover {background-color: #7b8182}
 
