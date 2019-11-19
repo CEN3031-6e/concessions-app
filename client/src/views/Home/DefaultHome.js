@@ -3,7 +3,8 @@ import React from 'react';
 function DefaultHome() {
     return (
         <div className="App">
-        	<p>Default home! </p>
+        	<h1 class="display-1">Welcome to Vendr</h1>
+            <h2 class="defaultSlogan">Tired of the long lines? Don't stress!</h2>
         </div>
     );
 }

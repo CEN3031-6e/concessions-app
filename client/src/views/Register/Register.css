@@ -3,9 +3,16 @@
 }
 
 .register-button {
-  border: thin;
-  width: 128px;
-  margin: 8px;
-  background: SkyBlue;
+  display: inline-block;
+  padding: 15px 65px;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color:  SkyBlue;
+  border: none;
+  border-radius: 8px;
 }
 

@@ -74,7 +74,8 @@ class Register extends React.Component {
 
         return (
             <div>
-                <h3>User Registration</h3>
+                <center>
+                <p><h3>User Registration</h3></p>
                 {this.state.registerErrors ? this.state.registerErrors.length > 0
                     ? this.state.registerErrors.map((errMsg, index) => (
                             <p className="register-error-message" key={index}>
@@ -85,24 +86,63 @@ class Register extends React.Component {
                 <form onSubmit={e => this.onSubmit(e)}>
                     <div className="form-group">
                         <label>Username: </label>
-                        <input type="text" name="name" required className="form-control" value={this.state.name} onChange={e => this.onChange(e)}/>
+                        <div class="col-sm-4">
+                        <input 
+                        type="text" 
+                        name="name"
+                        placeholder = "Enter Username" 
+                        required className="form-control" 
+                        value={this.state.name} 
+                        onChange={e => this.onChange(e)}/>
+                        </div>
                     </div>
                     <div className="form-group">
                         <label>Email: </label>
-                        <input type="email" name="email" required className="form-control" value={this.state.email} onChange={e => this.onChange(e)}/>
+                        <div class="col-sm-4">
+                        <input 
+                        type="email" 
+                        name="email"
+                        placeholder = "Enter Email" 
+                        required className="form-control" 
+                        value={this.state.email} 
+                        onChange={e => this.onChange(e)}/>
+                        </div>
                     </div>
                     <div className="form-group">
                         <label>Password: </label>
-                        <input type="password" name="password" required className="form-control" value={this.state.password} onChange={e => this.onChange(e)}/>
+                        <div class="col-sm-4">
+                        <input 
+                        type="password" 
+                        name="password" 
+                        placeholder = "Enter Password" 
+                        required className="form-control" 
+                        value={this.state.password} 
+                        onChange={e => this.onChange(e)}/>
+                        </div>
                     </div>
                     <div className="form-group">
                         <label>Confirm Password: </label>
-                        <input type="password" name="password2" required className="form-control" value={this.state.password2} onChange={e => this.onChange(e)}/>
+                        <div class="col-sm-4">
+                        <input 
+                        type="password" 
+                        name="password2"
+                        placeholder = "Re-enter Password"  
+                        required className="form-control" 
+                        value={this.state.password2} 
+                        onChange={e => this.onChange(e)}/>
+                        </div>
                     </div>
+                    <center>
                     <div className="form-group">
-                        <input type="submit" value="Register Now!" className="register-button"/>
+                        <input 
+                        type="submit" 
+                        value="Register Now!" 
+                        className="register-button"/>
                     </div>
+                    </center>
                 </form>
+                </center>
+                
             </div>
         );
     }
