@@ -4,6 +4,9 @@ import DefaultHome from './DefaultHome'
 import UserHome from './UserHome'
 import VendorHome from './VendorHome'
 import AdminHome from './AdminHome'
+import {Container} from 'react-bootstrap'
+import {Row} from 'react-bootstrap'
+import {Col} from 'react-bootstrap'
 
 function Home(props) {
 
@@ -22,8 +25,21 @@ function Home(props) {
 
     return (
         <div className="App">
-        {pageView}
+            <p>{pageView}</p>
+            <hr></hr>
+            <hr></hr>
+        <div className = "left">
+            <img style={{float: "left; margin: 0px 0px 0px 0px"}} src="https://floridagators.com/images/2015/12/14//swamp-20121006-lsu_0378.jpg" alt="Responsive Image" class="rounded float-left" width="450" ></img>
         </div>
+        <div className = "center">
+            <img src = "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/PGE_Park_concession_stand.JPG/1920px-PGE_Park_concession_stand.JPG" alt="Responsive Image" class="rounded float-center" width="390"></img>
+        </div>
+        <div>
+            <img src = "background3.png"></img>
+        </div>
+        </div>
+        
+        
     );
 }
 

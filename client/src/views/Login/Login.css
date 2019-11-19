@@ -8,10 +8,32 @@
   text-align: center;
   text-decoration: none;
   display: block;
-  font-size: 17px;
+  font-size: 20px;
 }
 
 .userLoginbutton {
+  display: inline-block;
+  padding: 15px 65px;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color:  SkyBlue;
+  border: none;
+  border-radius: 8px;
+}
+.heading{
+  font-size: 28px;
+}
+.userLoginbutton:hover {background-color: #0d0de0}
+
+.userLoginbutton:active {
+  background-color: skyblue;
+  transform: translateY(4px);
+}
+.forgotPassword{
   display: inline-block;
   padding: 15px 25px;
   font-size: 14px;
@@ -22,11 +44,15 @@
   color: #fff;
   background-color:  SkyBlue;
   border: none;
+  border-radius: 8px;
 }
-
-.userLoginbutton:hover {background-color: #7b8182}
-
-.userLoginbutton:active {
+.forgotPassword:visited{
+  color:blue;
+}
+.forgotPassword:hover{
+  background-color: #0d0de0
+}
+.forgotPassword:active{
   background-color: skyblue;
   transform: translateY(4px);
 }

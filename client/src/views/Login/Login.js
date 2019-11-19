@@ -2,6 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import { Redirect, withRouter } from 'react-router-dom'
 import './Login.css'
+import {Button} from 'react-bootstrap'
 
 class Login extends React.Component {
 
@@ -24,8 +25,8 @@ class Login extends React.Component {
     };
   }
 
-  setRoleUser = () => this.setState({role: 'user'});
-  setRoleVendor = () => this.setState({role: 'vendor'});
+  setRoleUser = () => this.setState({role: 'User'});
+  setRoleVendor = () => this.setState({role: 'Vendor'});
   onChange = (e) => this.setState({[e.target.name]: e.target.value});
 
   onSubmit(e) {
@@ -40,7 +41,7 @@ class Login extends React.Component {
     };
 
     //User login
-    if (user.role === 'user') {
+    if (user.role === 'User') {
       console.log(user);
       this.props.login("/users/login", user, data => {
         if (data.success) {
@@ -92,7 +93,7 @@ class Login extends React.Component {
     } 
 
     //Vendor login
-    else if (user.role === 'vendor') {
+    else if (user.role === 'Vendor') {
       axios.post('/vendors/login', user).then(res => {
         if (res.data.success) {
 
@@ -127,17 +128,27 @@ class Login extends React.Component {
     if (!this.state.role) {
       return (
         <div>
-          <button className="loginButton" onClick={this.setRoleUser}>User</button>
-          <button className="loginButton" onClick={this.setRoleVendor}>Vendor</button>
+          <center>
+          <p>
+          <h1>Login Page</h1>
+          </p>
+          <p>
+          <Button className="loginButton" onClick={this.setRoleUser}>User</Button>
+          </p>
+          <p>
+          <Button className="loginButton" onClick={this.setRoleVendor}>Vendor</Button>
+          </p>
+          </center>
         </div>
       );
     }
 
     return (
+      <center>
       <div className="login-view-container">
         <div className="login-container">
           <div className="login-input-container">
-            <h3>{this.state.role} Login</h3>
+            <h3 className = "heading">{this.state.role} Login</h3>
             <br />
           </div>
           {this.state.loginError ? <p>{this.state.loginError}</p> : null}
@@ -145,8 +156,11 @@ class Login extends React.Component {
             onSubmit={e => this.onSubmit(e)}
             className="login-form-container"
           >
+            <p>
             <div className="login-input-container">
               <label htmlFor="email"></label>
+              <label>Email: </label>
+              <div class="col-sm-4">
               <input
                 type="email"
                 name="email"
@@ -156,9 +170,14 @@ class Login extends React.Component {
                 value={this.state.email}
                 onChange={e => this.onChange(e)}
               />
+              </div>
             </div>
+            </p>
+            <p>
             <div className="login-input-container">
               <label htmlFor="password"></label>
+              <label>Password: </label>
+              <div class="col-sm-4">
               <input
                 type="password"
                 name="password"
@@ -168,13 +187,19 @@ class Login extends React.Component {
                 value={this.state.password}
                 onChange={e => this.onChange(e)}
               />
+              </div>
             </div>
+            </p>
+            <p>
             <div className="login-input-container">
               <input type="submit" value="Login" className="userLoginbutton" />
             </div>
+            </p>
+            <Button className="forgotPassword">Forgot password?</Button>
           </form>
         </div>
       </div>
+      </center>
     );
   }
 }
