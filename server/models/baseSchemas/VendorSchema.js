@@ -14,3 +14,12 @@ const vendorSchema = new Schema ({
         {type: String} // Array of string of user ID's
     ]
 });
+
+vendorSchema.methods.generateHash = function (password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
+};
+vendorSchema.methods.validatePassword = function (password) {
+    return bcrypt.compareSync(password, this.password);
+};
+
+module.exports = mongoose.model("vendor_profile", vendorSchema);

@@ -1,5 +1,9 @@
 const path = require('path'),
     express = require('express'),
+    mongooseSetup = require('./database'),
+    session = require("express-session"),
+    MongoStore = require("connect-mongo")(session)
+    passport = require("passport")
     mongoose = require('mongoose'),
     morgan = require('morgan'),
     bodyParser = require('body-parser'),
@@ -7,18 +11,14 @@ const path = require('path'),
     userRouter = require('../routes/users.server.routes');
 
 module.exports.init = () => {
-    /* 
-        connect to database
-        - reference README for db uri
-    */
-    mongoose.connect(process.env.DB_URI || require('./config').db.uri, {
-        useNewUrlParser: true
-    });
-    mongoose.set('useCreateIndex', true);
-    mongoose.set('useFindAndModify', false);
+    mongooseSetup.start(); //starts the database
+    
+    //Passport config
+    require("./passport")(passport);
 
     // initialize app
     const app = express();
+    app.set("trust proxy", true);
 
     // enable request logging for development debugging
     app.use(morgan('dev'));
@@ -26,7 +26,35 @@ module.exports.init = () => {
     // body parsing middleware
     app.use(bodyParser.json());
 
-    // add a router
+    //Express session middleware
+    app.use(
+        session({
+        name: "sid",
+        resave: false,
+        saveUninitialized: false,
+        secret: "secret",
+        store: new MongoStore({ mongooseConnection: mongooseSetup.connection }),
+        cookie: {
+            httpOnly: true,
+            secure: false,
+            maxAge: 1000 * 60 * 60 * 24 * 1 // 1 day
+        }
+        })
+    );
+    
+    //passport middleware
+    app.use(passport.initialize());
+    app.use(passport.session());
+    
+    //Globals
+    app.use((req, res, next) => {
+        if (req.session) {
+        res.locals.session = req.session;
+        }
+        next();
+    });
+    
+    //Routes
     app.use('/api/example', exampleRouter);
     app.use('/users', userRouter);
 
