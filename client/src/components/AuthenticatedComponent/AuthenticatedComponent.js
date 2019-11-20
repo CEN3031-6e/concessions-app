@@ -25,27 +25,6 @@ class AuthenticatedComponent extends React.Component {
       }
     });
   }
-  /* axios
-      .get("/users/verify")
-      .then(response => {
-        this.setState({
-          verified: response.data.success
-        });
-        //on success res.data has: success, message, user.name, user.email, user.logggedIn
-        //user isn't authorized or their session expired
-        //move them to the login page to get a new session
-        if (!response.data.success) {
-          this.props.history.push("/login");
-          console.log("Session ended: " + JSON.stringify(response.data));
-        } else {
-          console.log(
-            "Authenticated user data: " + JSON.stringify(response.data)
-          );
-        }
-      })
-      .catch(err => {
-        this.props.history.push("/login");
-      }); */
 
   render() {
     if (!this.state.verified) {
