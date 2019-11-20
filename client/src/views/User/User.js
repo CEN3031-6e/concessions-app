@@ -1,13 +1,16 @@
 import React from 'react'
 import { Redirect, withRouter } from 'react-router-dom'
-import data from '../../data/data'
+//import data from '../../data/data'
 import Venues from '../../components/User/Venues'
 import Vendors from '../../../src/components/User/Vendors'
 import Goods from '../../components/User/Goods'
 import Return from '../../components/User/Return'
 import ShowCart from '../../components/User/ShowCart'
 import Search from '../../components/User/Search'
+import AddVenueModal from '../../components/Admin/AddVenueModal/AddVenueModal'
+import AddVendorModal from '../../components/Admin/AddVendorModal/AddVendorModal'
 import './User.css'
+import axios from 'axios'
 
 class User extends React.Component {
 
@@ -15,12 +18,18 @@ class User extends React.Component {
       super(props);
 
       this.state = {
-        filter: '',
+        venues: [],
         selectedVenue: null,
+        vendors: [],
         selectedVendor: null,
-        order: null,
         goods: [],
-        addingVenue: false
+        selectedGood: null,
+
+        filter: '',
+        cart: [],
+
+        addingVenue: false,
+        addingVendor: false
       };
   }
 
@@ -52,36 +61,36 @@ class User extends React.Component {
       this.setState({filter: event.target.value});
   }
 
-  selectVenue(event) {
-      this.setState({
-        filter: '', 
-        selectedVenue: data.find((venue) => {
-          return String(venue.id) === event.currentTarget.getAttribute('id');
-        })   
-      });
-      //this.props.history.push(this.props.history.location.pathname+'/'+selectedVenue.name.toLowerCase().replace(/[_\W]+/g, ""));
+  selectVenue = (id) => {
+      this.setState({filter: '', selectedVenue: this.state.venues.find((venue) => venue._id === id)});
+      this.updateVendors(id);
   }
-  selectVendor(event) {
-      this.setState({
-        filter: '', 
-        selectedVendor: this.state.selectedVenue.vendors.find((vendor) => {
-          return String(vendor.id) === event.currentTarget.getAttribute('id')
-        })
-      })
-      //this.props.history.push(this.props.history.location.pathname+'/'+selectedVendor.name.toLowerCase().replace(/[_\W]+/g, ""));
+
+  selectVendor = (id) => {
+    this.setState({filter: '', selectedVendor: this.state.vendors.find((vendor) => vendor._id === id)});
+    //this.updateGoods(id);
   }
+
   selectGood(event) {
-      let goods = this.state.goods;
-      goods.push(this.state.selectedVendor.goods.find((good) => {
-        return String(good.id) === event.currentTarget.getAttribute('id')
+      let cart = this.state.cart;
+      cart.push(this.state.selectedVendor.goods.find((good) => {
+        return good._id === event.currentTarget.getAttribute('id')
       }));
       this.setState({
         filter: '',
-        goods: goods
+        cart: cart
       })
   }
-  addVenue() {
-    this.setState({addingVenue: true});
+
+  updateVenues = () => axios.get('/admin/venues').then(res => this.setState({ venues: res.data.venues }));
+  updateVendors = (selectedVenueID) => axios.get('/admin/vendors', {params: {selectedVenueID: selectedVenueID}}).then(res => this.setState({vendors: res.data.vendors })); 
+
+  toggleAddVenueModal = () => this.setState({ addingVenue: !this.state.addingVenue });
+  toggleAddVendorModal = () => this.setState({ addingVendor: !this.state.addingVendor });
+
+  componentDidMount = () => {
+    this.updateVenues();
+    this.updateVendors();
   }
 
   render() {
@@ -91,35 +100,48 @@ class User extends React.Component {
 
     let page = <p>Uh-oh! Looks like we got lost some where. Try refreshing the page :)</p>;
     if (this.state.selectedVendor) {
-      page = <Goods
-        selectedVendor={this.state.selectedVendor}
-        selectGood={this.selectGood.bind(this)}
-        filter={this.state.filter}
-      />
+      page = (
+        <div>
+          <h1>{this.state.selectedVendor.name}</h1>
+          <Goods selectedVendor={this.state.selectedVendor} selectGood={this.selectGood.bind(this)} filter={this.state.filter}/>
+        </div>
+      );
     } else if (this.state.selectedVenue) {
-      page = <Vendors
-        selectedVenue={this.state.selectedVenue}
-        selectVendor={this.selectVendor.bind(this)}
-        filter={this.state.filter}
-      />
+      page = (
+        <div>
+          <h1>{this.state.selectedVenue.name}</h1>
+          <Vendors 
+            vendors={this.state.vendors} 
+            selectVendor={this.selectVendor.bind(this)} 
+            filter={this.state.filter}
+            adminPriv={adminPriv}
+            openModal={this.toggleAddVendorModal.bind(this)}/>
+        </div>
+      );
     } else {
-      page = <Venues
-        venues={data}
-        selectVenue={this.selectVenue.bind(this)}
-        filter={this.state.filter}
-        addVenue={adminPriv ? this.addVenue.bind(this) : null}
-      />
+      page = (
+        <div>
+          <h1>Venues</h1>
+          <Venues 
+            venues={this.state.venues} 
+            selectVenue={this.selectVenue.bind(this)} 
+            filter={this.state.filter} 
+            adminPriv={adminPriv}
+            openModal={this.toggleAddVenueModal.bind(this)}/>
+        </div>
+      );
     }
 
     return (
       <div className="">
+        <AddVenueModal show={this.state.addingVenue} addVenue={this.updateVenues.bind(this)} modalClose={this.toggleAddVenueModal.bind(this)}/>
+        <AddVendorModal show={this.state.addingVendor} selectedVenue={this.state.selectedVenue} addVendor={this.updateVendors.bind(this)} modalClose={this.toggleAddVendorModal.bind(this)}/>
+        {/* <ShowGoodModal show={this.state.showingGood} modalClose={this.modalClose.bind(this)} good={this.state.selectedGood}/> */}
         <header className="app-header">
           <h3>Welcome, {username}</h3>
-          <p>You do {adminPriv ? '' : 'not '}have admin privileges</p>
           <Return returnPage={this.returnPage.bind(this)}/>
           <ShowCart showCart={this.showCart.bind(this)}/>
           <Search filterValue={this.state.filter} filterUpdate={this.filterUpdate.bind(this)}/>
-          <h1>{this.state.selectedVendor ? this.state.selectedVendor.name : this.state.selectedVenue ? this.state.selectedVenue.name : 'Venues'}</h1>
         </header>
         {page}
       </div>
