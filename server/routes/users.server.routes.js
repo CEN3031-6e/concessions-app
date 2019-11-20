@@ -7,7 +7,6 @@ const User = require('../models/users.server.model');
 
 //Verify - this is for the frontend
 router.get("/verify", (req, res) => {
-    console.log("verifying: " + req + res);
     //console.log("This is res.locals.session from /verify" + JSON.stringify(res.locals.session));
     //console.log("This is req.session from /verify" + JSON.stringify(req.session));
     //console.log("This is res.locals.user from /verify" + JSON.stringify(res.locals.user));
