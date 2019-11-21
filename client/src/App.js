@@ -4,6 +4,7 @@ import axios from 'axios'
 import history from './history'
 import Home from "./views/Home/Home"
 import User from "./views/User/User"
+import Vendor from "./views/Vendor/Vendor"
 import Register from "./views/Register/Register"
 import NotFound from "./views/NotFound"
 import Header from "./components/Header/Header"
@@ -117,6 +118,7 @@ class App extends React.Component {
         <Switch>
 
           <Route exact path="/home" component={Home}/>
+          <Route exact path="/vendor" component={Vendor}/>
           <Route exact path="/"><Redirect to="/home"/></Route>
           <Route exact path="/register" render={() => <Register loggedIn={this.state.loggedIn}/>}/>
           <Route exact path="/login" render={() => <Login loggedIn={this.state.loggedIn} login={this.login}/>}/>
@@ -133,6 +135,7 @@ class App extends React.Component {
             />
             <Route path="/protected" component={Protected} />
           </AuthenticatedComponent>
+
           <Route component={NotFound}/>
         </Switch>
       </Router>
