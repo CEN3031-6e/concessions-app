@@ -56,12 +56,12 @@
   background-color: skyblue;
   transform: translateY(4px);
 }
-body{
+/* body{
   background-image: url("background3.png");
   background-size: 1900px;
   background-color: skyblue;
   background-position: 50% -71%;
-}
+} */
 .login{
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   color: gray;
