@@ -130,7 +130,7 @@ class User extends React.Component {
             <Cart hideCart={this.showOnOff.bind(this)}
                   />
                 :null
-          };
+          }
 
           <Search filterValue={this.state.filter} filterUpdate={this.filterUpdate.bind(this)}/>
           <h1>{this.state.selectedVendor ? this.state.selectedVendor.name : this.state.selectedVenue ? this.state.selectedVenue.name : 'Venues'}</h1>
