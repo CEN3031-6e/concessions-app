@@ -11,7 +11,7 @@ export default (props) => {
         return (
             <div className="list-item" key={good.id} id={good.id} onClick={props.selectGood}>
                 <h1>{good.name}</h1>
-                <p>{good.price}</p>
+                <p>${good.price}</p>
             </div>
         )
     });

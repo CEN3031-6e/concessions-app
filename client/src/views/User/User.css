@@ -1,13 +1,13 @@
 .return-button {
-    width: 64px;
+    width: 100px;
     margin: 8px;
-    background: #ddd;
+    background: skyblue;
 }
 
 .cart-button {
-    width: 64px;
+    width: 100px;
     margin: 8px;
-    background: #ddd;   
+    background: skyblue;   
 }
 
 .search-input {
@@ -16,14 +16,14 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-size: 100px;
   color: #444;
 }
 
 .list-item {
     padding: 2px;
     margin: 2px;
-    background: #eee;
+    background: rgb(226, 239, 244);
 }
 
 .reg-link {

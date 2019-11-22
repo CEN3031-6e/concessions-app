@@ -8,6 +8,7 @@ import Return from '../../components/User/Return'
 import ShowCart from '../../components/User/ShowCart'
 import Search from '../../components/User/Search'
 import './User.css'
+import {Row} from 'react-bootstrap'
 
 class User extends React.Component {
 
@@ -114,12 +115,14 @@ class User extends React.Component {
     return (
       <div className="">
         <header className="app-header">
+          <center>
           <h3>Welcome, {username}</h3>
           <p>You do {adminPriv ? '' : 'not '}have admin privileges</p>
           <Return returnPage={this.returnPage.bind(this)}/>
           <ShowCart showCart={this.showCart.bind(this)}/>
           <Search filterValue={this.state.filter} filterUpdate={this.filterUpdate.bind(this)}/>
-          <h1>{this.state.selectedVendor ? this.state.selectedVendor.name : this.state.selectedVenue ? this.state.selectedVenue.name : 'Venues'}</h1>
+          </center>
+          <h1>{this.state.selectedVendor ? this.state.selectedVendor.name : this.state.selectedVenue ? this.state.selectedVenue.name : ' Venues'}</h1>
         </header>
         {page}
       </div>

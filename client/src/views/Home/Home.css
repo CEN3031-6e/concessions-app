@@ -44,6 +44,14 @@
     right: 0px;
     padding: 5px;
 }
+.bottom{
+    position: absolute;
+    width: 400px;
+    bottom: 50px;
+    right: 50px;
+    left: 50px;
+
+}
 /* body{
     background-image: url("background3.png");
     background-size: 1900px;
