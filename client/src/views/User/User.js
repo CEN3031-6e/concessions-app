@@ -6,6 +6,7 @@ import Vendors from '../../../src/components/User/Vendors'
 import Goods from '../../components/User/Goods'
 import Return from '../../components/User/Return'
 import ShowCart from '../../components/User/ShowCart'
+import Cart from '../../components/User/Cart'
 import Search from '../../components/User/Search'
 import './User.css'
 
@@ -20,10 +21,16 @@ class User extends React.Component {
         selectedVendor: null,
         order: null,
         goods: [],
-        addingVenue: false
+        addingVenue: false,
+        showedCart: false
       };
   }
 
+  showOnOff(){
+    this.setState({
+      showedCart: !this.state.showedCart
+    });
+  }
   returnPage() {
       //When leaving a vendor, the user should be asked to confirm, as this should clear the user's cart
       if (this.state.selectedVendor) {
@@ -46,7 +53,7 @@ class User extends React.Component {
       console.log(str);
     }
     console.log("Subtotal: $" + subtotal.toFixed(2));
-  
+
   }
   filterUpdate(event) {
       this.setState({filter: event.target.value});
@@ -54,16 +61,16 @@ class User extends React.Component {
 
   selectVenue(event) {
       this.setState({
-        filter: '', 
+        filter: '',
         selectedVenue: data.find((venue) => {
           return String(venue.id) === event.currentTarget.getAttribute('id');
-        })   
+        })
       });
       //this.props.history.push(this.props.history.location.pathname+'/'+selectedVenue.name.toLowerCase().replace(/[_\W]+/g, ""));
   }
   selectVendor(event) {
       this.setState({
-        filter: '', 
+        filter: '',
         selectedVendor: this.state.selectedVenue.vendors.find((vendor) => {
           return String(vendor.id) === event.currentTarget.getAttribute('id')
         })
@@ -117,7 +124,14 @@ class User extends React.Component {
           <h3>Welcome, {username}</h3>
           <p>You do {adminPriv ? '' : 'not '}have admin privileges</p>
           <Return returnPage={this.returnPage.bind(this)}/>
-          <ShowCart showCart={this.showCart.bind(this)}/>
+          <ShowCart showCart={this.showCart.bind(this)}
+                      showOnOff ={this.showOnOff.bind(this)}/>
+          {this.state.showedCart ?
+            <Cart hideCart={this.showOnOff.bind(this)}
+                  />
+                :null
+          };
+
           <Search filterValue={this.state.filter} filterUpdate={this.filterUpdate.bind(this)}/>
           <h1>{this.state.selectedVendor ? this.state.selectedVendor.name : this.state.selectedVenue ? this.state.selectedVenue.name : 'Venues'}</h1>
         </header>
