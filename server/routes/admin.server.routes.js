@@ -1,7 +1,9 @@
-const express = require('express');
-const router = express.Router();
+const express = require('express')
+const passport = require('passport')
 
+const router = express.Router();
 const Venue = require('../models/baseSchemas/VenueSchema');
+const Vendor = require('../models/baseSchemas/VendorSchema');
 
 router.get("/venues", (req, res) => {
     Venue.find(function(err, venues) {
@@ -35,6 +37,7 @@ router.get("/vendors", (req, res) => {
 router.post("/addVenue", (req, res) => {
 
     const { name, address } = req.body;
+    const vendors = [];
 
     if (!name || !address) {
         return res.send({
@@ -45,14 +48,12 @@ router.post("/addVenue", (req, res) => {
 
     const newVenue = new Venue({
         name,
-        address
+        address,
+        vendors
     });
     console.log(newVenue);
-    newVenue.goods = [];
 
     newVenue.save((error, venue) => {
-        console.log(error, venue);
-        console.log("This is req.session from /addVenue: " + req.session);
         if (error) {
           return res.send({
             success: false,
@@ -85,44 +86,76 @@ router.post("/addVendor", (req, res) => {
         });
     }
 
-    let vendors = [];
-    Venue.find(function(err, venue) {
-        if (err) throw err;
-        for (vendor in venue.vendors) {
-            vendors.push(vendor);
-        }
-    })
-    console.log(vendors);
-
-    let match = vendors.find((vendor) => vendor.email === email);
-    if (match) {
-        return res.send({
+    Venue.find(function(err, _) {
+        if (err) return res.send({
             success: false,
-            messsage: { msg: 'Email is already registered' }
-          });
-    } else {
-        //All fields are correct and email is unique
-        const newVendor = {
-            name,
-            email,
-            password
-        };
+            message: { msg: 'Server-side error' }
+        });
+    }).then((venues) => {
+        let match = false;
+        for (venue of venues) {
+            for (vendor of venue.vendors) {
+                if (vendor.email === email) match = true;
+            }
+        }
 
-        console.log(newVendor);
-        Venue.updateOne({'_id': venueID}, { "$push": {"vendors": newVendor} }, {new: true}, function(err) {
-            if (err) {
-                return res.send({
+        if (match) return res.send({
+            success: false,
+            message: { msg: 'Email is already registered' }
+        });
+
+        //Vendor is unique
+        else {
+
+            //Append the new vendor to the array stored inside the appropriate venue
+            const newVendor = {
+                name,
+                venueID,
+                goods: [],
+                orders: []
+            }
+            Venue.findOneAndUpdate({'_id': venueID}, { "$push": {"vendors": newVendor} }, {new: true}, function(err, venue) {
+                if (err) return res.send({
                     success: false,
-                    message: "Server error: registering new user to database"
-                  });
-            } else {
-                return res.send({
+                    message: "Server error: storing new vendor in venues"
+                });
+                else return res.send({
                     success: true,
+                    linkedID: venue.vendors[venue.vendors.length - 1]._id,
                     message: "Successful addition!"
                 });
-            }
-        })
+            })
+        }
+    })
+})
+
+router.post('/regVendor', (req, res) => {
+    let { name, email, password, venueID, linkedID } = req.body;
+    email = email.toLowerCase();
+
+    const regVendor = new Vendor({
+        name,
+        email,
+        password,
+        venueID,
+        linkedID
+    });
+
+    regVendor.password = regVendor.generateHash(password);
+    regVendor.save((error, _) => {
+        if (error) {
+            return res.send({
+            success: false,
+            message: "Server error: registering new user to database"
+        });
     }
+        else {
+            return res.send({
+            success: true,
+            message: "Succcessful registration!"
+        });
+    }
+    });
 })
 
 module.exports = router;
