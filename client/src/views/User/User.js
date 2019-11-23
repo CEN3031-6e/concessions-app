@@ -128,6 +128,7 @@ class User extends React.Component {
                       showOnOff ={this.showOnOff.bind(this)}/>
           {this.state.showedCart ?
             <Cart hideCart={this.showOnOff.bind(this)}
+                  goods = {this.state.goods}
                   />
                 :null
           }
