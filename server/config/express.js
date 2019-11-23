@@ -8,7 +8,9 @@ const path = require('path'),
     morgan = require('morgan'),
     bodyParser = require('body-parser'),
     exampleRouter = require('../routes/examples.server.routes'),
-    userRouter = require('../routes/users.server.routes');
+    userRouter = require('../routes/users.server.routes'),
+    vendorRouter = require('../routes/vendors.server.routes'),
+    adminRouter = require('../routes/admin.server.routes');
 
 module.exports.init = () => {
     mongooseSetup.start(); //starts the database
@@ -57,6 +59,8 @@ module.exports.init = () => {
     //Routes
     app.use('/api/example', exampleRouter);
     app.use('/users', userRouter);
+    app.use('/vendors', vendorRouter);
+    app.use('/admin', adminRouter);
 
     if (process.env.NODE_ENV === 'production') {
         // Serve any static files

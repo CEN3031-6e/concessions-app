@@ -2,12 +2,12 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect  } from 'react-router-dom'
 import axios from 'axios'
 import history from './history'
+import Header from "./components/Header/Header"
 import Home from "./views/Home/Home"
 import User from "./views/User/User"
 import Vendor from "./views/Vendor/Vendor"
 import Register from "./views/Register/Register"
 import NotFound from "./views/NotFound"
-import Header from "./components/Header/Header"
 import Login from "./views/Login/Login"
 import AuthenticatedComponent from "./components/AuthenticatedComponent/AuthenticatedComponent"
 import Protected from "./components/ProtectedRoute/ProtectedRoute"
@@ -33,18 +33,18 @@ class App extends React.Component {
 
   getUser() {
     axios.get("/users/").then(response => {
-      // console.log("Getting user: " + response);
-      // console.log("Get user response: ");
-      // console.log("This is the get response.data: " + response.data);
+      console.log("Getting user: " + response);
+      console.log("Get user response: ");
+      console.log("This is the get response.data: " + response.data);
       if (response.data) {
-        //console.log("Get User: There is a user saved in the server session: ");
-
+        console.log("Get User: There is a user saved in the server session: ");
+        console.log("Setting user from getUser");
         this.setState({
           loggedIn: response.data.loggedIn,
           user: response.data.user
         });
       } else {
-        //console.log("Get user: no user");
+        console.log("Get user: no user");
         this.setState({
           loggedIn: false,
           user: {}
@@ -71,6 +71,7 @@ class App extends React.Component {
   verify(route, cb) {
     axios.get(route).then(response => {
       //on success res.data has: success, message, user.name, user.email, user.logggedIn
+      console.log(response.data);
       if (!response.data.success) {
         this.setState({
           loggedIn: response.data.user.loggedIn,
@@ -103,7 +104,6 @@ class App extends React.Component {
   }
 
   updateUser(user) {
-    //console.log(this.state.loggedIn);
     this.setState({ loggedIn: user.loggedIn, user: user });
   }
 
@@ -118,7 +118,6 @@ class App extends React.Component {
         <Switch>
 
           <Route exact path="/home" component={Home}/>
-          <Route exact path="/vendor" component={Vendor}/>
           <Route exact path="/"><Redirect to="/home"/></Route>
           <Route exact path="/register" render={() => <Register loggedIn={this.state.loggedIn}/>}/>
           <Route exact path="/login" render={() => <Login loggedIn={this.state.loggedIn} login={this.login}/>}/>
@@ -133,9 +132,18 @@ class App extends React.Component {
                 />
               )}
             />
+            <Route
+              path="/vendors"
+              render={() => (
+                <Vendor
+                  loggedIn={this.state.loggedIn}
+                  vendor={this.state.user}
+                  logout={this.logout}
+                />
+              )}
+            />
             <Route path="/protected" component={Protected} />
           </AuthenticatedComponent>
-
           <Route component={NotFound}/>
         </Switch>
       </Router>

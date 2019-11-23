@@ -9,9 +9,10 @@ export default (props) => {
     })
     .map((good) => {
         return (
-            <div className="list-item" key={good.id} id={good.id} onClick={props.selectGood}>
+            <div className="list-item" key={good._id}>
                 <h1>{good.name}</h1>
                 <p>{good.price}</p>
+                <button onClick={props.selectGood} id={good._id}>Add To Cart</button>
             </div>
         )
     });

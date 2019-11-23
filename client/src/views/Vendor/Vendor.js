@@ -1,40 +1,43 @@
 import React from 'react'
-import data from '../../data/data'
-import Goods from '../../components/User/Goods'
+import axios from 'axios'
+import AddGoodModal from '../../components/Vendor/AddGoodModal/AddGoodModal'
 import Return from '../../components/Vendor/Return'
 import './Vendor.css'
 
-class User extends React.Component {
+class Vendor extends React.Component {
 
     constructor(props) {
         super(props);
-
+        
         this.state = {
-          filter: '',
-          goods: []
+            filter: '',
+            goods: [],
+            addingGood: false
         };
     }
 
-    returnPage() {
-      this.props.history.push('/home');
-    }
-
-    selectGood(event) {
-        //this.state.goods.push(selectedGood)
-        console.log("Added",   this.state.goods[this.state.goods.length - 1].name, "to order.");
-    }
+    returnPage = () => this.props.history.push('/home');
+    toggleAddGoodModal = () => this.setState({addingGood: !this.state.addingGood}); 
+    updateGoods = () => axios.get('/vendors/goods', {params: {venueID: this.props.vendor.venueID, linkedID: this.props.vendor.linkedID}}).then(res => this.setState({ goods: res.data.goods }));
+    componentDidMount = () => this.updateGoods();
 
     render() {
-        let page = <p>Uh-oh! Looks like we got lost some where. Try refreshing the page :)</p>;
+        let goods = this.state.goods
+        .map((good) => <p>{good.name}</p>);
+        let addGood = <button onClick={this.toggleAddGoodModal.bind(this)}>Add Good</button>
+
         return (
-          <div>
-            <header className="app-header">
-              <Return returnPage={this.returnPage.bind(this)}/>
-            </header>
-            {page}
-          </div>
+            <div>
+                <header className="app-header">
+                  <Return returnPage={this.returnPage.bind(this)}/>
+                </header>
+                <h1>{this.props.vendor.name}</h1>
+                <AddGoodModal show={this.state.addingGood} vendor={this.props.vendor} addGood={this.updateGoods.bind(this)} modalClose={this.toggleAddGoodModal.bind(this)}/>
+                {goods}
+                {addGood}
+            </div>
         );
-      }
+    }
 }
 
-export default User;
+export default Vendor;

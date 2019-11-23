@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const bcrypt = require("bcryptjs");
 
 const userSchema = new Schema ({
-    id: {type: String, required: true},
     username: {type: String, required: true},
     password: {type: Number, required: true},
     email: {type: String, required: true},
@@ -11,7 +10,11 @@ const userSchema = new Schema ({
         default: Date.now()
     },
     cart: [
-        {type: String} // Array of strings of item ID's
+        {
+            name: {type: String, required: true},
+            price: {type: String, required: true},
+            quantity: {type: String, required: true}
+        }
     ]
     // pastOrders: {/* Array of array of carts? */}
 });
