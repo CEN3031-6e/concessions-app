@@ -33,7 +33,6 @@ class AddVenueModal extends React.Component {
             name,
             address
         };
-        venue.vendors = [];
 
         axios.post('/admin/addVenue', venue).then(res => {
             if (res.data.success) {
