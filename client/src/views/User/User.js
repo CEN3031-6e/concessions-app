@@ -55,13 +55,13 @@ class User extends React.Component {
       }
   }
   showCart() {
-    let subtotal = 0;
-    for (const good of this.state.goods) {
-      let str = good.name + ': $' + good.price;
-      subtotal = subtotal + good.price;
-      console.log(str);
-    }
-    console.log("Subtotal: $" + subtotal.toFixed(2));
+    // let subtotal = 0;
+    // for (const good of this.state.goods) {
+    //   let str = good.name + ': $' + good.price;
+    //   subtotal = subtotal + good.price;
+    //   console.log(str);
+    // }
+    //console.log("Subtotal: $" + subtotal.toFixed(2));
 
   }
   filterUpdate(event) {
@@ -80,6 +80,7 @@ class User extends React.Component {
 
   selectGood(event) {
       let cart = this.state.cart;
+      console.log(cart);
       cart.push(this.state.selectedVendor.goods.find((good) => {
         return good._id === event.currentTarget.getAttribute('id')
       }));
@@ -110,7 +111,11 @@ class User extends React.Component {
       page = (
         <div>
           <h1>{this.state.selectedVendor.name}</h1>
-          <Goods selectedVendor={this.state.selectedVendor} selectGood={this.selectGood.bind(this)} filter={this.state.filter}/>
+          <Goods 
+            selectedVendor={this.state.selectedVendor} 
+            selectGood={this.selectGood.bind(this)} 
+            filter={this.state.filter}
+          />
         </div>
       );
     } else if (this.state.selectedVenue) {
@@ -150,7 +155,7 @@ class User extends React.Component {
                       showOnOff ={this.showOnOff.bind(this)}/>
           {this.state.showedCart ?
             <Cart hideCart={this.showOnOff.bind(this)}
-                  goods = {this.state.goods}
+                  cart={this.state.cart}
                   />
                 :null
           }
