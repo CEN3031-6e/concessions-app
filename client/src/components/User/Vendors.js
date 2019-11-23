@@ -13,7 +13,6 @@ export default (props) => {
         return vendor.name.toLowerCase().indexOf(props.filter.toLowerCase()) >= 0;
     })
     .map((vendor) => {
-        console.log(vendor);
         return (
             <div className="list-item" key={vendor._id}>
                 <h2>{vendor.name}</h2>
@@ -21,7 +20,6 @@ export default (props) => {
             </div>
         );
     });
-    //let addVendor = props.adminPriv ? <div className="list-item" onClick={props.openModal}><h1>Add Venue</h1></div> : null;
     let addVendor = props.adminPriv ? <button onClick={props.openModal}>Register New Vendor</button> : null;
 
     return (
