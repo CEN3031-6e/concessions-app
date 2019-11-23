@@ -5,7 +5,7 @@ export default (props) => {
     return (
         <button
             className="cart-button"
-            onClick={props.showCart}
+            onClick={()=>{props.showCart();props.showOnOff()}}
         >My Cart</button>
     )
 }
