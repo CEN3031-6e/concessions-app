@@ -11,9 +11,10 @@ export default (props) => {
       <h1>This is your cart</h1>
       <ul>
         {props.cart ? props.cart.map(item => {
-          return <li>{item.name}</li>;
+          return <li>{item.name} {item.price}</li>;
         }):null}
       </ul>
+      <p> SUBTOTAL: </p>
       </div>
       </div>
     );
