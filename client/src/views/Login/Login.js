@@ -97,7 +97,7 @@ class Login extends React.Component {
         <div>
           <center>
           <p>
-          <h1>Login Page</h1>
+          <h1 className = "login">Login Page</h1>
           </p>
           <p>
           <Button className="loginButton" onClick={this.setRoleUser}>User</Button>

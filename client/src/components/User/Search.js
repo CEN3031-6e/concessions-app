@@ -1,10 +1,12 @@
 import React from 'react'
 import '../../views/User/User.css'
 
+
 export default (props) => {
   return (
-    <input 
+    <input  
       className="search-input"
+      class = "form-control"
       type="text"
       placeholder="Type to filter"
       value={props.filterValue}

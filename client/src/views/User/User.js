@@ -11,7 +11,10 @@ import Search from '../../components/User/Search'
 import AddVenueModal from '../../components/Admin/AddVenueModal/AddVenueModal'
 import AddVendorModal from '../../components/Admin/AddVendorModal/AddVendorModal'
 import './User.css'
+customizationBranch
+import {Row} from 'react-bootstrap'
 import axios from 'axios'
+master
 
 class User extends React.Component {
 
@@ -149,6 +152,7 @@ class User extends React.Component {
         <AddVenueModal show={this.state.addingVenue} addVenue={this.updateVenues.bind(this)} modalClose={this.toggleAddVenueModal.bind(this)}/>
         <AddVendorModal show={this.state.addingVendor} selectedVenue={this.state.selectedVenue} addVendor={this.updateVendors.bind(this)} modalClose={this.toggleAddVendorModal.bind(this)}/>
         <header className="app-header">
+          <center>
           <h3>Welcome, {username}</h3>
           <Return returnPage={this.returnPage.bind(this)}/>
           <ShowCart showCart={this.showCart.bind(this)}
@@ -161,6 +165,8 @@ class User extends React.Component {
           }
 
           <Search filterValue={this.state.filter} filterUpdate={this.filterUpdate.bind(this)}/>
+          </center>
+          <h1>{this.state.selectedVendor ? this.state.selectedVendor.name : this.state.selectedVenue ? this.state.selectedVenue.name : ' Venues'}</h1>
         </header>
         {page}
       </div>
