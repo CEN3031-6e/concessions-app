@@ -11,6 +11,7 @@ import NotFound from "./views/NotFound"
 import Login from "./views/Login/Login"
 import AuthenticatedComponent from "./components/AuthenticatedComponent/AuthenticatedComponent"
 import Protected from "./components/ProtectedRoute/ProtectedRoute"
+import Footer from './components/Footer/footer'
 
 
 class App extends React.Component {
@@ -146,6 +147,7 @@ class App extends React.Component {
           </AuthenticatedComponent>
           <Route component={NotFound}/>
         </Switch>
+        <Footer />
       </Router>
     );
   }

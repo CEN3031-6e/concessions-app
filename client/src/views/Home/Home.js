@@ -34,8 +34,8 @@ function Home(props) {
         <div className = "center">
             <img src = "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/PGE_Park_concession_stand.JPG/1920px-PGE_Park_concession_stand.JPG" alt="Responsive Image" class="rounded float-center" width="390"></img>
         </div>
-        <div>
-            <img src = "background3.png"></img>
+        <div className = "right">
+            <img src = "https://venuesnow.com/wp-content/uploads/2018/10/Urban_CIty_Taqueria_-_Citizens_Business_Bank_Arena.jpg" alt = "Responsive Image" class = "rounded float-right" width = "490" height = "293"></img>
         </div>
         </div>
         

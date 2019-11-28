@@ -13,6 +13,7 @@ import ShowCartModal from '../../components/User/ShowCartModal/ShowCartModal'
 import ClearCartModal from '../../components/User/ClearCartModal/ClearCartModal'
 import ShowOrdersModal from '../../components/User/ShowOrdersModal/ShowOrdersModal'
 import './User.css'
+import {Row} from 'react-bootstrap'
 import axios from 'axios'
 
 class User extends React.Component {
@@ -188,11 +189,14 @@ class User extends React.Component {
         <ClearCartModal show={this.state.clearingCart} clearCart={this.clearCart.bind(this)} modalClose={this.toggleClearCartModal.bind(this)} />
         <ShowOrdersModal show={this.state.showingOrders} orders={this.state.orders} modalClose={this.toggleShowOrdersModal.bind(this)} />
         <header className="app-header">
+          <center>
           <h3>Welcome, {username}</h3>
           <Return returnPage={this.returnPage.bind(this)}/>
           <ShowCart show={this.state.selectedVendor} toggleCart={this.toggleShowCartModal.bind(this)}/>
           <button onClick={this.toggleShowOrdersModal.bind(this)}>My Orders</button>
           <Search filterValue={this.state.filter} filterUpdate={this.filterUpdate.bind(this)}/>
+          </center>
+          <h1>{this.state.selectedVendor ? this.state.selectedVendor.name : this.state.selectedVenue ? this.state.selectedVenue.name : ' Venues'}</h1>
         </header>
         {page}
       </div>
