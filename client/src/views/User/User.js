@@ -11,10 +11,8 @@ import Search from '../../components/User/Search'
 import AddVenueModal from '../../components/Admin/AddVenueModal/AddVenueModal'
 import AddVendorModal from '../../components/Admin/AddVendorModal/AddVendorModal'
 import './User.css'
-customizationBranch
 import {Row} from 'react-bootstrap'
 import axios from 'axios'
-master
 
 class User extends React.Component {
 
