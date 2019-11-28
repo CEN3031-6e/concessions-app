@@ -85,12 +85,12 @@ class Register extends React.Component {
                     : null : null}
                 <form onSubmit={e => this.onSubmit(e)}>
                     <div className="form-group">
-                        <label>Username: </label>
+                        <label>Name: </label>
                         <div class="col-sm-4">
                         <input 
                         type="text" 
                         name="name"
-                        placeholder = "Enter Username" 
+                        placeholder = "Enter Name" 
                         required className="form-control" 
                         value={this.state.name} 
                         onChange={e => this.onChange(e)}/>

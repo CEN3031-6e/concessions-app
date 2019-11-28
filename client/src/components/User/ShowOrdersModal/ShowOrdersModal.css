@@ -1,7 +1,8 @@
-.AddVendorModal {
+.ShowOrdersModal {
     position: fixed;
     z-index: 500;
-    background-color: white;
+    border-radius: 10px;
+    background-color: lightblue;
     width: 50%;
     border: 1px solid #ccc;
     box-shadow: 1px 1px 1px black;
@@ -10,14 +11,4 @@
     top: 30%;
     box-sizing: border-box;
     transition: all 0.3s ease-out;
-}
-
-.error-text {
-    color: red;
-}
-
-.add-vendor-input {
-    width: 60%;
-    display: block;
-    margin: 4px auto;
 }

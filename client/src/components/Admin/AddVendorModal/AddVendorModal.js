@@ -76,7 +76,7 @@ class AddVendorModal extends React.Component {
             <div>
                 <Backdrop show={this.props.show} clicked={this.modalClose.bind(this)}/>
                 <div 
-                    className='Modal'
+                    className='AddVendorModal'
                     style={{
                         transform: this.props.show ? 'translateY(0)' : 'translateY(-100vh)',
                         opacity: this.props.show ? '1' : '0'

@@ -2,14 +2,18 @@ const express = require('express')
 const passport = require('passport')
 
 const router = express.Router()
-const User = require('../models/users.server.model');
+//const User = require('../models/users.server.model');
+const User = require('../models/baseSchemas/UserSchema');
+const Venue = require('../models/baseSchemas/VenueSchema');
 
 //Verify - this is for the frontend
 router.get("/verify", (req, res) => {
     if (req.isAuthenticated()) {
-      const { name, email, password, linkedID, venueID } = req.user;
+      const { name, email, password, orders, linkedID, venueID } = req.user;
+      const id = req.user._id;
       const loggedIn = true;
       let clientUser = (linkedID && venueID) ? {
+        id,
         name,
         email,
         password,
@@ -17,12 +21,13 @@ router.get("/verify", (req, res) => {
         venueID,
         loggedIn
       } : {
+        id,
         name,
         email,
         password,
+        orders,
         loggedIn
       }
-      clientUser.loggedIn = true;
       return res.send({
         success: true,
         message: "Valid session",
@@ -66,7 +71,7 @@ router.post("/register", (req, res) => {
     User.findOne({ email }).then(user => {
       if (user) return res.send({
         success: false,
-        messsage: { msg: "Email is already registered" }
+        messsage: [{ msg: "Email is already registered" }]
       });
       
       const newUser = new User({
@@ -77,18 +82,22 @@ router.post("/register", (req, res) => {
   
       newUser.password = newUser.generateHash(password);
       newUser.save((error, _) => {
-        if (error) return res.send({
-          success: false,
-          message: "Server error: registering new user to database"
-        });
+        if (error) {
+          console.log(error);
+          return res.send({
+            success: false,
+            message: [{ msg: "Server error: registering new user to database" }]
+          });
+      }
         else return res.send({
           success: true,
-          message: "Succcessful registration!"
+          message: [{ msg: "Succcessful registration!" }]
         });
       });
     });
   });
 
+  //Login handle (done through passport)
   router.post("/login", passport.authenticate("user-login"), (req, res) => {
     req.session.userId = req.user._id;
     res.locals.user = req.user;
@@ -100,6 +109,7 @@ router.post("/register", (req, res) => {
     })
   })
 
+  //Logout handle
   router.post("/logout", (req, res) => {
     req.session.destroy(err => {
       if (err) {
@@ -115,5 +125,66 @@ router.post("/register", (req, res) => {
       });
     });
   });
+
+
+  //Users posting their cart to the database
+  router.post("/addOrder", (req, res) => {
+    const { user, venueID, vendor, cart, subtotal, completed } = req.body;
+
+    const userID = user.id, userName = user.name, userEmail = user.email;
+    const vendorID = vendor.id, vendorName = vendor.name;
+
+    const vendorOrder = {
+      userID,
+      userName,
+      userEmail,
+      cart,
+      subtotal,
+      completed
+    };
+    Venue.findOneAndUpdate({'_id': venueID, 'vendors._id': vendorID}, {$push: {'vendors.$.orders': vendorOrder}}, {new: true}, function(err, venue) {
+      if (err) return res.send({
+        success: false,
+        message: "Failed to post order to vendor"
+      });
+      else {
+        const vendor = venue.vendors.find(vendor => vendor._id == vendorID);
+        const linkedID = vendor.orders ? vendor.orders[vendor.orders.length - 1]._id : "";
+        
+        const userOrder = {
+          linkedID,
+          vendorID,
+          vendorName,
+          cart,
+          subtotal,
+          completed
+        };
+        User.findOneAndUpdate({'_id': user.id}, {$push: {'orders': userOrder}}, {new: true}, function(err, newdata) {
+          if (err) return res.send({
+            success: false,
+            message: "Failed to post order to user"
+          });
+          else return res.send({
+            success: true,
+            message: "Double success"
+          });
+        })
+      }
+    })
+  })
+
+  //Retrieving user's orders
+  router.get('/orders', (req, res) => {
+    User.findOne({'_id': req.query.userID}, function(err, user) {
+      if (err) return res.send({
+        success: false,
+        orders: []
+      });
+      else return res.send({
+        success: true,
+        orders: user.orders
+      });
+    })
+  })
 
 module.exports = router;
