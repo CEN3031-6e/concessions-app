@@ -8,5 +8,6 @@ export default (props) => {
             className="cart-button"
             onClick={()=>{props.showCart();props.showOnOff()}}
         >My Cart</button>
+
     )
 }
