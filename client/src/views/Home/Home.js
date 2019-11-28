@@ -37,9 +37,6 @@ function Home(props) {
         <div className = "right">
             <img src = "https://venuesnow.com/wp-content/uploads/2018/10/Urban_CIty_Taqueria_-_Citizens_Business_Bank_Arena.jpg" alt = "Responsive Image" class = "rounded float-right" width = "490" height = "293"></img>
         </div>
-        <div className = "bottom">
-            <img src = "https://drive.google.com/file/d/1nS5CvqJS5fd0zCqItuRlxCRKrY5cAe3k/view?usp=sharing" alt = "Responsive Image" class = "rounded float-center" width = "490" height = "293"></img>
-        </div>
         </div>
         
         

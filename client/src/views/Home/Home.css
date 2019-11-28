@@ -46,8 +46,8 @@
 }
 .bottom{
     position: absolute;
-    width: 400px;
-    bottom: 50px;
+    width: 300px;
+    bottom: 10px;
     right: 50px;
     left: 50px;
 
@@ -56,8 +56,9 @@
     background-image: url("background3.png");
     background-size: 1900px;
     background-color: skyblue;
-    background-position: 50%;
-} */
+    background-position: 50% 95%;
+}  */
+/*footer*/
 .h1{
    font-size: 130px; 
    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
