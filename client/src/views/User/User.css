@@ -8,6 +8,7 @@
     width: 100px;
     margin: 8px;
     background: skyblue;   
+
 }
 
 .search-input {
@@ -27,4 +28,30 @@
 }
 .reg-link {
     float: right;
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0, 0.5);
+}
+.popup-inner {
+  position: absolute;
+  left: 25%;
+  right: 25%;
+  top: 25%;
+  bottom: 25%;
+  border-radius: 10px;
+  background-color: lightblue;
+}
+
+.showCart-button{
+position: absolute;
+text-align:center;
+right:0;
+padding: 12px;
+border-radius: 20px;
 }
