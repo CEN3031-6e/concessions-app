@@ -34,6 +34,31 @@ router.get("/vendors", (req, res) => {
     }
 })
 
+router.get("/goods", (req, res) => {
+    if (req.query.selectedVenueID) {
+        Venue.find({'_id': req.query.selectedVenueID}, function(err, venue) {
+            if (err || !venue[0]) return res.send({
+                success: false,
+                goods: [],
+            })
+            else {
+                if (req.query.selectedVendorID) {
+                    return res.send({
+                        success: true,
+                        goods: venue[0].vendors.find((vendor) => vendor._id == req.query.selectedVendorID).goods
+                    })
+                } else return res.send({
+                    success: false,
+                    goods: []
+                })
+            }
+        })
+    } else return res.send({
+        success: false,
+        goods: []
+    })
+})
+
 router.post("/addVenue", (req, res) => {
 
     const { name, address } = req.body;
@@ -51,7 +76,6 @@ router.post("/addVenue", (req, res) => {
         address,
         vendors
     });
-    console.log(newVenue);
 
     newVenue.save((error, venue) => {
         if (error) {
