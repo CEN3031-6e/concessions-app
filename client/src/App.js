@@ -13,6 +13,7 @@ import AuthenticatedComponent from "./components/AuthenticatedComponent/Authenti
 import Protected from "./components/ProtectedRoute/ProtectedRoute"
 import Footer from './components/Footer/footer'
 
+
 class App extends React.Component {
 
   constructor(props) {
