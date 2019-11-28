@@ -1,22 +1,27 @@
 const mongoose = require('mongoose');
 const bcrypt = require("bcryptjs");
 
-const userSchema = new Schema ({
-    username: {type: String, required: true},
-    password: {type: Number, required: true},
+const userSchema = mongoose.Schema({
+    name: {type: String, required: true},
     email: {type: String, required: true},
-    Date: {
-        type: Date,
-        default: Date.now()
-    },
-    cart: [
+    password: {type: String, required: true},
+    Date: {type: Date, default: Date.now()},
+    orders: [
         {
-            name: {type: String, required: true},
-            price: {type: String, required: true},
-            quantity: {type: String, required: true}
+            linkedID: {type: String, required: true},
+            vendorID: {type: String, required: true},
+            vendorName: {type: String, required: true},
+            cart: [
+                {
+                    name: {type: String, required: true},
+                    price: {type: Number, required: true},
+                    quantity: {type: Number, required: true}
+                }
+            ],
+            subtotal: {type: Number, required: true},
+            completed: {type: Boolean, required: true}
         }
     ]
-    // pastOrders: {/* Array of array of carts? */}
 });
 
 userSchema.methods.generateHash = function (password) {

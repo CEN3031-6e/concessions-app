@@ -1,7 +1,8 @@
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypyt = require("bcryptjs");
 
-const User = require("../models/users.server.model");
+//const User = require("../models/users.server.model");
+const User = require('../models/baseSchemas/UserSchema');
 const Vendor = require("../models/baseSchemas/VendorSchema");
 
 function SessionConstructor(userId, userGroup, details) {

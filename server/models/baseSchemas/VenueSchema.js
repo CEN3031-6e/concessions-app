@@ -11,20 +11,24 @@ const venueSchema = mongoose.Schema({
                 {
                     name: {type: String, required: true}, //Name of good for sale
                     vendorID: {type: String, required: true}, //ID of the wrapping vendor
-                    price: {type: String, required: true}, //Price of good for sale
-                    quantity: {type: String, required: true} //Quantity of good available
+                    price: {type: Number, required: true}, //Price of good for sale
+                    quantity: {type: Number, required: true} //Quantity of good available
                 }
             ],
-            orders: [ //Array of orders in the queue
+            orders: [
                 {
-                    userID: {type: String, required: true}, //ID of user who placed order
-                    cart: [ //Array of goods in the order
+                    userID: {type: String, required: true},
+                    userName: {type: String, required: true},
+                    userEmail: {type: String, required: true},
+                    cart: [
                         {
-                            name: {type: String, required: true}, //Name of good in order
-                            price: {type: String, required: true}, //Price of good in order
-                            quantity: {type: String, required: true} //Quantity of good in order
+                            name: {type: String, required: true},
+                            price: {type: Number, required: true},
+                            quantity: {type: Number, required: true}
                         }
-                    ]
+                    ],
+                    subtotal: {type: Number, required: true},
+                    completed: {type: Boolean, required: true}
                 }
             ]
         }
