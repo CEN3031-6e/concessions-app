@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch, Redirect  } from 'react-router-dom'
+import { Router, Route, Switch, Redirect  } from 'react-router-dom'
 import axios from 'axios'
 import history from './history'
 import Header from "./components/Header/Header"
@@ -11,20 +11,18 @@ import NotFound from "./views/NotFound"
 import Login from "./views/Login/Login"
 import AuthenticatedComponent from "./components/AuthenticatedComponent/AuthenticatedComponent"
 import Protected from "./components/ProtectedRoute/ProtectedRoute"
-import Footer from './components/Footer/footer'
-
 
 class App extends React.Component {
 
   constructor(props) {
     super(props);
 
-    this.getUser = this.getUser.bind(this);
+    //this.getUser = this.getUser.bind(this);
     this.login = this.login.bind(this);
     this.verify = this.verify.bind(this);
     this.logout = this.logout.bind(this);
-    this.updateUser = this.updateUser.bind(this);
-    this.componentDidMount = this.componentDidMount.bind(this);
+    //this.updateUser = this.updateUser.bind(this);
+    //this.componentDidMount = this.componentDidMount.bind(this);
 
     this.state = {
       loggedIn: false,
@@ -32,30 +30,32 @@ class App extends React.Component {
     };
   }
 
-  getUser() {
-    axios.get("/users/").then(response => {
-      console.log("Getting user: " + response);
-      console.log("Get user response: ");
-      console.log("This is the get response.data: " + response.data);
-      if (response.data) {
-        console.log("Get User: There is a user saved in the server session: ");
-        console.log("Setting user from getUser");
-        this.setState({
-          loggedIn: response.data.loggedIn,
-          user: response.data.user
-        });
-      } else {
-        console.log("Get user: no user");
-        this.setState({
-          loggedIn: false,
-          user: {}
-        });
-      }
-    });
-  }
+  // getUser() {
+  //   axios.get("/users/").then(response => {
+  //     console.log("Getting user: " + response);
+  //     console.log("Get user response: ");
+  //     console.log("This is the get response.data: " + response.data);
+  //     if (response.data) {
+  //       console.log("Get User: There is a user saved in the server session: ");
+  //       console.log("Setting user from getUser");
+  //       this.setState({
+  //         loggedIn: response.data.loggedIn,
+  //         user: response.data.user
+  //       });
+  //     } else {
+  //       console.log("Get user: no user");
+  //       this.setState({
+  //         loggedIn: false,
+  //         user: {}
+  //       });
+  //     }
+  //   });
+  // }
 
   login(route, user, cb) {
     //in production a .catch(err => console.log(err)) should be implemented
+    console.log("Loggin in with");
+    console.log("route: " + route);
     axios.post(route, user).then(response => {
       //set own state and execute the callback
       if (response.data.success) {
@@ -104,13 +104,13 @@ class App extends React.Component {
     });
   }
 
-  updateUser(user) {
-    this.setState({ loggedIn: user.loggedIn, user: user });
-  }
+  // updateUser(user) {
+  //   this.setState({ loggedIn: user.loggedIn, user: user });
+  // }
 
-  componentDidMount() {
-    //this.getUser();
-  }
+  // componentDidMount() {
+  //   //this.getUser();
+  // }
 
   render() {
     return (
@@ -147,7 +147,6 @@ class App extends React.Component {
           </AuthenticatedComponent>
           <Route component={NotFound}/>
         </Switch>
-        <Footer />
       </Router>
     );
   }

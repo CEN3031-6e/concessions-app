@@ -1,14 +1,7 @@
 .return-button {
-    width: 100px;
+    width: 128px;
     margin: 8px;
     background: skyblue;
-}
-
-.cart-button {
-    width: 100px;
-    margin: 8px;
-    background: skyblue;   
-    
 }
 
 .search-input {
