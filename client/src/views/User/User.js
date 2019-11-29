@@ -12,8 +12,8 @@ import ShowGoodModal from '../../components/User/ShowGoodModal/ShowGoodModal'
 import ShowCartModal from '../../components/User/ShowCartModal/ShowCartModal'
 import ClearCartModal from '../../components/User/ClearCartModal/ClearCartModal'
 import ShowOrdersModal from '../../components/User/ShowOrdersModal/ShowOrdersModal'
+import {Button} from 'react-bootstrap'
 import './User.css'
-import {Row} from 'react-bootstrap'
 import axios from 'axios'
 
 class User extends React.Component {
@@ -41,32 +41,34 @@ class User extends React.Component {
       };
   }
 
-  returnPage() {
-      if (this.state.selectedVendor) {
-        this.toggleClearCartModal();
-      }
-      else if (this.state.selectedVenue) {
-        this.setState({filter: '', selectedVenue: null});
-      }
-      //When leaving the users page, the user should be logged out
-      else {
-        this.props.logout('/users/logout', '/login');
-        //this.props.history.push('/home');
-      }
+  returnPage = () => {
+      if (this.state.selectedVendor) this.toggleClearCartModal();
+      else if (this.state.selectedVenue) this.setState({filter: '', selectedVenue: null});
+      else this.props.logout('/users/logout', '/login');
   }
   
-  filterUpdate(event) {
-      this.setState({filter: event.target.value});
-  }
+  filterUpdate = (event) => this.setState({filter: event.target.value});
 
   selectVenue = (id) => {
       this.setState({filter: '', selectedVenue: this.state.venues.find((venue) => venue._id === id)});
       this.updateVendors(id);
   }
+  deleteVenue = (id) => {
+      axios.post('/admin/deleteVenue', {id}).then(res => {
+        if (res.data.success) this.updateVenues();
+        else console.log(res.data.message);
+      });
+  }
 
   selectVendor = (id) => {
     this.setState({filter: '', selectedVendor: this.state.vendors.find((vendor) => vendor._id === id)});
     this.updateGoods(this.state.selectedVenue._id, id);
+  }
+  deleteVendor = (id) => {
+    axios.post('/admin/deleteVendor', {venueID: this.state.selectedVenue._id, id}).then(res => {
+      if (res.data.success) this.updateVendors(this.state.selectedVenue._id);
+      else console.log(res.data.message);
+    });
   }
 
   selectGood = (id) => {
@@ -80,7 +82,7 @@ class User extends React.Component {
 
   addGood = (quantity) => {
     const name = this.state.selectedGood.name;
-    const price = Number(this.state.selectedGood.price);
+    const price = this.state.selectedGood.price;
     const good = {
       name,
       price,
@@ -161,6 +163,7 @@ class User extends React.Component {
           <Vendors 
             vendors={this.state.vendors} 
             selectVendor={this.selectVendor.bind(this)} 
+            deleteVendor={this.deleteVendor.bind(this)}
             filter={this.state.filter}
             adminPriv={adminPriv}
             openModal={this.toggleAddVendorModal.bind(this)}/>
@@ -173,6 +176,7 @@ class User extends React.Component {
           <Venues 
             venues={this.state.venues} 
             selectVenue={this.selectVenue.bind(this)} 
+            deleteVenue={this.deleteVenue.bind(this)}
             filter={this.state.filter} 
             adminPriv={adminPriv}
             openModal={this.toggleAddVenueModal.bind(this)}/>
@@ -193,10 +197,9 @@ class User extends React.Component {
           <h3>Welcome, {username}</h3>
           <Return returnPage={this.returnPage.bind(this)}/>
           <ShowCart show={this.state.selectedVendor} toggleCart={this.toggleShowCartModal.bind(this)}/>
-          <button onClick={this.toggleShowOrdersModal.bind(this)}>My Orders</button>
+          <Button className="return-button" onClick={this.toggleShowOrdersModal.bind(this)}>My Orders</Button>
           <Search filterValue={this.state.filter} filterUpdate={this.filterUpdate.bind(this)}/>
           </center>
-          <h1>{this.state.selectedVendor ? this.state.selectedVendor.name : this.state.selectedVenue ? this.state.selectedVenue.name : ' Venues'}</h1>
         </header>
         {page}
       </div>
