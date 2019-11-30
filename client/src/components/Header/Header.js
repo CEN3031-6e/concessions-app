@@ -20,7 +20,7 @@ class Header extends React.Component {
         return (
             <div className='mainNav'>
                 <nav className="toolbarNavigation">
-                    <div className='VendrLogo'><Link to='/home' onClick={this.homeSelect.bind(this)}> Vendr </Link></div>
+                    <div className='VendrLogo'><Link to='/home'> Vendr </Link></div>
                     <div className='toolbarMenu'> 
                         <ul>
                             <li>{l1}</li>
