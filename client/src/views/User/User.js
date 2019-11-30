@@ -3,9 +3,11 @@ import { Redirect, withRouter } from 'react-router-dom'
 import Venues from '../../components/User/Venues'
 import Vendors from '../../../src/components/User/Vendors'
 import Goods from '../../components/User/Goods'
+import Cart from '../../components/User/Cart'
 import Return from '../../components/User/Return'
 import ShowCart from '../../components/User/ShowCart'
 import Search from '../../components/User/Search'
+import Checkout from '../../components/User/Checkout'
 import AddVenueModal from '../../components/Admin/AddVenueModal/AddVenueModal'
 import AddVendorModal from '../../components/Admin/AddVendorModal/AddVendorModal'
 import ShowGoodModal from '../../components/User/ShowGoodModal/ShowGoodModal'
@@ -37,10 +39,16 @@ class User extends React.Component {
         addingVendor: false,
         showingCart: false,
         clearingCart: false,
-        showingOrders: false
+        showingOrders: false,
+        checkout: false
       };
   }
-
+  paycheck = () => {
+      console.log('GOt here')
+    this.setState({
+      checkout: !this.state.checkout
+    });
+  }
   returnPage() {
       if (this.state.selectedVendor) {
         this.toggleClearCartModal();
@@ -54,7 +62,23 @@ class User extends React.Component {
         //this.props.history.push('/home');
       }
   }
-  
+  checkIng(){
+    console.log('GOt here')
+    this.setState({
+
+        checkout: !this.state.checkout
+    });
+  }
+  showCart() {
+    // let subtotal = 0;
+    // for (const good of this.state.goods) {
+    //   let str = good.name + ': $' + good.price;
+    //   subtotal = subtotal + good.price;
+    //   console.log(str);
+    // }
+    //console.log("Subtotal: $" + subtotal.toFixed(2));
+
+  }
   filterUpdate(event) {
       this.setState({filter: event.target.value});
   }
@@ -89,7 +113,7 @@ class User extends React.Component {
     let cart = this.state.cart;
     cart.push(good);
     this.setState({filter: '', cart: cart, showingGood: false});
-  } 
+  }
   submitCart = () => {
     let user = {
       id: this.props.user.id,
@@ -147,9 +171,9 @@ class User extends React.Component {
       page = (
         <div>
           <h1>{this.state.selectedVendor.name}</h1>
-          <Goods 
-            selectedVendor={this.state.selectedVendor} 
-            selectGood={this.selectGood.bind(this)} 
+          <Goods
+            selectedVendor={this.state.selectedVendor}
+            selectGood={this.selectGood.bind(this)}
             filter={this.state.filter}
           />
         </div>
@@ -158,22 +182,31 @@ class User extends React.Component {
       page = (
         <div>
           <h1>{this.state.selectedVenue.name}</h1>
-          <Vendors 
-            vendors={this.state.vendors} 
-            selectVendor={this.selectVendor.bind(this)} 
+          <Vendors
+            vendors={this.state.vendors}
+            selectVendor={this.selectVendor.bind(this)}
             filter={this.state.filter}
             adminPriv={adminPriv}
             openModal={this.toggleAddVendorModal.bind(this)}/>
+        </div>
+      );
+    } else if (this.state.checkout) {
+      page = (
+        <div>
+          <h1>This is your Cart</h1>
+          <Checkout
+            cart={this.state.cart}
+        />
         </div>
       );
     } else {
       page = (
         <div>
           <h1>Venues</h1>
-          <Venues 
-            venues={this.state.venues} 
-            selectVenue={this.selectVenue.bind(this)} 
-            filter={this.state.filter} 
+          <Venues
+            venues={this.state.venues}
+            selectVenue={this.selectVenue.bind(this)}
+            filter={this.state.filter}
             adminPriv={adminPriv}
             openModal={this.toggleAddVenueModal.bind(this)}/>
         </div>
@@ -194,6 +227,15 @@ class User extends React.Component {
           <Return returnPage={this.returnPage.bind(this)}/>
           <ShowCart show={this.state.selectedVendor} toggleCart={this.toggleShowCartModal.bind(this)}/>
           <button onClick={this.toggleShowOrdersModal.bind(this)}>My Orders</button>
+            {this.state.showedCart ?
+              <Cart hideCart={this.showOnOff.bind(this)}
+                    cart={this.state.cart}
+                    checkIng={this.checkIng.bind(this)}
+                    checkout={this.state.checkout}
+                    />
+                  :null
+            }
+
           <Search filterValue={this.state.filter} filterUpdate={this.filterUpdate.bind(this)}/>
           </center>
           <h1>{this.state.selectedVendor ? this.state.selectedVendor.name : this.state.selectedVenue ? this.state.selectedVenue.name : ' Venues'}</h1>
