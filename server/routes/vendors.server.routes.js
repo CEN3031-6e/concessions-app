@@ -70,6 +70,23 @@ router.post('/addGood', (req, res) => {
     }
 })
 
+
+router.post('/deleteGood', (req, res) => {
+    const { goodID, venueID, linkedID } = req.body;
+    
+        Venue.findOneAndUpdate({'vendors.goods._id': goodID}, {$pull: {"vendors.$.goods":{_id: goodID} }}, function(err) {
+            if (err) return res.send({
+                success: false,
+                message: "Delete failed. This good may have been deleted already."
+            });
+            else return res.send({    
+                success: true,
+                message: "Successful deletion!"
+            });
+        })
+})
+
+
 router.post("/completeOrder", (req, res) => {
     let {userID, venueID, vendorID, orderID} = req.body;
     Venue.findOneAndUpdate({"_id": venueID, "vendors": {"$elemMatch": {"_id": vendorID,"orders._id": orderID}}}, {"$set": {"vendors.$[outer].orders.$[inner].completed": true }}, {"arrayFilters": [{ "outer._id": vendorID},{ "inner._id": orderID}]}, function(err) {
