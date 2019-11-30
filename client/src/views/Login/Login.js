@@ -52,6 +52,7 @@ class Login extends React.Component {
             isLoading: false,
             redirTo: "/users"
           });
+          this.props.setUserRole('user');
           console.log(`Successfully logged in! ${JSON.stringify(data)}`);
         } else {
           this.setState({
@@ -75,6 +76,7 @@ class Login extends React.Component {
             isLoading: false,
             redirTo: '/vendors'
           });
+          this.props.setUserRole('vendor');
         } else {
           this.setState({
             email: '',
