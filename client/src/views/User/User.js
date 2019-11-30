@@ -42,12 +42,8 @@ class User extends React.Component {
         showingOrders: false,
         checkout: false
       };
-  }
-  paycheck = () => {
-      console.log('GOt here')
-    this.setState({
-      checkout: !this.state.checkout
-    });
+
+
   }
   returnPage() {
       if (this.state.selectedVendor) {
@@ -62,13 +58,7 @@ class User extends React.Component {
         //this.props.history.push('/home');
       }
   }
-  checkIng(){
-    console.log('GOt here')
-    this.setState({
 
-        checkout: !this.state.checkout
-    });
-  }
   showCart() {
     // let subtotal = 0;
     // for (const good of this.state.goods) {
@@ -95,6 +85,7 @@ class User extends React.Component {
 
   selectGood = (id) => {
     this.setState({selectedGood: this.state.goods.find((good) => good._id === id), showingGood: true })
+    console.log("checkout"+this.state.checkout)
   }
 
   updateVenues = () => axios.get('/admin/venues').then(res => this.setState({ venues: res.data.venues }));
@@ -114,7 +105,13 @@ class User extends React.Component {
     cart.push(good);
     this.setState({filter: '', cart: cart, showingGood: false});
   }
+  something(){
+    this.setState((prevState) =>({checkout:true}))
+    console.log("checkout"+this.state.checkout)
+
+  }
   submitCart = () => {
+
     let user = {
       id: this.props.user.id,
       name: this.props.user.name,
@@ -141,6 +138,7 @@ class User extends React.Component {
         this.toggleShowCartModal();
         this.setState({cart: []});
         this.updateOrders();
+          this.something();
       } else console.log("Something went wrong");
     })
   }
@@ -190,7 +188,7 @@ class User extends React.Component {
             openModal={this.toggleAddVendorModal.bind(this)}/>
         </div>
       );
-    } else if (this.state.checkout) {
+    } else if (this.state.checkout && this.state.selectedVendor) {
       page = (
         <div>
           <h1>This is your Cart</h1>
@@ -218,7 +216,7 @@ class User extends React.Component {
         <AddVenueModal show={this.state.addingVenue} addVenue={this.updateVenues.bind(this)} modalClose={this.toggleAddVenueModal.bind(this)}/>
         <AddVendorModal show={this.state.addingVendor} selectedVenue={this.state.selectedVenue} addVendor={this.updateVendors.bind(this)} modalClose={this.toggleAddVendorModal.bind(this)}/>
         <ShowGoodModal show={this.state.showingGood} good={this.state.selectedGood} addGood={this.addGood.bind(this)} modalClose={this.toggleShowGoodModal.bind(this)} />
-        <ShowCartModal show={this.state.showingCart} cart={this.state.cart} submitCart={this.submitCart.bind(this)} modalClose={this.toggleShowCartModal.bind(this)} />
+        <ShowCartModal show={this.state.showingCart}  cart={this.state.cart} submitCart={this.submitCart.bind(this)} modalClose={this.toggleShowCartModal.bind(this)} />
         <ClearCartModal show={this.state.clearingCart} clearCart={this.clearCart.bind(this)} modalClose={this.toggleClearCartModal.bind(this)} />
         <ShowOrdersModal show={this.state.showingOrders} orders={this.state.orders} modalClose={this.toggleShowOrdersModal.bind(this)} />
         <header className="app-header">
@@ -227,15 +225,6 @@ class User extends React.Component {
           <Return returnPage={this.returnPage.bind(this)}/>
           <ShowCart show={this.state.selectedVendor} toggleCart={this.toggleShowCartModal.bind(this)}/>
           <button onClick={this.toggleShowOrdersModal.bind(this)}>My Orders</button>
-            {this.state.showedCart ?
-              <Cart hideCart={this.showOnOff.bind(this)}
-                    cart={this.state.cart}
-                    checkIng={this.checkIng.bind(this)}
-                    checkout={this.state.checkout}
-                    />
-                  :null
-            }
-
           <Search filterValue={this.state.filter} filterUpdate={this.filterUpdate.bind(this)}/>
           </center>
           <h1>{this.state.selectedVendor ? this.state.selectedVendor.name : this.state.selectedVenue ? this.state.selectedVenue.name : ' Venues'}</h1>

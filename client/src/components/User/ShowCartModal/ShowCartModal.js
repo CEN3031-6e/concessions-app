@@ -12,6 +12,7 @@ class ShowCartModal extends React.Component {
         this.props.submitCart();
     }
 
+
     render() {
 
         let subtotal = 0;
@@ -22,7 +23,7 @@ class ShowCartModal extends React.Component {
         return (
             <div>
                 <Backdrop show={this.props.show} clicked={this.modalClose.bind(this)}/>
-                <div 
+                <div
                     className='ShowCartModal'
                     style={{
                         transform: this.props.show ? 'translateY(0)' : 'translateY(-100vh)',
