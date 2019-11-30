@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const uri = require("./config").db.uri;
+const uri = process.env.MONGODB_URI;
 
 module.exports = {
   start: function() {
