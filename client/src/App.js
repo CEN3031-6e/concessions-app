@@ -133,7 +133,7 @@ class App extends React.Component {
   render() {
     return (
       <Router history={history}>
-        <Header user={this.state.user} loggedIn={this.state.loggedIn} updateUser={this.updateUser} logout={this.logout}/>
+        <Header userType={this.state.userRole} loggedIn={this.state.loggedIn} updateUser={this.updateUser} logout={this.logout}/>
         <Switch>
 
           <Route

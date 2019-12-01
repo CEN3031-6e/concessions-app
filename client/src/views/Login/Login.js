@@ -92,7 +92,7 @@ class Login extends React.Component {
   render() {
 
     if (this.props.loggedIn) return <Redirect to={this.state.redirTo}/>;
-    //if (this.state.isLoading) return <p>Loading...</p>
+    if (this.state.isLoading) return <p>Loading...</p>
 
     if (!this.state.role) {
       return (
