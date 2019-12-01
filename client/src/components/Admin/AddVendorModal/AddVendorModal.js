@@ -82,7 +82,7 @@ class AddVendorModal extends React.Component {
                         opacity: this.props.show ? '1' : '0'
                     }}>
                     <center>
-                    <p><h3>User Registration</h3></p>
+                    <h3>User Registration</h3>
                     {this.state.registerErrors ? this.state.registerErrors.length > 0
                         ? this.state.registerErrors.map((errMsg, index) => (
                                 <p className="register-error-message" key={index}>

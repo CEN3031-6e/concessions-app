@@ -59,16 +59,6 @@ class User extends React.Component {
       }
   }
 
-  showCart() {
-    // let subtotal = 0;
-    // for (const good of this.state.goods) {
-    //   let str = good.name + ': $' + good.price;
-    //   subtotal = subtotal + good.price;
-    //   console.log(str);
-    // }
-    //console.log("Subtotal: $" + subtotal.toFixed(2));
-
-  }
   filterUpdate(event) {
       this.setState({filter: event.target.value});
   }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch, Redirect  } from 'react-router-dom'
+import { Router, Route, Switch, Redirect  } from 'react-router-dom'
 import axios from 'axios'
 import history from './history'
 import Header from "./components/Header/Header"
@@ -11,20 +11,15 @@ import NotFound from "./views/NotFound"
 import Login from "./views/Login/Login"
 import AuthenticatedComponent from "./components/AuthenticatedComponent/AuthenticatedComponent"
 import Protected from "./components/ProtectedRoute/ProtectedRoute"
-import Footer from './components/Footer/footer'
-
 
 class App extends React.Component {
 
   constructor(props) {
     super(props);
 
-    this.getUser = this.getUser.bind(this);
     this.login = this.login.bind(this);
     this.verify = this.verify.bind(this);
     this.logout = this.logout.bind(this);
-    this.updateUser = this.updateUser.bind(this);
-    this.componentDidMount = this.componentDidMount.bind(this);
     this.setUserRole = this.setUserRole.bind(this);
 
     this.state = {
@@ -33,6 +28,7 @@ class App extends React.Component {
       userRole: ''
     };
   }
+
 
   setUserRole(userRole) {
       if (userRole == 'user') {
@@ -44,28 +40,6 @@ class App extends React.Component {
       else {
         this.setState({userRole: ''});
       }
-  }
-
-  getUser() {
-    axios.get("/users/").then(response => {
-      console.log("Getting user: " + response);
-      console.log("Get user response: ");
-      console.log("This is the get response.data: " + response.data);
-      if (response.data) {
-        console.log("Get User: There is a user saved in the server session: ");
-        console.log("Setting user from getUser");
-        this.setState({
-          loggedIn: response.data.loggedIn,
-          user: response.data.user
-        });
-      } else {
-        console.log("Get user: no user");
-        this.setState({
-          loggedIn: false,
-          user: {}
-        });
-      }
-    });
   }
 
   login(route, user, cb) {
@@ -90,7 +64,6 @@ class App extends React.Component {
   verify(route, cb) {
     axios.get(route).then(response => {
       //on success res.data has: success, message, user.name, user.email, user.logggedIn
-      console.log(response.data);
       if (!response.data.success) {
         this.setState({
           loggedIn: response.data.user.loggedIn,
@@ -107,27 +80,14 @@ class App extends React.Component {
   }
   logout(route, redirTo) {
     axios.post(route).then(response => {
-      //console.log("logout: " + response);
-      //console.log(response.data);
       if (response.data.success) {
         this.setState({
           loggedIn: false,
           user: {}
         });
-        //console.log("Logout was successful!");
         window.location = redirTo;
-      } else {
-        //console.log("Logout out failed - server error");
-      }
+      } else {}
     });
-  }
-
-  updateUser(user) {
-    this.setState({ loggedIn: user.loggedIn, user: user });
-  }
-
-  componentDidMount() {
-    //this.getUser();
   }
 
   render() {
@@ -168,7 +128,6 @@ class App extends React.Component {
           </AuthenticatedComponent>
           <Route component={NotFound}/>
         </Switch>
-        <Footer />
       </Router>
     );
   }

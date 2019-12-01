@@ -1,15 +1,3 @@
-.return-button {
-    width: 64px;
-    margin: 8px;
-    background: #ddd;
-}
-
-.cart-button {
-    width: 64px;
-    margin: 8px;
-    background: #ddd;   
-}
-
 .search-input {
   background: #fff;
   display: flex;
@@ -28,4 +16,11 @@
 
 .reg-link {
     float: right;
+}
+
+.neg-message {
+  color: red;
+}
+.pos-message {
+  color: lightgreen;
 }

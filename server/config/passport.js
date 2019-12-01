@@ -18,7 +18,6 @@ module.exports = function(passport) {
       User.findOne({ email: email })
         .then(user => {
           if (!user) {
-            console.log("That email is not registered");
             return done(null, false, {message: "That email is not registered"});
           }
 
@@ -29,7 +28,6 @@ module.exports = function(passport) {
             if (isMatch) {
               return done(null, user);
             } else {
-              console.log("Password incorrect");
               return done(null, false, { message: "Password incorrect" });
             }
           });
@@ -44,7 +42,6 @@ module.exports = function(passport) {
       Vendor.findOne({ email: email })
         .then(user => {
           if (!user) {
-            console.log("That email is not registered");
             return done(null, false, {message: "That email is not registered"});
           }
 
@@ -55,7 +52,6 @@ module.exports = function(passport) {
             if (isMatch) {
               return done(null, user);
             } else {
-              console.log("Password incorrect");
               return done(null, false, { message: "Password incorrect" });
             }
           });
