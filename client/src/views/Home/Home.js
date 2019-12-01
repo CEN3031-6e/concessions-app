@@ -8,16 +8,13 @@ import AdminHome from './AdminHome'
 
 function Home(props) {
 
-     let pageView = <DefaultHome/>;
+    let pageView = <DefaultHome/>;
 
-    if (props.isUser) {
-        pageView = <UserHome/>;
+    if (props.userType == 'user') {
+        pageView = <UserHome user={props.user}/>;
     }
-    else if (props.isVendor) {
-        pageView = <VendorHome/>;
-    }
-    else if (props.isAdmin) {
-        pageView = <AdminHome/>;
+    else if (props.userType == 'vendor') {
+        pageView = <VendorHome user={props.user}/>;
     }
    
 

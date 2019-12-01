@@ -3,6 +3,6 @@
 
 module.exports = {
     db: {
-        uri: 'mongodb+srv://RafaelAlfonzo:H!jma85@concessions-app-zjjlv.mongodb.net/test?retryWrites=true&w=majority'
+        uri: 'mongodb+srv://CharlieDraper:MayChester4@concessions-app-zjjlv.mongodb.net/test?retryWrites=true&w=majority'
     }
 };

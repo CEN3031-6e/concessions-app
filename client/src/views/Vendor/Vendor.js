@@ -2,6 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import AddGoodModal from '../../components/Vendor/AddGoodModal/AddGoodModal'
 import ShowOrderModal from '../../components/Vendor/ShowOrderModal/ShowOrderModal'
+import DeleteGood from '../../components/Vendor/DeleteGood/DeleteGood'
 import './Vendor.css'
 
 class Vendor extends React.Component {
@@ -15,6 +16,8 @@ class Vendor extends React.Component {
             orders: [],
             goodsPage: true,
             addingGood: false,
+            deletingGood: false,
+            toDelete: null,
             showingOrder: false,
             selectedOrder: null,
 
@@ -47,6 +50,10 @@ class Vendor extends React.Component {
     toggleAddGoodModal = () => this.setState({ addingGood: !this.state.addingGood }); 
     toggleShowOrderModal = () => this.setState({ showingOrder: !this.state.showingOrder });
 
+    toggleDeleteGood = (good) => {
+        this.setState({ deletingGood: !this.state.deletingGood, toDelete : good});
+    };
+    
     updateGoods = () => axios.get('/vendors/goods', {params: {venueID: this.props.vendor.venueID, linkedID: this.props.vendor.linkedID}}).then(res => this.setState({ goods: res.data.goods }));
     updateOrders = () => axios.get('/vendors/orders', {params: {venueID: this.props.vendor.venueID, linkedID: this.props.vendor.linkedID}}).then(res => this.setState({ orders: res.data.orders }));
 
@@ -56,14 +63,17 @@ class Vendor extends React.Component {
     }
 
     render() {
-        let goods = <ul>{this.state.goods.map((good) => {
+     let goods = <ul>{this.state.goods.map((good) => {
             return (
                 <li key={good._id}>
                     <h3>{good.name} - ${good.price.toFixed(2)}</h3>
                     <p>Quantity: {good.quantity}</p>
+                     <button onClick={() => this.toggleDeleteGood(good) }>
+                        Delete good
+                    </button>
                 </li>
             )
-        })}</ul>;
+        })}</ul>; 
         let addGood = <button onClick={this.toggleAddGoodModal.bind(this)}>Add Good</button>
 
         let orders = <ul>{this.state.orders
@@ -79,6 +89,7 @@ class Vendor extends React.Component {
 
         return (
             <div>
+                 <DeleteGood good={this.state.toDelete} show={this.state.deletingGood} vendor={this.props.vendor} deleteGood={this.updateGoods.bind(this)} close={this.toggleDeleteGood.bind(this)}/>
                 <AddGoodModal show={this.state.addingGood} vendor={this.props.vendor} addGood={this.updateGoods.bind(this)} modalClose={this.toggleAddGoodModal.bind(this)}/>
                 <ShowOrderModal show={this.state.showingOrder} order={this.state.selectedOrder} completeOrder={this.completeOrder.bind(this)} modalClose={this.toggleShowOrderModal.bind(this)} />
                 <header className="app-header">

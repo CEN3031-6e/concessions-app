@@ -46,7 +46,7 @@ class User extends React.Component {
   returnPage = () => {
       if (this.state.selectedVendor) this.toggleClearCartModal();
       else if (this.state.selectedVenue) this.setState({filter: '', selectedVenue: null});
-      else this.props.logout('/users/logout', '/login');
+      else this.props.history.push('/home');
   }
   
   filterUpdate = (event) => this.setState({filter: event.target.value});
