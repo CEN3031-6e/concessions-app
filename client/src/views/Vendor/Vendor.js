@@ -19,7 +19,10 @@ class Vendor extends React.Component {
             deletingGood: false,
             toDelete: null,
             showingOrder: false,
-            selectedOrder: null
+            selectedOrder: null,
+
+            negMessage: "",
+            posMessage: ""
         };
     }
 
@@ -36,20 +39,24 @@ class Vendor extends React.Component {
         axios.post('/vendors/completeOrder', order).then(res => {
             if (res.data.success) {
                 this.updateOrders();
-                this.setState({ showingOrder: false });
-            }
+                this.setState({ showingOrder: false, negMessage: "", posMessage: "Successfully completed order." });
+            } else this.setState({ negMessage: "Unable to complete order.", posMessage: "" });
         });
     }
 
     setGoodsPage = () => this.setState({goodsPage: true});
     setOrdersPage = () => this.setState({goodsPage: false});
+
     toggleAddGoodModal = () => this.setState({ addingGood: !this.state.addingGood }); 
     toggleShowOrderModal = () => this.setState({ showingOrder: !this.state.showingOrder });
+
     toggleDeleteGood = (good) => {
         this.setState({ deletingGood: !this.state.deletingGood, toDelete : good});
     };
+    
     updateGoods = () => axios.get('/vendors/goods', {params: {venueID: this.props.vendor.venueID, linkedID: this.props.vendor.linkedID}}).then(res => this.setState({ goods: res.data.goods }));
     updateOrders = () => axios.get('/vendors/orders', {params: {venueID: this.props.vendor.venueID, linkedID: this.props.vendor.linkedID}}).then(res => this.setState({ orders: res.data.orders }));
+
     componentDidMount = () => {
         this.updateGoods();
         this.updateOrders();
@@ -58,7 +65,7 @@ class Vendor extends React.Component {
     render() {
      let goods = <ul>{this.state.goods.map((good) => {
             return (
-                <li>
+                <li key={good._id}>
                     <h3>{good.name} - ${good.price.toFixed(2)}</h3>
                     <p>Quantity: {good.quantity}</p>
                      <button onClick={() => this.toggleDeleteGood(good) }>
@@ -72,7 +79,7 @@ class Vendor extends React.Component {
         let orders = <ul>{this.state.orders
         .map((order) => {
             return !order.completed ? (
-                <div>
+                <div key={order._id}>
                     <h3>{order.userName} - ${order.subtotal.toFixed(2)}</h3>
                     <button id={order._id} onClick={this.viewOrder.bind(this)}>View Order</button>
                     <button id={order._id} onClick={e => this.completeOrder(e.currentTarget.getAttribute('id'))}>Complete Order</button>
@@ -90,6 +97,8 @@ class Vendor extends React.Component {
                   <button onClick={this.setGoodsPage.bind(this)}>Goods</button>
                   <button onClick={this.setOrdersPage.bind(this)}>Orders</button>
                 </header>
+                <p className="neg-message">{this.state.negMessage}</p>
+                <p className="pos-message">{this.state.posMessage}</p>
                 {this.state.goodsPage ? <div><h3>Goods</h3>{goods}{addGood}</div> : <div><h3>Orders</h3>{orders}</div>}
             </div>
         );

@@ -41,14 +41,12 @@ class AddVenueModal extends React.Component {
                     address: '',
                     errorMsg: ''
                 });
-                console.log(`Finished! ${JSON.stringify(res.data)}`);
                 this.modalClose();
                 this.props.addVenue();
             } else {
                 this.setState({
                     errorMsg: res.data.message
                 });
-                console.log(JSON.stringify(this.state.registerErrors));
             }
         })
     }

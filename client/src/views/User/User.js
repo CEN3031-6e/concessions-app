@@ -3,8 +3,6 @@ import { Redirect, withRouter } from 'react-router-dom'
 import Venues from '../../components/User/Venues'
 import Vendors from '../../../src/components/User/Vendors'
 import Goods from '../../components/User/Goods'
-import Return from '../../components/User/Return'
-import ShowCart from '../../components/User/ShowCart'
 import Search from '../../components/User/Search'
 import AddVenueModal from '../../components/Admin/AddVenueModal/AddVenueModal'
 import AddVendorModal from '../../components/Admin/AddVendorModal/AddVendorModal'
@@ -12,8 +10,8 @@ import ShowGoodModal from '../../components/User/ShowGoodModal/ShowGoodModal'
 import ShowCartModal from '../../components/User/ShowCartModal/ShowCartModal'
 import ClearCartModal from '../../components/User/ClearCartModal/ClearCartModal'
 import ShowOrdersModal from '../../components/User/ShowOrdersModal/ShowOrdersModal'
+import {Button} from 'react-bootstrap'
 import './User.css'
-import {Row} from 'react-bootstrap'
 import axios from 'axios'
 
 class User extends React.Component {
@@ -35,38 +33,50 @@ class User extends React.Component {
 
         addingVenue: false,
         addingVendor: false,
+        showingGood: false,
         showingCart: false,
         clearingCart: false,
-        showingOrders: false
+        showingOrders: false,
+
+        posMessage: "",
+        negMessage: ""
       };
   }
 
-  returnPage() {
-      if (this.state.selectedVendor) {
-        this.toggleClearCartModal();
-      }
-      else if (this.state.selectedVenue) {
-        this.setState({filter: '', selectedVenue: null});
-      }
-      //When leaving the users page, the user should be logged out
-      else {
-        this.props.logout('/users/logout', '/login');
-        //this.props.history.push('/home');
-      }
+  returnPage = () => {
+      if (this.state.selectedVendor) this.toggleClearCartModal();
+      else if (this.state.selectedVenue) this.setState({filter: '', selectedVenue: null});
+      else this.props.history.push('/home');
   }
   
-  filterUpdate(event) {
-      this.setState({filter: event.target.value});
-  }
+  filterUpdate = (event) => this.setState({filter: event.target.value});
 
   selectVenue = (id) => {
       this.setState({filter: '', selectedVenue: this.state.venues.find((venue) => venue._id === id)});
       this.updateVendors(id);
   }
+  deleteVenue = (id) => {
+      axios.post('/admin/deleteVenue', {id}).then(res => {
+        if (res.data.success) {
+          this.updateVenues();
+          this.setState({ negMessage: "", posMessage: "Successfully deleted venue." });
+        }
+        else this.setState({ negMessage: res.data.message, posMessage: "" });
+      });
+  }
 
   selectVendor = (id) => {
     this.setState({filter: '', selectedVendor: this.state.vendors.find((vendor) => vendor._id === id)});
     this.updateGoods(this.state.selectedVenue._id, id);
+  }
+  deleteVendor = (id) => {
+    axios.post('/admin/deleteVendor', {venueID: this.state.selectedVenue._id, id}).then(res => {
+      if (res.data.success) {
+        this.updateVendors(this.state.selectedVenue._id);
+        this.setState({ negMessage: "", posMessage: "Successfully deleted vendor." });
+      }
+      else this.setState({negMessage: res.data.message, posMessage: "" });
+    });
   }
 
   selectGood = (id) => {
@@ -80,7 +90,7 @@ class User extends React.Component {
 
   addGood = (quantity) => {
     const name = this.state.selectedGood.name;
-    const price = Number(this.state.selectedGood.price);
+    const price = this.state.selectedGood.price;
     const good = {
       name,
       price,
@@ -115,9 +125,9 @@ class User extends React.Component {
     axios.post('/users/addOrder', order).then(res => {
       if (res.data.success) {
         this.toggleShowCartModal();
-        this.setState({cart: []});
+        this.setState({ cart: [], negMessage: "", posMessage: "Successfully submitted cart." });
         this.updateOrders();
-      } else console.log("Something went wrong");
+      } else this.setState({ negMessage: "Error submitting cart.", posMessage: "" });
     })
   }
   clearCart= () => this.setState({filter: '', selectedVendor: null, goods: [], cart: [], clearingCart: false});
@@ -161,6 +171,7 @@ class User extends React.Component {
           <Vendors 
             vendors={this.state.vendors} 
             selectVendor={this.selectVendor.bind(this)} 
+            deleteVendor={this.deleteVendor.bind(this)}
             filter={this.state.filter}
             adminPriv={adminPriv}
             openModal={this.toggleAddVendorModal.bind(this)}/>
@@ -173,6 +184,7 @@ class User extends React.Component {
           <Venues 
             venues={this.state.venues} 
             selectVenue={this.selectVenue.bind(this)} 
+            deleteVenue={this.deleteVenue.bind(this)}
             filter={this.state.filter} 
             adminPriv={adminPriv}
             openModal={this.toggleAddVenueModal.bind(this)}/>
@@ -182,21 +194,22 @@ class User extends React.Component {
 
     return (
       <div className="">
-        <AddVenueModal show={this.state.addingVenue} addVenue={this.updateVenues.bind(this)} modalClose={this.toggleAddVenueModal.bind(this)}/>
-        <AddVendorModal show={this.state.addingVendor} selectedVenue={this.state.selectedVenue} addVendor={this.updateVendors.bind(this)} modalClose={this.toggleAddVendorModal.bind(this)}/>
-        <ShowGoodModal show={this.state.showingGood} good={this.state.selectedGood} addGood={this.addGood.bind(this)} modalClose={this.toggleShowGoodModal.bind(this)} />
-        <ShowCartModal show={this.state.showingCart} cart={this.state.cart} submitCart={this.submitCart.bind(this)} modalClose={this.toggleShowCartModal.bind(this)} />
-        <ClearCartModal show={this.state.clearingCart} clearCart={this.clearCart.bind(this)} modalClose={this.toggleClearCartModal.bind(this)} />
-        <ShowOrdersModal show={this.state.showingOrders} orders={this.state.orders} modalClose={this.toggleShowOrdersModal.bind(this)} />
+        {this.state.addingVenue ? <AddVenueModal show={true} addVenue={this.updateVenues.bind(this)} modalClose={this.toggleAddVenueModal.bind(this)}/> : null}
+        {this.state.addingVendor ? <AddVendorModal show={true} selectedVenue={this.state.selectedVenue} addVendor={this.updateVendors.bind(this)} modalClose={this.toggleAddVendorModal.bind(this)}/> : null}
+        {this.state.showingGood ? <ShowGoodModal show={true} good={this.state.selectedGood} addGood={this.addGood.bind(this)} modalClose={this.toggleShowGoodModal.bind(this)} /> : null}
+        {this.state.showingCart ? <ShowCartModal show={true} cart={this.state.cart} submitCart={this.submitCart.bind(this)} modalClose={this.toggleShowCartModal.bind(this)} /> : null}
+        {this.state.clearingCart ? <ClearCartModal show={true} clearCart={this.clearCart.bind(this)} modalClose={this.toggleClearCartModal.bind(this)} /> : null}
+        {this.state.showingOrders ? <ShowOrdersModal show={true} orders={this.state.orders} modalClose={this.toggleShowOrdersModal.bind(this)} /> : null}
         <header className="app-header">
           <center>
           <h3>Welcome, {username}</h3>
-          <Return returnPage={this.returnPage.bind(this)}/>
-          <ShowCart show={this.state.selectedVendor} toggleCart={this.toggleShowCartModal.bind(this)}/>
-          <button onClick={this.toggleShowOrdersModal.bind(this)}>My Orders</button>
+          <Button className="user-button" onClick={this.returnPage.bind(this)}>Return</Button>
+          {this.state.selectedVendor ? <Button className="user-button" onClick={this.toggleShowCartModal.bind(this)}>My Cart</Button> : null}
+          <Button className="user-button" onClick={this.toggleShowOrdersModal.bind(this)}>My Orders</Button>
           <Search filterValue={this.state.filter} filterUpdate={this.filterUpdate.bind(this)}/>
+          <p className="pos-message">{this.state.posMessage}</p>
+          <p className="neg-message">{this.state.negMessage}</p>
           </center>
-          <h1>{this.state.selectedVendor ? this.state.selectedVendor.name : this.state.selectedVenue ? this.state.selectedVenue.name : ' Venues'}</h1>
         </header>
         {page}
       </div>

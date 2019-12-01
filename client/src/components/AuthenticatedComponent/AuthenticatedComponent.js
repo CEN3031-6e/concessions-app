@@ -15,15 +15,6 @@ class AuthenticatedComponent extends React.Component {
       this.setState({
         verified: data.success
       });
-      
-      //user is not authorized or their session expired
-      //move them to the login page to get a new session
-      // if (!data.success) {
-      //   console.log("Session ended: " + JSON.stringify(data));
-      //   this.props.history.push("/login");
-      // } else {
-      //   console.log("Authenticated user data: " + JSON.stringify(data));
-      // }
     });
   }
 
