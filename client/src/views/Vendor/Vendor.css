@@ -17,3 +17,10 @@
 .reg-link {
     float: right;
 }
+
+.neg-message {
+  color: red;
+}
+.pos-message {
+  color: lightgreen;
+}

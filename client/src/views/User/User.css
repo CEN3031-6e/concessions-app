@@ -1,6 +1,7 @@
-.return-button {
+.user-button {
     width: 128px;
     margin: 8px;
+    padding: 8px;
     background: skyblue;
 }
 
@@ -47,4 +48,11 @@ text-align:center;
 right:0;
 padding: 12px;
 border-radius: 20px;
+}
+
+.neg-message {
+  color: red;
+}
+.pos-message {
+  color: lightgreen;
 }
