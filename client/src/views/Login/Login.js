@@ -27,7 +27,7 @@ class Login extends React.Component {
 
   setRoleUser = () => this.setState({role: 'User'});
   setRoleVendor = () => this.setState({role: 'Vendor'});
-  resetRole = () => this.setState({role: ''});
+  resetRole = () => this.setState({role: '', loginError: ''});
   onChange = (e) => this.setState({[e.target.name]: e.target.value});
 
   onSubmit(e) {
@@ -52,12 +52,13 @@ class Login extends React.Component {
             isLoading: false,
             redirTo: "/users"
           });
+          this.props.setUserRole('user');
           console.log(`Successfully logged in! ${JSON.stringify(data)}`);
         } else {
           this.setState({
             email: '',
             password: '',
-            loginError: data.message,
+            loginError: 'Incorrect username or password. Please try again.',
             isLoading: false,
           });
         }
@@ -75,11 +76,12 @@ class Login extends React.Component {
             isLoading: false,
             redirTo: '/vendors'
           });
+          this.props.setUserRole('vendor');
         } else {
           this.setState({
             email: '',
             password: '',
-            loginError: data.message,
+            loginError: 'Incorrect username or password. Please try again.',
             isLoading: false
           });
         }

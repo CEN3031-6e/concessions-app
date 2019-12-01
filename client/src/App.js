@@ -25,11 +25,25 @@ class App extends React.Component {
     this.logout = this.logout.bind(this);
     this.updateUser = this.updateUser.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
+    this.setUserRole = this.setUserRole.bind(this);
 
     this.state = {
       loggedIn: false,
-      user: {}
+      user: {},
+      userRole: ''
     };
+  }
+
+  setUserRole(userRole) {
+      if (userRole == 'user') {
+        this.setState({userRole: 'user'});
+      }
+      else if (userRole == 'vendor') {
+        this.setState({userRole: 'vendor'});
+      }
+      else {
+        this.setState({userRole: ''});
+      }
   }
 
   getUser() {
@@ -58,6 +72,7 @@ class App extends React.Component {
     //in production a .catch(err => console.log(err)) should be implemented
     axios.post(route, user).then(response => {
       //set own state and execute the callback
+
       if (response.data.success) {
         this.setState({
           loggedIn: true
@@ -66,6 +81,9 @@ class App extends React.Component {
         //console.log(`Successfully logged in! ${JSON.stringify(response.data)}`);
       }
       cb(response.data);
+    })
+    .catch(error => {
+      cb({});
     });
   }
 
@@ -115,13 +133,16 @@ class App extends React.Component {
   render() {
     return (
       <Router history={history}>
-        <Header user={this.state.user} loggedIn={this.state.loggedIn} updateUser={this.updateUser} logout={this.logout}/>
+        <Header userType={this.state.userRole} loggedIn={this.state.loggedIn} updateUser={this.updateUser} logout={this.logout}/>
         <Switch>
 
-          <Route exact path="/home" component={Home}/>
+          <Route
+            exact path="/home" 
+            render={(props) => <Home userType={this.state.userRole} user={this.state.user} />}
+          />
           <Route exact path="/"><Redirect to="/home"/></Route>
           <Route exact path="/register" render={() => <Register loggedIn={this.state.loggedIn}/>}/>
-          <Route exact path="/login" render={() => <Login loggedIn={this.state.loggedIn} login={this.login}/>}/>
+          <Route exact path="/login" render={() => <Login setUserRole={this.setUserRole} loggedIn={this.state.loggedIn} login={this.login}/>}/>
           <AuthenticatedComponent verify={this.verify}>
             <Route
               path="/users"
