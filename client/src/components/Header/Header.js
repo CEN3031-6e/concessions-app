@@ -15,7 +15,12 @@ class Header extends React.Component {
         let l1;
         if (this.props.loggedIn) {
             if(this.props.userType === 'user') {
-                l1 = <Link to="/users">Order</Link>
+                if(this.props.user.email === 'cen3031@ufl.edu') {
+                    l1 = <Link to="/users">Manage Site</Link>
+                }
+                else {
+                    l1 = <Link to="/users">Order</Link>
+                }
             }
             else {
                  l1 = <Link to="/vendors">Manage Store</Link>
