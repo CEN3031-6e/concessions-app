@@ -1,7 +1,8 @@
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypyt = require("bcryptjs");
 
-const User = require("../models/users.server.model");
+//const User = require("../models/users.server.model");
+const User = require('../models/baseSchemas/UserSchema');
 const Vendor = require("../models/baseSchemas/VendorSchema");
 
 function SessionConstructor(userId, userGroup, details) {
@@ -17,7 +18,6 @@ module.exports = function(passport) {
       User.findOne({ email: email })
         .then(user => {
           if (!user) {
-            console.log("That email is not registered");
             return done(null, false, {message: "That email is not registered"});
           }
 
@@ -28,7 +28,6 @@ module.exports = function(passport) {
             if (isMatch) {
               return done(null, user);
             } else {
-              console.log("Password incorrect");
               return done(null, false, { message: "Password incorrect" });
             }
           });
@@ -43,7 +42,6 @@ module.exports = function(passport) {
       Vendor.findOne({ email: email })
         .then(user => {
           if (!user) {
-            console.log("That email is not registered");
             return done(null, false, {message: "That email is not registered"});
           }
 
@@ -54,7 +52,6 @@ module.exports = function(passport) {
             if (isMatch) {
               return done(null, user);
             } else {
-              console.log("Password incorrect");
               return done(null, false, { message: "Password incorrect" });
             }
           });

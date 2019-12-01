@@ -40,11 +40,8 @@ class AddGoodModal extends React.Component {
             quantity
         };
 
-        console.log("Posting");
         axios.post('/vendors/addGood', good).then(res => {
-            console.log(res.data.success);
             if (res.data.success) {
-                console.log("Successful post");
                 this.setState({
                     name: '',
                     price: '',
@@ -54,7 +51,6 @@ class AddGoodModal extends React.Component {
                 this.modalClose();
                 this.props.addGood();
             } else {
-                console.log("Failed post");
                 let errs = this.state.registerErrors;
                 errs.push(res.data.message);
                 this.setState({
@@ -65,18 +61,17 @@ class AddGoodModal extends React.Component {
     }
 
     render() {
-        console.log(this.state.registerErrors);
         return (
             <div>
                 <Backdrop show={this.props.show} clicked={this.modalClose.bind(this)}/>
                 <div 
-                    className='Modal'
+                    className='AddGoodModal'
                     style={{
                         transform: this.props.show ? 'translateY(0)' : 'translateY(-100vh)',
                         opacity: this.props.show ? '1' : '0'
                     }}>
                     <center>
-                    <p><h3>Add New Good</h3></p>
+                    <h3>Add New Good</h3>
                     {this.state.registerErrors ? this.state.registerErrors.length > 0
                         ? this.state.registerErrors.map((errMsg, index) => (
                                 <p className="register-error-message" key={index}>

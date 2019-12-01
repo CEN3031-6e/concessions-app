@@ -18,20 +18,44 @@ router.get("/venues", (req, res) => {
 router.get("/vendors", (req, res) => {
     if (req.query.selectedVenueID) {
         Venue.find({'_id': req.query.selectedVenueID}, function(err, venue) {
-            if (err) throw err;
-            if (venue[0]) {
-                return res.send({
-                    success: true,
-                    vendors: venue[0].vendors
-                });
-            } else {
-                return res.send({
+            if (err || !venue) return res.send({
+                success: false,
+                vendors: []
+            });
+            else return res.send({
+                success: true,
+                vendors: venue[0].vendors
+            });
+        });
+    } else return res.send({
+        success: false,
+        vendors: []
+    });
+})
+
+router.get("/goods", (req, res) => {
+    if (req.query.selectedVenueID) {
+        Venue.find({'_id': req.query.selectedVenueID}, function(err, venue) {
+            if (err || !venue[0]) return res.send({
+                success: false,
+                goods: [],
+            })
+            else {
+                if (req.query.selectedVendorID) {
+                    return res.send({
+                        success: true,
+                        goods: venue[0].vendors.find((vendor) => vendor._id == req.query.selectedVendorID).goods
+                    })
+                } else return res.send({
                     success: false,
-                    vendors: []
-                });
+                    goods: []
+                })
             }
         })
-    }
+    } else return res.send({
+        success: false,
+        goods: []
+    })
 })
 
 router.post("/addVenue", (req, res) => {
@@ -51,7 +75,6 @@ router.post("/addVenue", (req, res) => {
         address,
         vendors
     });
-    console.log(newVenue);
 
     newVenue.save((error, venue) => {
         if (error) {
@@ -66,6 +89,30 @@ router.post("/addVenue", (req, res) => {
           });
         }
     });
+})
+
+router.post("/deleteVenue", (req, res) => {
+
+    //First delete all vendor accounts that correspond to the deleted venue
+    Vendor.deleteMany({'venueID': req.body.id}, function(err) {
+        if (err) return res.send({
+            success: false,
+            message: "Failed to delete vendor accounts"
+        });
+        else {
+
+            Venue.findOneAndDelete({'_id': req.body.id}, function(err) {
+                if (err) return res.send({
+                    success: false,
+                    message: "Failed to delete venue"
+                });
+                else return res.send({
+                    success: true,
+                    message: "Successful deletion"
+                });
+            })
+        }
+    })
 })
 
 router.post("/addVendor", (req, res) => {
@@ -129,6 +176,27 @@ router.post("/addVendor", (req, res) => {
     })
 })
 
+router.post('/deleteVendor', (req, res) => {
+    Vendor.deleteOne({'linkedID': req.body.id}, function(err) {
+        if (err) return res.send({
+            success: false,
+            message: "Failed to delete vendor account"
+        })
+        else {
+            Venue.findOneAndUpdate({'_id': req.body.venueID}, {$pull: {vendors: {'_id': req.body.id}}}, {new: true}, function(err) {
+                if (err) return res.send({
+                    success: false,
+                    message: "Failed to delete vendor"
+                });
+                else return res.send({
+                    success: true,
+                    message: "Successful deletion"
+                });
+            });
+        }
+    });
+});
+
 router.post('/regVendor', (req, res) => {
     let { name, email, password, venueID, linkedID } = req.body;
     email = email.toLowerCase();
@@ -143,18 +211,14 @@ router.post('/regVendor', (req, res) => {
 
     regVendor.password = regVendor.generateHash(password);
     regVendor.save((error, _) => {
-        if (error) {
-            return res.send({
+        if (error) return res.send({
             success: false,
             message: "Server error: registering new user to database"
         });
-    }
-        else {
-            return res.send({
+        else return res.send({
             success: true,
             message: "Succcessful registration!"
         });
-    }
     });
 })
 

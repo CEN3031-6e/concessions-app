@@ -1,14 +1,8 @@
-.return-button {
-    width: 100px;
+.user-button {
+    width: 128px;
     margin: 8px;
+    padding: 8px;
     background: skyblue;
-}
-
-.cart-button {
-    width: 100px;
-    margin: 8px;
-    background: skyblue;   
-
 }
 
 .search-input {
@@ -54,4 +48,11 @@ text-align:center;
 right:0;
 padding: 12px;
 border-radius: 20px;
+}
+
+.neg-message {
+  color: red;
+}
+.pos-message {
+  color: lightgreen;
 }

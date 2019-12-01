@@ -2,30 +2,12 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
 const vendorSchema = mongoose.Schema({
-  name: {
-    type: String,
-    required: true
-  },
-  email: {
-    type: String,
-    required: true
-  },
-  password: {
-    type: String,
-    required: true
-  },
-  Date: {
-    type: Date,
-    default: Date.now()
-  },
-  venueID: {
-      type: String,
-      required: true
-  },
-  linkedID: {
-      type: String,
-      required: true
-  }
+  name: {type: String, required: true},
+  email: {type: String, required: true},
+  password: {type: String, required: true},
+  Date: {type: Date, default: Date.now()},
+  venueID: {type: String, required: true},
+  linkedID: {type: String, required: true}
 });
 
 vendorSchema.methods.generateHash = function(password) {

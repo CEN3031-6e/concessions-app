@@ -41,14 +41,12 @@ class AddVenueModal extends React.Component {
                     address: '',
                     errorMsg: ''
                 });
-                console.log(`Finished! ${JSON.stringify(res.data)}`);
                 this.modalClose();
                 this.props.addVenue();
             } else {
                 this.setState({
                     errorMsg: res.data.message
                 });
-                console.log(JSON.stringify(this.state.registerErrors));
             }
         })
     }
@@ -58,7 +56,7 @@ class AddVenueModal extends React.Component {
             <div>
                 <Backdrop show={this.props.show} clicked={this.modalClose.bind(this)}/>
                 <div 
-                    className='Modal'
+                    className='AddVenueModal'
                     style={{
                         transform: this.props.show ? 'translateY(0)' : 'translateY(-100vh)',
                         opacity: this.props.show ? '1' : '0'

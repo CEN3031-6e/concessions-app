@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
-const uri = require("./config").db.uri;
+const uri = process.env.MONGODB_URI || require("./config").db.uri;
 
 module.exports = {
   start: function() {
     mongoose
-      .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+      .connect(uri, { useNewUrlParser: true, useFindAndModify: true, useCreateIndex: true, useUnifiedTopology: true })
       .then(console.log("MongoDB connected successfully"))
       .catch(err => console.log(err));
   },

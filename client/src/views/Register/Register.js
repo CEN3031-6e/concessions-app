@@ -39,8 +39,6 @@ class Register extends React.Component {
             password2
         };
 
-        console.log(user);
-
         axios.post('/users/register', user).then(res => {
             if (res.data.success) {
                 this.setState({
@@ -52,8 +50,6 @@ class Register extends React.Component {
                     isLoading: false,
                     redirTo: '/login'
                 });
-
-                console.log(`Finished! ${JSON.stringify(res.data)}`);
                 this.props.history.push('/login');
             } else {
                 this.setState({
@@ -62,8 +58,6 @@ class Register extends React.Component {
                     registerErrors: res.data.message,
                     isLoading: false
                 });
-
-                console.log(JSON.stringify(this.state.registerErrors));
             }
         })
     }
@@ -85,12 +79,12 @@ class Register extends React.Component {
                     : null : null}
                 <form onSubmit={e => this.onSubmit(e)}>
                     <div className="form-group">
-                        <label>Username: </label>
+                        <label>Name: </label>
                         <div class="col-sm-4">
                         <input 
                         type="text" 
                         name="name"
-                        placeholder = "Enter Username" 
+                        placeholder = "Enter Name" 
                         required className="form-control" 
                         value={this.state.name} 
                         onChange={e => this.onChange(e)}/>

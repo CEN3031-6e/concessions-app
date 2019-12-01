@@ -1,6 +1,7 @@
-.AddGoodModal {
+.ClearCartModal {
     position: fixed;
     z-index: 500;
+    border-radius: 10px;
     background-color: white;
     width: 50%;
     border: 1px solid #ccc;
@@ -10,14 +11,4 @@
     top: 30%;
     box-sizing: border-box;
     transition: all 0.3s ease-out;
-}
-
-.register-error-message {
-    color: red;
-}
-
-.add-good-input {
-    width: 60%;
-    display: block;
-    margin: 4px auto;
 }
