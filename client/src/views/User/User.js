@@ -169,11 +169,17 @@ class User extends React.Component {
       page = (
         <div>
           <h1>{this.state.selectedVendor.name}</h1>
+            {this.state.checkout ?
+              <Checkout
+                    />
+                  :
+
           <Goods
             selectedVendor={this.state.selectedVendor}
             selectGood={this.selectGood.bind(this)}
             filter={this.state.filter}
           />
+          };
         </div>
       );
     } else if (this.state.selectedVenue) {
@@ -186,15 +192,6 @@ class User extends React.Component {
             filter={this.state.filter}
             adminPriv={adminPriv}
             openModal={this.toggleAddVendorModal.bind(this)}/>
-        </div>
-      );
-    } else if (this.state.checkout && this.state.selectedVendor) {
-      page = (
-        <div>
-          <h1>This is your Cart</h1>
-          <Checkout
-            cart={this.state.cart}
-        />
         </div>
       );
     } else {
