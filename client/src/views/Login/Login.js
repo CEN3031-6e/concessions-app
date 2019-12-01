@@ -42,7 +42,6 @@ class Login extends React.Component {
 
     //User login
     if (role === 'User') {
-      console.log("Loggin in user: Calling props");
       this.props.login('/users/login', user, data => {
         if (data.success) {
           this.setState({
@@ -52,7 +51,6 @@ class Login extends React.Component {
             isLoading: false,
             redirTo: "/users"
           });
-          console.log(`Successfully logged in! ${JSON.stringify(data)}`);
         } else {
           this.setState({
             email: '',

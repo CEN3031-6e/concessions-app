@@ -82,13 +82,10 @@ router.post("/register", (req, res) => {
   
       newUser.password = newUser.generateHash(password);
       newUser.save((error, _) => {
-        if (error) {
-          console.log(error);
-          return res.send({
-            success: false,
-            message: [{ msg: "Server error: registering new user to database" }]
-          });
-      }
+        if (error) return res.send({
+          success: false,
+          message: [{ msg: "Server error: registering new user to database" }]
+        });
         else return res.send({
           success: true,
           message: [{ msg: "Succcessful registration!" }]
@@ -112,12 +109,10 @@ router.post("/register", (req, res) => {
   //Logout handle
   router.post("/logout", (req, res) => {
     req.session.destroy(err => {
-      if (err) {
-        return res.send({
-          success: false,
-          message: "Server error: couldn't destroy session (log user out)"
-        });
-      }
+      if (err) return res.send({
+        success: false,
+        message: "Server error: couldn't destroy session (log user out)"
+      });
       req.logout();
       res.clearCookie("sid").send({
         success: true,

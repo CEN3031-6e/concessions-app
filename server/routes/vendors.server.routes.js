@@ -23,12 +23,10 @@ router.get('/goods', (req, res) => {
             success: false,
             goods: []
         });
-        else {
-            return res.send({
-                success: true,
-                goods: venue.vendors.find((vendor) => vendor._id == linkedID).goods
-            })
-        }
+        else return res.send({
+            success: true,
+            goods: venue.vendors.find((vendor) => vendor._id == linkedID).goods
+        });
     })
 })
 
@@ -39,12 +37,10 @@ router.get('/orders', (req, res) => {
             success: false,
             orders: []
         });
-        else {
-            return res.send({
-                success: true,
-                orders: venue.vendors.find((vendor) => vendor._id == linkedID).orders
-            })
-        }
+        else return res.send({
+            success: true,
+            orders: venue.vendors.find((vendor) => vendor._id == linkedID).orders
+        });
     })
 })
 
@@ -73,29 +69,24 @@ router.post('/addGood', (req, res) => {
 router.post("/completeOrder", (req, res) => {
     let {userID, venueID, vendorID, orderID} = req.body;
     Venue.findOneAndUpdate({"_id": venueID, "vendors": {"$elemMatch": {"_id": vendorID,"orders._id": orderID}}}, {"$set": {"vendors.$[outer].orders.$[inner].completed": true }}, {"arrayFilters": [{ "outer._id": vendorID},{ "inner._id": orderID}]}, function(err) {
-        if (err) {
-                return res.send({
-                success: false,
-                message: "Error completing order - vendor"
-            });
+        if (err) return res.send({
+            success: false,
+            message: "Error completing order - vendor"
+        });
+        else {
+            User.findOneAndUpdate({"_id": userID, "orders.linkedID": orderID}, {$set: {"orders.$.completed": true}}, {new: true}, function(err) {
+                if (err) return res.send({
+                    success: false,
+                    message: "Error completing order - user"
+                });
+                else return res.send({
+                    success: true,
+                    message: "Double success"
+                });
+            })
         }
     })
-    User.findOneAndUpdate({"_id": userID, "orders.linkedID": orderID}, {$set: {"orders.$.completed": true}}, {new: true}, function(err, user) {
-        if (err) {
-            console.log(err);
-            return res.send({
-            success: false,
-            message: "Error completing order - user"
-        })
-    } else {
-        console.log("Updated order: " + user);
-    }
-    })
-
-    return res.send({
-        success: true,
-        message: "Double success"
-    })
+    
 })
 
 module.exports = router;

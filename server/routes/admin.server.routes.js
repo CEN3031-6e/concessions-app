@@ -177,17 +177,13 @@ router.post("/addVendor", (req, res) => {
 })
 
 router.post('/deleteVendor', (req, res) => {
-    console.log(req.body);
     Vendor.deleteOne({'linkedID': req.body.id}, function(err) {
-        console.log(err);
         if (err) return res.send({
             success: false,
             message: "Failed to delete vendor account"
         })
         else {
-            Venue.findOneAndUpdate({'_id': req.body.venueID}, {$pull: {vendors: {'_id': req.body.id}}}, {new: true}, function(err, venues) {
-                console.log(err);
-                console.log(venues);
+            Venue.findOneAndUpdate({'_id': req.body.venueID}, {$pull: {vendors: {'_id': req.body.id}}}, {new: true}, function(err) {
                 if (err) return res.send({
                     success: false,
                     message: "Failed to delete vendor"
@@ -215,18 +211,14 @@ router.post('/regVendor', (req, res) => {
 
     regVendor.password = regVendor.generateHash(password);
     regVendor.save((error, _) => {
-        if (error) {
-            return res.send({
+        if (error) return res.send({
             success: false,
             message: "Server error: registering new user to database"
         });
-    }
-        else {
-            return res.send({
+        else return res.send({
             success: true,
             message: "Succcessful registration!"
         });
-    }
     });
 })
 

@@ -22,7 +22,6 @@ export default (props) => {
         );
     });
     
-    //let addVenue = props.adminPriv ? <div className="list-item" onClick={props.openModal}><h1>Add Venue</h1></div> : null;
     let addVenue = props.adminPriv ? <button onClick={props.openModal}>Add New Venue</button> : null;
 
     return (
