@@ -2,7 +2,7 @@ import React from 'react'
 import { Redirect, withRouter } from 'react-router-dom'
 import './Login.css'
 import {Button} from 'react-bootstrap'
-
+import wordCloud from './wordcloud.jpg'
 class Login extends React.Component {
 
   constructor(props) {
@@ -100,6 +100,9 @@ class Login extends React.Component {
           <h1 className="login">Login Page</h1>
           <Button className="loginButton" onClick={this.setRoleUser}>User</Button>
           <Button className="loginButton" onClick={this.setRoleVendor}>Vendor</Button>
+          <div className = "wordimg">
+              <img className="wordCloud" src={wordCloud} alt="Words" width="100%" height="200%"></img>
+          </div>
           </center>
         </div>
       );
@@ -154,6 +157,9 @@ class Login extends React.Component {
             <Button className="loginButton">Forgot password?</Button>
             <Button className="loginButton" onClick={this.resetRole.bind(this)}>Return</Button>
           </form>
+        </div>
+        <div className = "wordloginimg">
+              <img className="wordCloud" src={wordCloud} alt="Words" width="100%" height="200%"></img>
         </div>
       </div>
       </center>

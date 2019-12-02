@@ -2,6 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import { Redirect, withRouter } from 'react-router-dom'
 import './Register.css'
+import wordCloud from './wordcloud.jpg'
 
 class Register extends React.Component {
 
@@ -136,7 +137,9 @@ class Register extends React.Component {
                     </center>
                 </form>
                 </center>
-                
+                <div className = "wordloginimg">
+                    <img className="wordCloud" src={wordCloud} alt="Words" width="100%" height="200%"></img>
+                </div> 
             </div>
         );
     }
