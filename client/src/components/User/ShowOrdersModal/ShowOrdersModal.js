@@ -30,12 +30,12 @@ class ShowOrdersModal extends React.Component {
                     <h1>Your Orders</h1>
                     <button onClick={this.showActive.bind(this)}>Active Orders</button>
                     <button onClick={this.showCompleted.bind(this)}>All Orders</button>
-                    <ul>{this.props.orders ? this.props.orders.map((order) => {
+                    {this.props.orders ? this.props.orders.map((order) => {
                         if (!this.state.showCompleted && order.completed) return null;
                         return (
-                            <li key={order._id}>{order.vendorName} -${order.subtotal.toFixed(2)}</li>
+                            <div key={order._id}>{order.vendorName} -${order.subtotal.toFixed(2)}</div>
                         );
-                    }) : null}</ul>
+                    }) : null}
                     </center>
                 </div>
             </div>

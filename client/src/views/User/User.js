@@ -91,7 +91,9 @@ class User extends React.Component {
   addGood = (quantity) => {
     const name = this.state.selectedGood.name;
     const price = this.state.selectedGood.price;
+    const id = this.state.selectedGood._id;
     const good = {
+      id,
       name,
       price,
       quantity

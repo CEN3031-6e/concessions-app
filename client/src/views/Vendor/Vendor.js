@@ -1,8 +1,9 @@
 import React from 'react'
 import axios from 'axios'
+import {Button} from 'react-bootstrap'
 import AddGoodModal from '../../components/Vendor/AddGoodModal/AddGoodModal'
 import ShowOrderModal from '../../components/Vendor/ShowOrderModal/ShowOrderModal'
-import DeleteGood from '../../components/Vendor/DeleteGood/DeleteGood'
+import DeleteGoodModal from '../../components/Vendor/DeleteGoodModal/DeleteGoodModal'
 import './Vendor.css'
 
 class Vendor extends React.Component {
@@ -15,10 +16,12 @@ class Vendor extends React.Component {
             goods: [],
             orders: [],
             goodsPage: true,
+
             addingGood: false,
             deletingGood: false,
-            toDelete: null,
             showingOrder: false,
+
+            selectedGood: null,
             selectedOrder: null,
 
             negMessage: "",
@@ -40,19 +43,29 @@ class Vendor extends React.Component {
             if (res.data.success) {
                 this.updateOrders();
                 this.setState({ showingOrder: false, negMessage: "", posMessage: "Successfully completed order." });
-            } else this.setState({ negMessage: "Unable to complete order.", posMessage: "" });
+            } else this.setState({ showingOrder: false, negMessage: "Unable to complete order.", posMessage: "" });
         });
     }
+    cancelOrder = (id) => {
+        axios.post('/vendors/cancelOrder', {id}).then(res => {
+            if (res.data.success) {
+                this.updateOrders();
+                this.setState({ showingOrder: false, negMessage: "", posMessage: "Successfully cancelled order." });
+            } else this.setState({ showingOrder: false, negMessage: "Unable to complete order.", posMessage: "" });
+        })
+    }
 
-    setGoodsPage = () => this.setState({goodsPage: true});
-    setOrdersPage = () => this.setState({goodsPage: false});
+    deleteGood = (good) => this.setState({ deletingGood: true, selectedGood: good });
+
+    setGoodsPage = () => this.setState({ goodsPage: true });
+    setOrdersPage = () => this.setState({ goodsPage: false });
+
+    setNegMessage = (msg) => this.setState({ negMessage: msg });
+    setPosMessage = (msg) => this.setState({ posMessage: msg });
 
     toggleAddGoodModal = () => this.setState({ addingGood: !this.state.addingGood }); 
     toggleShowOrderModal = () => this.setState({ showingOrder: !this.state.showingOrder });
-
-    toggleDeleteGood = (good) => {
-        this.setState({ deletingGood: !this.state.deletingGood, toDelete : good});
-    };
+    toggleDeleteGoodModal = () => this.setState({ deletingGood: !this.state.deletingGood });
     
     updateGoods = () => axios.get('/vendors/goods', {params: {venueID: this.props.vendor.venueID, linkedID: this.props.vendor.linkedID}}).then(res => this.setState({ goods: res.data.goods }));
     updateOrders = () => axios.get('/vendors/orders', {params: {venueID: this.props.vendor.venueID, linkedID: this.props.vendor.linkedID}}).then(res => this.setState({ orders: res.data.orders }));
@@ -63,39 +76,37 @@ class Vendor extends React.Component {
     }
 
     render() {
-     let goods = <ul>{this.state.goods.map((good) => {
+     let goods = this.state.goods.map((good) => {
             return (
-                <li key={good._id}>
+                <div className="list-item" key={good._id}>
                     <h3>{good.name} - ${good.price.toFixed(2)}</h3>
                     <p>Quantity: {good.quantity}</p>
-                     <button onClick={() => this.toggleDeleteGood(good) }>
-                        Delete good
-                    </button>
-                </li>
+                     <Button className="vendor-page-button" variant="danger" onClick={() => this.deleteGood(good)}>Delete good</Button>
+                </div>
             )
-        })}</ul>; 
-        let addGood = <button onClick={this.toggleAddGoodModal.bind(this)}>Add Good</button>
+        })
+        let addGood = <Button className="vendor-page-button" variant="success" onClick={this.toggleAddGoodModal.bind(this)}>Add Good</Button>
 
-        let orders = <ul>{this.state.orders
+        let orders = this.state.orders
         .map((order) => {
             return !order.completed ? (
-                <div key={order._id}>
+                <div className="list-item" key={order._id}>
                     <h3>{order.userName} - ${order.subtotal.toFixed(2)}</h3>
-                    <button id={order._id} onClick={this.viewOrder.bind(this)}>View Order</button>
-                    <button id={order._id} onClick={e => this.completeOrder(e.currentTarget.getAttribute('id'))}>Complete Order</button>
+                    <Button className="vendor-page-button" id={order._id} onClick={this.viewOrder.bind(this)}>View Order</Button>
+                    <Button className="vendor-page-button" id={order._id} onClick={e => this.completeOrder(e.currentTarget.getAttribute('id'))}>Complete Order</Button>
                 </div>
             ) : null;
-        })}</ul>
+        })
 
         return (
             <div>
-                 <DeleteGood good={this.state.toDelete} show={this.state.deletingGood} vendor={this.props.vendor} deleteGood={this.updateGoods.bind(this)} close={this.toggleDeleteGood.bind(this)}/>
-                <AddGoodModal show={this.state.addingGood} vendor={this.props.vendor} addGood={this.updateGoods.bind(this)} modalClose={this.toggleAddGoodModal.bind(this)}/>
-                <ShowOrderModal show={this.state.showingOrder} order={this.state.selectedOrder} completeOrder={this.completeOrder.bind(this)} modalClose={this.toggleShowOrderModal.bind(this)} />
+                {this.state.deletingGood ? <DeleteGoodModal show={true} vendor={this.props.vendor} good={this.state.selectedGood} deleteGood={this.updateGoods.bind(this)} setNegMessage={this.setNegMessage.bind(this)} setPosMessage={this.setPosMessage.bind(this)} modalClose={this.toggleDeleteGoodModal.bind(this)}/> : null}
+                {this.state.addingGood ? <AddGoodModal show={true} vendor={this.props.vendor} addGood={this.updateGoods.bind(this)} setNegMessage={this.setNegMessage.bind(this)} setPosMessage={this.setPosMessage.bind(this)} modalClose={this.toggleAddGoodModal.bind(this)}/> : null}
+                {this.state.showingOrder ? <ShowOrderModal show={true} order={this.state.selectedOrder} completeOrder={this.completeOrder.bind(this)} cancelOrder={this.cancelOrder.bind(this)} modalClose={this.toggleShowOrderModal.bind(this)} /> : null}
                 <header className="app-header">
                   <h1>{this.props.vendor.name}</h1>
-                  <button onClick={this.setGoodsPage.bind(this)}>Goods</button>
-                  <button onClick={this.setOrdersPage.bind(this)}>Orders</button>
+                <Button className="vendor-page-button" onClick={this.setGoodsPage.bind(this)} active={this.state.goodsPage}>Goods</Button>
+                <Button className="vendor-page-button" onClick={this.setOrdersPage.bind(this)} active={!this.state.goodsPage}>Orders</Button>
                 </header>
                 <p className="neg-message">{this.state.negMessage}</p>
                 <p className="pos-message">{this.state.posMessage}</p>

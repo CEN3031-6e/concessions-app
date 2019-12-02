@@ -21,3 +21,10 @@
     display: block;
     margin: 4px auto;
 }
+
+.add-good-submit {
+    border: none;
+    color: white;
+    background-color: skyblue;
+    width: 128px;
+}
