@@ -17,14 +17,14 @@ router.get("/venues", (req, res) => {
 
 router.get("/vendors", (req, res) => {
     if (req.query.selectedVenueID) {
-        Venue.find({'_id': req.query.selectedVenueID}, function(err, venue) {
+        Venue.findOne({'_id': req.query.selectedVenueID}, function(err, venue) {
             if (err || !venue) return res.send({
                 success: false,
                 vendors: []
             });
             else return res.send({
                 success: true,
-                vendors: venue[0].vendors
+                vendors: venue.vendors
             });
         });
     } else return res.send({
@@ -94,13 +94,12 @@ router.post("/addVenue", (req, res) => {
 router.post("/deleteVenue", (req, res) => {
 
     //First delete all vendor accounts that correspond to the deleted venue
-    Vendor.deleteMany({'venueID': req.body.id}, function(err) {
+    Vendor.deleteOne({'venueID': req.body.id}, function(err) {
         if (err) return res.send({
             success: false,
             message: "Failed to delete vendor accounts"
         });
         else {
-
             Venue.findOneAndDelete({'_id': req.body.id}, function(err) {
                 if (err) return res.send({
                     success: false,

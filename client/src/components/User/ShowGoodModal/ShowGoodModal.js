@@ -1,5 +1,6 @@
 import React from 'react'
 import Backdrop from '../../UI/Backdrop/Backdrop'
+import {Button} from 'react-bootstrap'
 import './ShowGoodModal.css'
 
 class ShowGoodModal extends React.Component {
@@ -46,11 +47,11 @@ class ShowGoodModal extends React.Component {
                     <center>
                         <h3>{this.props.good ? this.props.good.name : "Err"}</h3>
                         <h4>Quantity: {this.state.quantity}</h4>
-                        <button onClick={this.increaseQuantity.bind(this)}>+</button>
-                        <button onClick={this.decreaseQuantity.bind(this)}>-</button>
+                        <Button className="show-good-pos" onClick={this.increaseQuantity.bind(this)}>+</Button>
+                        <Button className="show-good-neg" onClick={this.decreaseQuantity.bind(this)}>-</Button>
                         <br/>
-                        <button onClick={this.addGood.bind(this)}>Add to Cart</button>
-                        <button onClick={this.modalClose.bind(this)}>Cancel</button>
+                        <Button className="show-good-pos" onClick={this.addGood.bind(this)}>Add to Cart</Button>
+                        <Button className="show-good-neg" onClick={this.modalClose.bind(this)}>Cancel</Button>
                     </center>
                 </div>
             </div>

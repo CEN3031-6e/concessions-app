@@ -1,4 +1,5 @@
 import React from 'react'
+import {Button} from 'react-bootstrap'
 import '../../views/User/User.css'
 
 export default (props) => {
@@ -15,7 +16,7 @@ export default (props) => {
             <div className="list-item" key={good._id}>
                 <h1>{good.name}</h1>
                 <p>${good.price.toFixed(2)}</p>
-                <button onClick={selectGood} id={good._id}>View Good</button>
+                <Button className="select-button" onClick={selectGood} id={good._id}>View Good</Button>
             </div>
         )
     });
