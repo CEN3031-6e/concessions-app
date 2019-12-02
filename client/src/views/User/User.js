@@ -37,7 +37,8 @@ class User extends React.Component {
         showingCart: false,
         clearingCart: false,
         showingOrders: false,
-        checkout: false
+        checkout: false,
+        card: false
       };
 
 
@@ -156,6 +157,7 @@ class User extends React.Component {
                 selectedVendor={this.state.selectedVendor}
                 cart={this.state.cart}
                 orders={this.state.orders}
+                card={this.state.card}
                     />
                   :
 
