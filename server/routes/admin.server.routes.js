@@ -2,8 +2,8 @@ const express = require('express')
 const passport = require('passport')
 
 const router = express.Router();
-const Venue = require('../models/baseSchemas/VenueSchema');
-const Vendor = require('../models/baseSchemas/VendorSchema');
+const Venue = require('../models/VenueSchema');
+const Vendor = require('../models/VendorSchema');
 
 router.get("/venues", (req, res) => {
     Venue.find(function(err, venues) {
