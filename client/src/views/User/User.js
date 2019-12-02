@@ -161,6 +161,9 @@ class User extends React.Component {
           <h1>{this.state.selectedVendor.name}</h1>
             {this.state.checkout ?
               <Checkout
+                selectedVendor={this.state.selectedVendor}
+                cart={this.state.cart}
+                orders={this.state.orders}
                     />
                   :
 
@@ -214,7 +217,7 @@ class User extends React.Component {
           <button onClick={this.toggleShowOrdersModal.bind(this)}>My Orders</button>
           <Search filterValue={this.state.filter} filterUpdate={this.filterUpdate.bind(this)}/>
           </center>
-          <h1>{this.state.selectedVendor ? this.state.selectedVendor.name : this.state.selectedVenue ? this.state.selectedVenue.name : ' Venues'}</h1>
+
         </header>
         {page}
       </div>
