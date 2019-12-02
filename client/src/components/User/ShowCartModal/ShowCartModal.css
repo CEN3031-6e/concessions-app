@@ -12,3 +12,15 @@
     box-sizing: border-box;
     transition: all 0.3s ease-out;
 }
+
+#submit {
+    background-color: skyblue;
+    position: relative;
+    right: 32px;
+    
+}
+
+#return {
+     background-color: skyblue;
+     float: left;
+}

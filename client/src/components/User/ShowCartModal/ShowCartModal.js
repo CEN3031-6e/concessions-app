@@ -34,7 +34,8 @@ class ShowCartModal extends React.Component {
                     {this.props.cart.map((good) => <div key={good.id}>{good.name} x{good.quantity} - ${good.price.toFixed(2)}</div>)}
                     <br />
                     <p>Subtotal: ${subtotal.toFixed(2)}</p>
-                    <button onClick={this.submitCart.bind(this)}>Submit Cart</button>
+                    <button id={'submit'} onClick={this.submitCart.bind(this)}>Submit Cart</button>
+                    <button id={'return'} onClick={this.modalClose.bind(this)}>Return</button>
                     </center>
                 </div>
             </div>
