@@ -85,7 +85,8 @@ class Register extends React.Component {
                         type="text" 
                         name="name"
                         placeholder = "Enter Name" 
-                        required className="form-control" 
+                        required 
+                        className="form-control" 
                         value={this.state.name} 
                         onChange={e => this.onChange(e)}/>
                         </div>
@@ -97,7 +98,8 @@ class Register extends React.Component {
                         type="email" 
                         name="email"
                         placeholder = "Enter Email" 
-                        required className="form-control" 
+                        required 
+                        className="form-control" 
                         value={this.state.email} 
                         onChange={e => this.onChange(e)}/>
                         </div>

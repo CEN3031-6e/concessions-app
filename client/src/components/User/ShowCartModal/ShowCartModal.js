@@ -1,16 +1,15 @@
 import React from 'react'
 import Backdrop from '../../UI/Backdrop/Backdrop'
+import {Button} from 'react-bootstrap'
 import './ShowCartModal.css'
 
 class ShowCartModal extends React.Component {
 
-    modalClose = () => {
-        this.props.modalClose();
-    }
+    modalClose = () => this.props.modalClose();
 
-    submitCart = () => {
-        this.props.submitCart();
-    }
+    submitCart = () => this.props.submitCart();
+
+    clearCart = () => this.props.clearCart();
 
 
     render() {
@@ -34,8 +33,9 @@ class ShowCartModal extends React.Component {
                     {this.props.cart.map((good) => <div key={good.id}>{good.name} x{good.quantity} - ${good.price.toFixed(2)}</div>)}
                     <br />
                     <p>Subtotal: ${subtotal.toFixed(2)}</p>
-                    <button id={'submit'} onClick={this.submitCart.bind(this)}>Submit Cart</button>
-                    <button id={'return'} onClick={this.modalClose.bind(this)}>Return</button>
+                    <Button id={'submit'} onClick={this.submitCart.bind(this)}>Submit Cart</Button>
+                    <Button id={'return'} onClick={this.modalClose.bind(this)}>Return</Button>
+                    <Button id={'clear'} onClick={this.clearCart.bind(this)}>Clear Cart</Button>
                     </center>
                 </div>
             </div>
