@@ -1,5 +1,5 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 
 class AuthenticatedComponent extends React.Component {
   constructor(props) {
@@ -23,6 +23,7 @@ class AuthenticatedComponent extends React.Component {
       return (
         <div>
           <p>Authenticating...</p>
+          <p>If the page won't load, click <Link to="/home">here</Link></p>
         </div>
       );
     }

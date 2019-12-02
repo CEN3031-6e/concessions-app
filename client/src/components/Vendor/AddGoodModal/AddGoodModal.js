@@ -83,7 +83,7 @@ class AddGoodModal extends React.Component {
                         <input className="add-good-input" type="text" name="name" placeholder="Name" value={this.state.name} onChange={e => this.onChange(e)}/>
                         <input className="add-good-input" type="text" name="price" placeholder="Base Price" value={this.state.price} onChange={e => this.onChange(e)}/>
                         <input className="add-good-input" type="text" name="quantity" placeholder="Base Quantity" value={this.state.quantity} onChange={e => this.onChange(e)}/>
-                        <input className="add-good-input" type="submit" value="Add Good"/>
+                        <input className="add-good-submit" type="submit" value="Add Good"/>
                     </form>
                     </center>
                 </div>

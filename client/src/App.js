@@ -7,7 +7,7 @@ import Home from "./views/Home/Home"
 import User from "./views/User/User"
 import Vendor from "./views/Vendor/Vendor"
 import Register from "./views/Register/Register"
-import NotFound from "./views/NotFound"
+import NotFound from "./views/NotFound/NotFound"
 import Login from "./views/Login/Login"
 import AuthenticatedComponent from "./components/AuthenticatedComponent/AuthenticatedComponent"
 import Protected from "./components/ProtectedRoute/ProtectedRoute"
@@ -31,10 +31,10 @@ class App extends React.Component {
 
 
   setUserRole(userRole) {
-      if (userRole == 'user') {
+      if (userRole === 'user') {
         this.setState({userRole: 'user'});
       }
-      else if (userRole == 'vendor') {
+      else if (userRole === 'vendor') {
         this.setState({userRole: 'vendor'});
       }
       else {
@@ -93,7 +93,7 @@ class App extends React.Component {
   render() {
     return (
       <Router history={history}>
-        <Header userType={this.state.userRole} loggedIn={this.state.loggedIn} updateUser={this.updateUser} logout={this.logout}/>
+        <Header user={this.state.user} userType={this.state.userRole} loggedIn={this.state.loggedIn} updateUser={this.updateUser} logout={this.logout}/>
         <Switch>
 
           <Route
@@ -104,29 +104,31 @@ class App extends React.Component {
           <Route exact path="/register" render={() => <Register loggedIn={this.state.loggedIn}/>}/>
           <Route exact path="/login" render={() => <Login setUserRole={this.setUserRole} loggedIn={this.state.loggedIn} login={this.login}/>}/>
           <AuthenticatedComponent verify={this.verify}>
-            <Route
-              path="/users"
-              render={() => (
-                <User
-                  loggedIn={this.state.loggedIn}
-                  user={this.state.user}
-                  logout={this.logout}
-                />
-              )}
-            />
-            <Route
-              path="/vendors"
-              render={() => (
-                <Vendor
-                  loggedIn={this.state.loggedIn}
-                  vendor={this.state.user}
-                  logout={this.logout}
-                />
-              )}
-            />
-            <Route path="/protected" component={Protected} />
+            <Switch>
+              <Route
+                path="/users"
+                render={() => (
+                  <User
+                    loggedIn={this.state.loggedIn}
+                    user={this.state.user}
+                    logout={this.logout}
+                  />
+                )}
+              />
+              <Route
+                path="/vendors"
+                render={() => (
+                  <Vendor
+                    loggedIn={this.state.loggedIn}
+                    vendor={this.state.user}
+                    logout={this.logout}
+                  />
+                )}
+              />
+              <Route path="/protected" component={Protected} />
+              <Route component={NotFound} />
+            </Switch>
           </AuthenticatedComponent>
-          <Route component={NotFound}/>
         </Switch>
       </Router>
     );
