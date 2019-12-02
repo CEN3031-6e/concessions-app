@@ -2,8 +2,8 @@ const express = require('express')
 const passport = require('passport')
 
 const router = express.Router()
-const Venue = require('../models/baseSchemas/VenueSchema');
-const User = require('../models/baseSchemas/UserSchema');
+const Venue = require('../models/VenueSchema');
+const User = require('../models/UserSchema');
 
 router.post("/login", passport.authenticate("vendor-login"), (req, res) => {
     req.session.vendorID = req.user._id;
@@ -85,6 +85,7 @@ router.post('/deleteGood', (req, res) => {
 
 router.post("/completeOrder", (req, res) => {
     let {userID, venueID, vendorID, orderID} = req.body;
+
     Venue.findOneAndUpdate({"_id": venueID, "vendors": {"$elemMatch": {"_id": vendorID,"orders._id": orderID}}}, {"$set": {"vendors.$[outer].orders.$[inner].completed": true }}, {"arrayFilters": [{ "outer._id": vendorID},{ "inner._id": orderID}]}, function(err) {
         if (err) return res.send({
             success: false,
@@ -103,7 +104,19 @@ router.post("/completeOrder", (req, res) => {
             })
         }
     })
-    
+})
+
+router.post("/cancelOrder", (req, res) => {
+    let {id} = req.body;
+    Venue.findOneAndUpdate({'vendors.orders._id': id}, {$pull: {"vendors.$.orders": {_id: id}}}, function(err, venue) {
+        if (err) return res.send({success: false});
+        else {
+            User.findOneAndUpdate({'orders._id': id}, {$pull: {vendors: {'_id': req.body.id}}}, function(err, user) {
+                if (err) return res.send({success: false});
+                else return res.send({success: true});
+            })
+        }
+    })
 })
 
 module.exports = router;

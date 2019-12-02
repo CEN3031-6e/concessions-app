@@ -9,9 +9,14 @@
 }
 
 .list-item {
-    padding: 2px;
-    margin: 2px;
-    background: #eee;
+  list-style: none;
+  margin: 2px;
+  padding: 2px;
+  background: rgb(226, 239, 244);
+}
+
+.vendor-page-button {
+  margin: 4px;
 }
 
 .reg-link {

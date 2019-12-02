@@ -1,5 +1,6 @@
 import React from 'react'
 import Backdrop from '../../UI/Backdrop/Backdrop'
+import {Button} from 'react-bootstrap'
 import './ShowOrderModal.css'
 
 class ShowOrderModal extends React.Component {
@@ -22,14 +23,13 @@ class ShowOrderModal extends React.Component {
                     <center>
                         <h3>{this.props.order.userName}</h3>
                         <h4>{this.props.order.userEmail}</h4>
-                        <h4>{this.props.order.userID}</h4>
-                        <ul>
-                            {this.props.order.cart.map((good) => {
-                                return <li>{good.name} x{good.quantity} - ${good.price.toFixed(2)}</li>
-                            })}
-                        </ul>
-                        <p>${this.props.order.subtotal.toFixed(2)}</p>
-                        <button onClick={_ => this.props.completeOrder(this.props.order._id)}>Complete Order</button>
+                        {this.props.order.cart.map((good) => {
+                            return <div key={good._id}>{good.name} x{good.quantity} - ${good.price.toFixed(2)}</div>
+                        })}
+                        <br />
+                        <p>Subtotal: ${this.props.order.subtotal.toFixed(2)}</p>
+                        <Button className="vendor-page-button" variant="success" onClick={_ => this.props.completeOrder(this.props.order._id)}>Complete Order</Button>
+                        <Button className="vendor-page-button" variant="danger" onClick={() => this.props.cancelOrder(this.props.order._id)}>Cancel Order</Button>
                     </center>
                 </div>
             </div>

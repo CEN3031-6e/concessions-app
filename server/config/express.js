@@ -7,7 +7,6 @@ const path = require('path'),
     mongoose = require('mongoose'),
     morgan = require('morgan'),
     bodyParser = require('body-parser'),
-    exampleRouter = require('../routes/examples.server.routes'),
     userRouter = require('../routes/users.server.routes'),
     vendorRouter = require('../routes/vendors.server.routes'),
     adminRouter = require('../routes/admin.server.routes');
@@ -57,7 +56,6 @@ module.exports.init = () => {
     });
     
     //Routes
-    app.use('/api/example', exampleRouter);
     app.use('/users', userRouter);
     app.use('/vendors', vendorRouter);
     app.use('/admin', adminRouter);
@@ -72,7 +70,7 @@ module.exports.init = () => {
         });
     }
 
-    return app
+    return app;
 }
 
 

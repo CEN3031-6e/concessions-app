@@ -4,16 +4,15 @@ import Footer from '../../components/Footer/footer'
 import DefaultHome from './DefaultHome'
 import UserHome from './UserHome'
 import VendorHome from './VendorHome'
-import AdminHome from './AdminHome'
 
 function Home(props) {
 
     let pageView = <DefaultHome/>;
 
-    if (props.userType == 'user') {
+    if (props.userType === 'user') {
         pageView = <UserHome user={props.user}/>;
     }
-    else if (props.userType == 'vendor') {
+    else if (props.userType === 'vendor') {
         pageView = <VendorHome user={props.user}/>;
     }
    

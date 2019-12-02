@@ -69,7 +69,7 @@ class Register extends React.Component {
         return (
             <div>
                 <center>
-                <p><h3>User Registration</h3></p>
+                <h3>User Registration</h3>
                 {this.state.registerErrors ? this.state.registerErrors.length > 0
                     ? this.state.registerErrors.map((errMsg, index) => (
                             <p className="register-error-message" key={index}>
@@ -80,7 +80,7 @@ class Register extends React.Component {
                 <form onSubmit={e => this.onSubmit(e)}>
                     <div className="form-group">
                         <label>Name: </label>
-                        <div class="col-sm-4">
+                        <div className="col-sm-4">
                         <input 
                         type="text" 
                         name="name"
@@ -92,7 +92,7 @@ class Register extends React.Component {
                     </div>
                     <div className="form-group">
                         <label>Email: </label>
-                        <div class="col-sm-4">
+                        <div className="col-sm-4">
                         <input 
                         type="email" 
                         name="email"
@@ -104,7 +104,7 @@ class Register extends React.Component {
                     </div>
                     <div className="form-group">
                         <label>Password: </label>
-                        <div class="col-sm-4">
+                        <div className="col-sm-4">
                         <input 
                         type="password" 
                         name="password" 
@@ -116,7 +116,7 @@ class Register extends React.Component {
                     </div>
                     <div className="form-group">
                         <label>Confirm Password: </label>
-                        <div class="col-sm-4">
+                        <div className="col-sm-4">
                         <input 
                         type="password" 
                         name="password2"
