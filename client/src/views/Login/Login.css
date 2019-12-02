@@ -24,3 +24,19 @@
   color: gray;
   font-size: 70px;
 }
+
+.wordimg{
+  position: absolute;
+    width: 40%;
+    height: 25%;
+    left: 30%;
+    top: 45%;
+}
+
+.wordloginimg{
+  position: absolute;
+    width: 25%;
+    height: 15%;
+    left: 38%;
+    top: 70%;
+}
