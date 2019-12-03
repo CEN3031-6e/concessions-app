@@ -102,7 +102,7 @@ render() {
           <Button style={{position: 'absolute',  textAlign:'center',
           right:650,backgroundColor: 'skyblue'}} onClick={this.addCard} > Link your card </Button>
           <Button style={{position: 'absolute',  textAlign:'center',
-          left:797,backgroundColor: 'skyblue'}}  onClick={this.paypal}> Pay for Order </Button>  
+          right:500,backgroundColor: 'skyblue'}}  onClick={this.paypal}> Pay for Order </Button>  
         {this.state.pay ?
           <Button style={{position: 'absolute',
           right:500}} onClick={()=>{this.payOrder();this.clearCart()}}> Pay for Order </Button>:null}
