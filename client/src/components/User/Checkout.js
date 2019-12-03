@@ -1,5 +1,6 @@
 import React from 'react'
 import '../../views/User/User.css'
+import { Redirect, withRouter } from 'react-router-dom'
 import {Button} from 'react-bootstrap'
 import Form from 'react-bootstrap/Form'
 import Card from 'react-bootstrap/Card'
@@ -14,18 +15,38 @@ class Checkout extends React.Component {
 
       this.state = {
         card: false,
-        pay:false
+        pay:false,
+        deleteG:[],
+        please :0,
+        notify: false,
+        finish: false,
+        cart: this.props.cart
       }
   }
     addCard=()=>{
     this.setState({card:!this.state.card})
   }
 
+  clearCart = () => this.props.clearCart();
+
   submitpay=()=>{
     this.setState({pay:!this.state.pay})
 
   }
+  deletingG = (id) =>{
+    this.state.please= this.props.cart.findIndex(good => good.id === this.state.deleteG[0])
 
+      }
+
+    deleted =()=>{
+      this.props.cart.splice(this.state.please,1)
+      this.setState({notify:true})
+    }
+
+    payOrder =()=>{
+      this.setState({finish:true})
+
+    }
 
 render() {
   let subtotal = 0;
@@ -35,16 +56,19 @@ render() {
     return (
 
       <div>
-        
+        {this.state.finish ?
+        <h1 style={{backgroundColor: 'white'}}>PAYMENT SUCCESSFUL! Press Return to go back to homepage</h1> :null}
           <Card  style={{backgroundColor: 'lightblue'}}>
             <Card.Header>CHECKOUT</Card.Header>
+              {this.state.notify ?
+              <Card.Title style={{backgroundColor: 'white'}}> Item has been deleted.</Card.Title>:null}
             <Card.Body>
 
               <Card.Text>
                 <ListGroup>
                     {this.props.cart.map((good) =>
 
-                        <ListGroup.Item variant="light">{good.name} x{good.quantity} - ${(good.price*good.quantity).toFixed(2)}</ListGroup.Item>)}
+                        <ListGroup.Item onClick={()=>{this.deletingG(good.id)}} variant="light">{good.name} x{good.quantity} - ${(good.price*good.quantity).toFixed(2)}</ListGroup.Item>)}
                         <ListGroup.Item >SUBTOTAL: ${subtotal.toFixed(2)}</ListGroup.Item>
                 </ListGroup>
 
@@ -53,10 +77,12 @@ render() {
           </Card>
         <div>
           <Button style={{position: 'absolute',  textAlign:'center',
-          right:800}} onClick={this.addCard}> Link your card </Button>
+          right:800, backgroundColor: 'red'}} id={'delete'} onClick={this.deleted.bind(this)}>Delete</Button>
+          <Button style={{position: 'absolute',  textAlign:'center',
+          right:650,backgroundColor: 'skyblue'}} onClick={this.addCard} > Link your card </Button>
         {this.state.pay ?
           <Button style={{position: 'absolute',
-          right:650}}> Pay for Order </Button>:null}
+          right:500}} onClick={()=>{this.payOrder();this.clearCart()}}> Pay for Order </Button>:null}
         {this.state.card ?
 
           <Form style={{position: 'absolute',  textAlign:'center',
@@ -92,4 +118,4 @@ render() {
 }
 
 }
-export default Checkout;
+export default withRouter(Checkout);

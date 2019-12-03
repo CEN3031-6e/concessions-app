@@ -43,7 +43,7 @@ class User extends React.Component {
         negMessage: "",
 
         checkout: false,
-        card: false
+        card: false,
       };
 
 
@@ -154,7 +154,7 @@ class User extends React.Component {
   }
 
   resetCart = () => this.setState({ cart: [], showingCart: false, posMessage: "Successfully cleared cart.", negMessage: "" });
-  clearCart = () => this.setState({ filter: '', selectedVendor: null, goods: [], cart: [], clearingCart: false });
+  clearCart = () => this.setState({ filter: '', selectedVendor: null, goods: [], cart: [], clearingCart: false, posMessage: "Successfully paid for order.", checkout:false});
 
   toggleAddVenueModal = () => this.setState({ addingVenue: !this.state.addingVenue });
   toggleAddVendorModal = () => this.setState({ addingVendor: !this.state.addingVendor });
@@ -185,6 +185,7 @@ class User extends React.Component {
                 cart={this.state.cart}
                 orders={this.state.orders}
                 card={this.state.card}
+                clearCart={this.clearCart.bind(this)}
                     />
                   :
 

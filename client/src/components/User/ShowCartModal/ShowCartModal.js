@@ -63,7 +63,7 @@ class ShowCartModal extends React.Component {
                     <Button id={'submit'} onClick={this.submitCart.bind(this)}>Submit Cart</Button>
                     <Button id={'return'} onClick={this.modalClose.bind(this)}>Return</Button>
                     <Button id={'clear'} onClick={this.clearCart.bind(this)}>Clear Cart</Button>
-                    <Button id={'delete'} onClick={this.deleted.bind(this)}>Delete</Button>
+                    <Button id={'delete'} style={{backgroundColor: 'red'}} onClick={this.deleted.bind(this)}>Delete</Button>
                     </center>
                 </div>
 
