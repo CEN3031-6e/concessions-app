@@ -97,6 +97,7 @@ render() {
           <Button style={{position: 'absolute',
           right:500}} onClick={()=>{this.payOrder();this.clearCart()}}> Pay for Order </Button>:null} */}
         {this.state.card ?
+          <center>
           <Form style={{position: 'absolute',  textAlign:'center',
           left:400, bottom:0}}>
           <Card style={{backgroundColor: 'skyblue'}}>
@@ -118,6 +119,7 @@ render() {
                       </Button>
                         </Card>
           </Form>
+          </center>
           : ' '}
         </div>
       </div>
