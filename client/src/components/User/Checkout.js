@@ -7,6 +7,7 @@ import Card from 'react-bootstrap/Card'
 import ListGroup from 'react-bootstrap/ListGroup'
 import FormControl from 'react-bootstrap/FormControl'
 import { Row, Col, Grid } from 'react-bootstrap';
+import axios from 'axios'
 
 
 class Checkout extends React.Component {
@@ -22,6 +23,7 @@ class Checkout extends React.Component {
         finish: false,
         cart: this.props.cart
       }
+      this.paypal = this.paypal.bind(this);
   }
     addCard=()=>{
     this.setState({card:!this.state.card})
@@ -47,6 +49,25 @@ class Checkout extends React.Component {
       this.setState({finish:true})
 
     }
+    
+    
+    paypal() {
+
+      let cart = this.props.cart;
+
+      let subtotal = 0;
+       for (let good of this.props.cart) {
+           subtotal += (good.price * good.quantity);
+       }
+        
+      axios.post('/users/pay', {subtotal: subtotal}).then(res => {
+          console.log('returns from backend');
+          //window.location.assign(url);
+          window.open(res.data.paypal_url);
+
+      });
+  }
+    
 
 render() {
   let subtotal = 0;
@@ -80,11 +101,12 @@ render() {
           right:800, backgroundColor: 'red'}} id={'delete'} onClick={this.deleted.bind(this)}>Delete</Button>
           <Button style={{position: 'absolute',  textAlign:'center',
           right:650,backgroundColor: 'skyblue'}} onClick={this.addCard} > Link your card </Button>
+          <button style={{position: 'absolute',
+            right:500}} onClick={this.paypal}> Pay for Order </button>  
         {this.state.pay ?
           <Button style={{position: 'absolute',
           right:500}} onClick={()=>{this.payOrder();this.clearCart()}}> Pay for Order </Button>:null}
         {this.state.card ?
-
           <Form style={{position: 'absolute',  textAlign:'center',
           left:400, bottom:0}}>
           <Card style={{backgroundColor: 'skyblue'}}>
