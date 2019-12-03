@@ -40,7 +40,6 @@ class LoadingPaypal extends React.Component {
 	 	return (
 			<div>
 				{this.state.p1}
-				<Link to="/">Return to Home</Link>
 			</div>
 	 	);
 	} 
