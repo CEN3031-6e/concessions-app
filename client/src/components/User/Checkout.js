@@ -93,9 +93,9 @@ render() {
           right:620,backgroundColor: 'skyblue'}} onClick={this.addCard} > Link your card </Button>
           <Button style={{position: 'absolute',  textAlign:'center',
           right:470,backgroundColor: 'skyblue'}}  onClick={this.paypal}> Pay for Order </Button>  
-        {this.state.pay ?
+        {/* {this.state.pay ?
           <Button style={{position: 'absolute',
-          right:500}} onClick={()=>{this.payOrder();this.clearCart()}}> Pay for Order </Button>:null}
+          right:500}} onClick={()=>{this.payOrder();this.clearCart()}}> Pay for Order </Button>:null} */}
         {this.state.card ?
           <center>
           <Form style={{position: 'absolute',  textAlign:'center',

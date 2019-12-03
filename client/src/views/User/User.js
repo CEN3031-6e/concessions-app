@@ -149,6 +149,37 @@ class User extends React.Component {
     this.setState({ showingCart: false, posMessage: "Please link a card and pay for your order", negMessage: "", submittedOrder: order, checkout: true });
   }
 
+  bypassSubmit = () => {
+    let user = {
+      id: this.props.user.id,
+      name: this.props.user.name,
+      email: this.props.user.email
+    };
+    let vendor = {
+      id: this.state.selectedVendor._id,
+      name: this.state.selectedVendor.name
+    }
+    let subtotal = 0.00;
+    for (let good of this.state.cart) subtotal += (good.price * good.quantity);
+
+    let order = {
+      user,
+      venueID: this.state.selectedVenue._id,
+      vendor,
+      cart: this.state.cart,
+      subtotal,
+      completed: false
+    };
+
+    axios.post('/users/addOrder', order).then(res => {
+      if (res.data.success) {
+        this.setState({ posMessage: "Success!", negMessage: "" });
+        this.updateOrders();
+      }
+      else this.setState({ negMessage: "Failure!", posMessage: "" });
+    })
+  }
+
   resetCart = () => this.setState({ cart: [], showingCart: false, posMessage: "Successfully cleared cart.", negMessage: "" });
   clearCart = () => this.setState({ filter: '', selectedVendor: null, goods: [], cart: [], clearingCart: false, posMessage: "Successfully cleared cart.", checkout:false});
   postCart = () => this.setState({ filter: '', selectedVendor: null, goods: [], cart: [], clearingCart: false, posMessage: "Successfully paid for order.", checkout:false});
@@ -238,6 +269,7 @@ class User extends React.Component {
               {this.state.selectedVendor ? <Button className="user-button" onClick={this.toggleShowCartModal.bind(this)}>My Cart</Button> : null}
               <Button className="user-button" onClick={this.toggleShowOrdersModal.bind(this)}>My Orders</Button>
               {!this.state.checkout ? <Search filterValue={this.state.filter} filterUpdate={this.filterUpdate.bind(this)}/>: null}
+              {this.state.cart.length > 0 ? <Button className="user-button" onClick={this.bypassSubmit.bind(this)}>Bypass Paypal</Button> : null}
               <p className="pos-message">{this.state.posMessage}</p>
               <p className="neg-message">{this.state.negMessage}</p>
               </center>
