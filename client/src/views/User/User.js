@@ -32,6 +32,7 @@ class User extends React.Component {
         cart: [],
         orders: [],
 
+
         addingVenue: false,
         addingVendor: false,
         showingCart: false,
@@ -114,6 +115,7 @@ class User extends React.Component {
       this.setState({filter: '', cart: cart, showingGood: false, posMessage: "Added " + quantity + " " + name + " to cart.", negMessage: "" });
     }
   }
+
   something(){
     this.setState((prevState) =>({checkout:true}))
     console.log("checkout"+this.state.checkout)
