@@ -192,9 +192,9 @@ class Login extends React.Component {
             <Button className="loginButton" onClick={this.resetRole.bind(this)}>Return</Button>
           </form>
         </div>
-        <div className = "wordloginimg">
+        {this.state.role === '' ? <div className = "wordloginimg">
               <img className="wordCloud" src={wordCloud} alt="Words" width="100%" height="200%"></img>
-        </div>
+        </div> : null}
       </div>
       </center>
 
