@@ -101,8 +101,8 @@ render() {
           right:800, backgroundColor: 'red'}} id={'delete'} onClick={this.deleted.bind(this)}>Delete</Button>
           <Button style={{position: 'absolute',  textAlign:'center',
           right:650,backgroundColor: 'skyblue'}} onClick={this.addCard} > Link your card </Button>
-          <button style={{position: 'absolute',
-            right:500}} onClick={this.paypal}> Pay for Order </button>  
+          <Button style={{position: 'absolute',  textAlign:'center',
+          right:650,backgroundColor: 'skyblue'}}  onClick={this.paypal}> Pay for Order </Button>  
         {this.state.pay ?
           <Button style={{position: 'absolute',
           right:500}} onClick={()=>{this.payOrder();this.clearCart()}}> Pay for Order </Button>:null}
