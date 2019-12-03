@@ -11,6 +11,7 @@ import NotFound from "./views/NotFound/NotFound"
 import Login from "./views/Login/Login"
 import AuthenticatedComponent from "./components/AuthenticatedComponent/AuthenticatedComponent"
 import Protected from "./components/ProtectedRoute/ProtectedRoute"
+import LoadingPaypal from "./components/User/LoadingPaypal"
 
 class App extends React.Component {
 
@@ -101,6 +102,7 @@ class App extends React.Component {
             render={(props) => <Home userType={this.state.userRole} user={this.state.user} />}
           />
           <Route exact path="/"><Redirect to="/home"/></Route>
+          <Route path="/success" render={() => <LoadingPaypal/>}/>
           <Route exact path="/register" render={() => <Register loggedIn={this.state.loggedIn}/>}/>
           <Route exact path="/login" render={() => <Login setUserRole={this.setUserRole} loggedIn={this.state.loggedIn} login={this.login}/>}/>
           <AuthenticatedComponent verify={this.verify}>

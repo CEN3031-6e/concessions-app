@@ -4,6 +4,16 @@ const passport = require('passport')
 const router = express.Router()
 const User = require('../models/UserSchema');
 const Venue = require('../models/VenueSchema');
+const paypal = require('paypal-rest-sdk');
+
+paypal.configure({
+  'mode': 'sandbox', //sandbox or live
+  'client_id': 'AeXyaba9NU8B2YXTuT4m5DKI4TzWy4370mjw9x_xb7U3JKyK6Z6Eogvv5tcXBO2fYrJIT8VhrjiZ5hyp',
+  'client_secret': 'ENPUczICmc6qb48jv0LQA6i-0lEvpI_ORJieAmM2p4UVL4uyWM7KTUAN1AwU8AyCI6YqgIp1xumUT56Q'
+});
+
+
+let currentSubtotal = '';
 
 //Verify - this is for the frontend
 router.get("/verify", (req, res) => {
@@ -181,5 +191,111 @@ router.post("/register", (req, res) => {
       });
     })
   })
+
+  //register payment
+  router.post('/pay', (req, res) => {
+
+
+     let {subtotal} = req.body;
+
+     currentSubtotal = subtotal.toString();
+
+     var defPayment = {
+      "intent": "sale",
+    "payer": {
+        "payment_method": "paypal"
+    },
+    "redirect_urls": {
+        "return_url": "http://localhost:3000/success",
+        "cancel_url": "http://localhost:3000/failure"
+    },
+    "transactions": [{
+        "item_list": {
+            "items": [{
+                "name": "Vendr order",
+                "sku": "001",
+                "price": currentSubtotal,
+                "currency": "USD",
+                "quantity": 1
+            }]
+        },
+        "amount": {
+            "currency": "USD",
+            "total": currentSubtotal
+        },
+        "description": "Order at Vendr"
+    }]
+};
+
+    paypal.payment.create(defPayment, function(error, payment){
+
+      if(error){
+        console.error(JSON.stringify(error));
+      } else {
+
+        for(let i = 0; i < payment.links.length; i++){
+          if (payment.links[i].rel === 'approval_url') {
+
+            //res.redirect(payment.links[i].href);
+            res.send({paypal_url: payment.links[i].href});
+          }
+        }
+        
+      }
+  });
+
+  })
+
+
+   router.post('/executepayment', (req, res) => {
+
+console.log()
+console.log()
+console.log()
+    console.log('executepayment')
+
+      console.log(req.body);
+      
+      const paymentId = req.body.paymentId;
+      const payerId = req.body.PayerID;
+
+
+      console.log('paymentId')
+console.log(paymentId)
+console.log('payerId')
+console.log(payerId)
+
+    const execute_payment = {
+    payer_id: payerId,
+    transactions: [{
+        amount: {
+            currency: "USD",
+            total: currentSubtotal
+        }
+    }]
+  };
+
+    console.log('subtotal')
+    console.log(currentSubtotal);
+
+      
+
+      paypal.payment.execute(paymentId, execute_payment, function(error, payment){
+          if(error){
+            console.error(JSON.stringify(error));
+          } else {
+            if (payment.state == 'approved'){
+              console.log('payment completed successfully');
+              res.send({success: true});
+            } else {
+              console.log('payment not successful');
+              res.send({success: false});
+            }
+          }
+      });
+
+   })
+
+
 
 module.exports = router;
