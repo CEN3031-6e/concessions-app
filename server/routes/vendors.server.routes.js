@@ -19,7 +19,7 @@ router.post("/login", passport.authenticate("vendor-login"), (req, res) => {
 router.get('/goods', (req, res) => {
     const { venueID, linkedID } = req.query;
     Venue.findOne({'_id': venueID}, function(err, venue) {
-        if (err) return res.send({
+        if (err || !venue) return res.send({
             success: false,
             goods: []
         });
@@ -33,7 +33,7 @@ router.get('/goods', (req, res) => {
 router.get('/orders', (req, res) => {
     const { venueID, linkedID } = req.query;
     Venue.findOne({'_id': venueID}, function(err, venue) {
-        if (err) return res.send({
+        if (err || !venue) return res.send({
             success: false,
             orders: []
         });
