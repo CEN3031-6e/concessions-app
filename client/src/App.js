@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Route, Switch, Redirect  } from 'react-router-dom'
+import { Router, Route, Switch, Redirect, Link } from 'react-router-dom'
 import axios from 'axios'
 import history from './history'
 import Header from "./components/Header/Header"
@@ -103,6 +103,7 @@ class App extends React.Component {
           />
           <Route exact path="/"><Redirect to="/home"/></Route>
           <Route path="/success" render={() => <LoadingPaypal/>}/>
+          <Route path="/failure" render={() => <div><p>Payment failed.</p><Link to="/">Return to Home.</Link></div>}/>
           <Route exact path="/register" render={() => <Register loggedIn={this.state.loggedIn}/>}/>
           <Route exact path="/login" render={() => <Login setUserRole={this.setUserRole} loggedIn={this.state.loggedIn} login={this.login}/>}/>
           <AuthenticatedComponent verify={this.verify}>

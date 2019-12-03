@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import { Router, Route, Switch, Redirect  } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 class LoadingPaypal extends React.Component {
 
@@ -40,6 +40,7 @@ class LoadingPaypal extends React.Component {
 	 	return (
 			<div>
 				{this.state.p1}
+				<Link to="/">Return to Home</Link>
 			</div>
 	 	);
 	} 
