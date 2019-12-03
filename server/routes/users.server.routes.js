@@ -192,96 +192,109 @@ router.get('/orders', (req, res) => {
   })
 })
 
-//Register payment
-router.post('/pay', (req, res) => {
+ //register payment
+ router.post('/pay', (req, res) => {
 
-    let {subtotal} = req.body;
-    currentSubtotal = subtotal.toString();
 
-    var defPayment = {
-    "intent": "sale",
-    "payer": {
-        "payment_method": "paypal"
-    },
-    "redirect_urls": {
-        "return_url": "https://onlinevendr.herokuapp.com/success",
-        "cancel_url": "https://onlinevendr.herokuapp.com/failure"
-    },
-    "transactions": [{
-        "item_list": {
-            "items": [{
-                "name": "Vendr order",
-                "sku": "001",
-                "price": currentSubtotal,
-                "currency": "USD",
-                "quantity": 1
-            }]
-        },
-        "amount": {
-            "currency": "USD",
-            "total": currentSubtotal
-        },
-        "description": "Order at Vendr"
-    }]
-  };
+  let {subtotal} = req.body;
 
-  paypal.payment.create(defPayment, function(error, payment) {
-    if (error) {
-      console.error(JSON.stringify(error));
-    } else {
-      for(let i = 0; i < payment.links.length; i++){
-        if (payment.links[i].rel === 'approval_url') {
-          //res.redirect(payment.links[i].href);
-          res.send({paypal_url: payment.links[i].href});
-        }
-      }  
-    }
-  });
+  currentSubtotal = subtotal.toString();
+
+  var defPayment = {
+   "intent": "sale",
+ "payer": {
+     "payment_method": "paypal"
+ },
+ "redirect_urls": {
+     "return_url": "http://localhost:3000/success",
+     "cancel_url": "http://localhost:3000/failure"
+ },
+ "transactions": [{
+     "item_list": {
+         "items": [{
+             "name": "Vendr order",
+             "sku": "001",
+             "price": currentSubtotal,
+             "currency": "USD",
+             "quantity": 1
+         }]
+     },
+     "amount": {
+         "currency": "USD",
+         "total": currentSubtotal
+     },
+     "description": "Order at Vendr"
+ }]
+};
+
+ paypal.payment.create(defPayment, function(error, payment){
+
+   if(error){
+     console.error(JSON.stringify(error));
+   } else {
+
+     for(let i = 0; i < payment.links.length; i++){
+       if (payment.links[i].rel === 'approval_url') {
+
+         //res.redirect(payment.links[i].href);
+         res.send({paypal_url: payment.links[i].href});
+       }
+     }
+
+   }
+});
+
 })
 
 
 router.post('/executepayment', (req, res) => {
 
-  console.log()
-  console.log()
-  console.log()
-  console.log('executepayment')
-  console.log(req.body);
-    
-  const paymentId = req.body.paymentId;
-  const payerId = req.body.payerID;
+console.log()
+console.log()
+console.log()
+ console.log('executepayment')
 
-  console.log('paymentId')
-  console.log(paymentId)
-  console.log('payerId')
-  console.log(payerId)
+   console.log(req.body);
 
-  const execute_payment = {
-    payer_id: payerId,
-    transactions: [{
-        amount: {
-          currency: "USD",
-          total: currentSubtotal
-        }
-    }]
-  };
+   const paymentId = req.body.paymentId;
+   const payerId = req.body.PayerID;
 
-  console.log('subtotal')
-  console.log(currentSubtotal);
 
-  paypal.payment.execute(paymentId, execute_payment, function(error, payment) {
-    if (error) {
-      console.error(JSON.stringify(error));
-    } else {
-      if (payment.state == 'approved') {
-        console.log('payment completed successfully');
-        res.send({success: true});
-      } else {
-        console.log('payment not successful');
-        res.send({success: false});
-      }
-    }
-  });
+   console.log('paymentId')
+console.log(paymentId)
+console.log('payerId')
+console.log(payerId)
+
+ const execute_payment = {
+ payer_id: payerId,
+ transactions: [{
+     amount: {
+         currency: "USD",
+         total: currentSubtotal
+     }
+ }]
+};
+
+ console.log('subtotal')
+ console.log(currentSubtotal);
+
+
+
+   paypal.payment.execute(paymentId, execute_payment, function(error, payment){
+       if(error){
+         console.error(JSON.stringify(error));
+       } else {
+         if (payment.state == 'approved'){
+           console.log('payment completed successfully');
+           res.send({success: true});
+         } else {
+           console.log('payment not successful');
+           res.send({success: false});
+         }
+       }
+   });
+
 })
+
 
 module.exports = router;
