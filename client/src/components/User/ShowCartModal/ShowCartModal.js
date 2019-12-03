@@ -57,10 +57,8 @@ class ShowCartModal extends React.Component {
                     {this.state.notify ?
                     <p style={{backgroundColor: 'white'}}> Item has been deleted.</p>:null}
                       <ListGroup>
-                    {this.props.cart.map((good) => <ListGroup.Item onClick={()=>{this.deletingG(good.id)}}  ><div key={good.id}>{good.name} x{good.quantity} - ${good.price.toFixed(2)}</div></ListGroup.Item >)}
-
-
-                    </ListGroup>
+                        {this.props.cart.map((good) => <ListGroup.Item key={good.id} onClick={()=>{this.deletingG(good.id)}}  ><div key={good.id}>{good.name} x{good.quantity} - ${(good.quantity * good.price).toFixed(2)}</div></ListGroup.Item >)}
+                      </ListGroup>
                     <p>Subtotal: ${subtotal.toFixed(2)}</p>
                     <Button id={'submit'} onClick={this.submitCart.bind(this)}>Submit Cart</Button>
                     <Button id={'return'} onClick={this.modalClose.bind(this)}>Return</Button>

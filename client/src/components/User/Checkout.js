@@ -16,66 +16,57 @@ class Checkout extends React.Component {
 
       this.state = {
         card: false,
-        pay:false,
-        deleteG:[],
-        please :0,
+        pay: false,
+        deleteG: [],
+        please: 0,
         notify: false,
         finish: false,
-        cart: this.props.cart
+        cart: this.props.submittedOrder.cart,
+        subtotal: this.props.submittedOrder.subtotal,
       }
+
       this.paypal = this.paypal.bind(this);
   }
-    addCard=()=>{
-    this.setState({card:!this.state.card})
+
+  addCard = () => {
+    this.setState({ card:!this.state.card });
   }
 
   clearCart = () => this.props.clearCart();
 
-  submitpay=()=>{
-    this.setState({pay:!this.state.pay})
-
+  submitpay = () => {
+    this.setState({ pay:!this.state.pay });
   }
+
   deletingG = (id) =>{
-    this.state.please= this.props.cart.findIndex(good => good.id === this.state.deleteG[0])
+    this.setState({ please: this.state.cart.findIndex(good => good.id === this.state.deleteG[0]) });
+  }
 
-      }
+  deleted = () => {
+    let newSubtotal = this.state.subtotal;
+    newSubtotal -= (this.state.cart[this.state.please].quantity * this.state.cart[this.state.please].price);
+    let newCart = this.state.cart;
+    newCart.slice(this.state.please, 1);
 
-    deleted =()=>{
-      this.props.cart.splice(this.state.please,1)
-      this.setState({notify:true})
-    }
+    this.setState({ cart: newCart, subtotal: newSubtotal, notify:true });
+  }
 
-    payOrder =()=>{
-      this.setState({finish:true})
-
-    }
+  payOrder = () => {
+    this.setState({ finish:true });
+  }
     
     
-    paypal() {
-
-      let cart = this.props.cart;
-
-      let subtotal = 0;
-       for (let good of this.props.cart) {
-           subtotal += (good.price * good.quantity);
-       }
-        
-      axios.post('/users/pay', {subtotal: subtotal}).then(res => {
-          console.log('returns from backend');
-          //window.location.assign(url);
-          window.open(res.data.paypal_url);
-
-      });
+  paypal = () => {
+    axios.post('/users/pay', {subtotal: this.state.subtotal}).then(res => {
+      console.log('returns from backend');
+      //window.location.assign(url);
+      window.open(res.data.paypal_url);
+    });
   }
     
 
 render() {
-  let subtotal = 0;
-  for (let good of this.props.cart) {
-      subtotal += (good.price * good.quantity);
-  }
     return (
-
       <div>
         {this.state.finish ?
         <h1 style={{backgroundColor: 'white'}}>PAYMENT SUCCESSFUL! Press Return to go back to homepage</h1> :null}
@@ -87,10 +78,9 @@ render() {
 
               <Card.Text>
                 <ListGroup>
-                    {this.props.cart.map((good) =>
-
-                        <ListGroup.Item onClick={()=>{this.deletingG(good.id)}} variant="light">{good.name} x{good.quantity} - ${(good.price*good.quantity).toFixed(2)}</ListGroup.Item>)}
-                        <ListGroup.Item >SUBTOTAL: ${subtotal.toFixed(2)}</ListGroup.Item>
+                    {this.state.cart.map((good) =>
+                        <ListGroup.Item key={good.id} onClick={()=>{this.deletingG(good.id)}} variant="light">{good.name} x{good.quantity} - ${(good.price*good.quantity).toFixed(2)}</ListGroup.Item>)}
+                        <ListGroup.Item >SUBTOTAL: ${this.state.subtotal.toFixed(2)}</ListGroup.Item>
                 </ListGroup>
 
               </Card.Text>
@@ -128,16 +118,11 @@ render() {
                       </Button>
                         </Card>
           </Form>
-
           : ' '}
-
-
         </div>
-
-
       </div>
     )
+  }
 }
 
-}
 export default withRouter(Checkout);

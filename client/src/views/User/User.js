@@ -44,6 +44,7 @@ class User extends React.Component {
 
         checkout: false,
         card: false,
+        submittedOrder: null,
       };
 
 
@@ -90,7 +91,7 @@ class User extends React.Component {
 
   selectGood = (id) => {
     this.setState({selectedGood: this.state.goods.find((good) => good._id === id), showingGood: true })
-    console.log("checkout"+this.state.checkout)
+    // console.log("checkout"+this.state.checkout)
   }
 
   updateVenues = () => axios.get('/admin/venues').then(res => this.setState({ venues: res.data.venues }));
@@ -117,8 +118,9 @@ class User extends React.Component {
   }
 
   something(){
-    this.setState((prevState) =>({checkout:true}))
-    console.log("checkout"+this.state.checkout)
+    // this.setState((prevState) =>({checkout:true}))
+    this.setState({ checkout: true });
+    // console.log("checkout"+this.state.checkout)
 
   }
   submitCart = () => {
@@ -144,17 +146,12 @@ class User extends React.Component {
       completed: false
     };
 
-    axios.post('/users/addOrder', order).then(res => {
-      if (res.data.success) {
-        this.setState({ showingCart: false, posMessage: "Successfully submitted order.", negMessage: "" });
-        this.updateOrders();
-          this.something();
-      } else this.setState({ showingCart: false, negMessage: "Failed to submit order.", posMessage: "" });
-    })
+    this.setState({ showingCart: false, posMessage: "Please link a card and pay for your order", negMessage: "", submittedOrder: order, checkout: true });
   }
 
   resetCart = () => this.setState({ cart: [], showingCart: false, posMessage: "Successfully cleared cart.", negMessage: "" });
-  clearCart = () => this.setState({ filter: '', selectedVendor: null, goods: [], cart: [], clearingCart: false, posMessage: "Successfully paid for order.", checkout:false});
+  clearCart = () => this.setState({ filter: '', selectedVendor: null, goods: [], cart: [], clearingCart: false, posMessage: "Successfully cleared cart.", checkout:false});
+  postCart = () => this.setState({ filter: '', selectedVendor: null, goods: [], cart: [], clearingCart: false, posMessage: "Successfully paid for order.", checkout:false});
 
   toggleAddVenueModal = () => this.setState({ addingVenue: !this.state.addingVenue });
   toggleAddVendorModal = () => this.setState({ addingVendor: !this.state.addingVendor });
@@ -181,11 +178,12 @@ class User extends React.Component {
           <h1>{this.state.selectedVendor.name}</h1>
             {this.state.checkout ?
               <Checkout
+                submittedOrder={this.state.submittedOrder}
                 selectedVendor={this.state.selectedVendor}
                 cart={this.state.cart}
                 orders={this.state.orders}
                 card={this.state.card}
-                clearCart={this.clearCart.bind(this)}
+                postCart={this.postCart.bind(this)}
                     />
                   :
 
