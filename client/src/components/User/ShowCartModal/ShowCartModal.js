@@ -4,6 +4,8 @@ import {Button} from 'react-bootstrap'
 import './ShowCartModal.css'
 import Card from 'react-bootstrap/Card'
 import ListGroup from 'react-bootstrap/ListGroup'
+import Form from 'react-bootstrap/Form'
+import FormControl from 'react-bootstrap/FormControl'
 
 class ShowCartModal extends React.Component {
 
