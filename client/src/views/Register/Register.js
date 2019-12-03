@@ -139,9 +139,6 @@ class Register extends React.Component {
                     </center>
                 </form>
                 </center>
-                <div className = "wordloginimg">
-                    <img className="wordCloud" src={wordCloud} alt="Words" width="100%" height="200%"></img>
-                </div> 
             </div>
         );
     }
