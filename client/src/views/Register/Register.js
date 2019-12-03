@@ -70,7 +70,7 @@ class Register extends React.Component {
         return (
             <div>
                 <center>
-                <h3>User Registration</h3>
+                <h3 className = "register_title">User Registration</h3>
                 {this.state.registerErrors ? this.state.registerErrors.length > 0
                     ? this.state.registerErrors.map((errMsg, index) => (
                             <p className="register-error-message" key={index}>
