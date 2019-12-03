@@ -146,7 +146,13 @@ class User extends React.Component {
       completed: false
     };
 
-    this.setState({ showingCart: false, posMessage: "Please link a card and pay for your order", negMessage: "", submittedOrder: order, checkout: true });
+    axios.post('/users/addOrder', order).then(res => {
+      if (res.data.success) {
+        this.setState({ showingCart: false, submittedOrder: order, posMessage: "Success!", negMessage: "", checkout: true });
+        this.updateOrders();
+      }
+      else this.setState({ showingCart: false, negMessage: "Failure!", posMessage: "" });
+    })
   }
 
   bypassSubmit = () => {
