@@ -206,8 +206,8 @@ router.post("/register", (req, res) => {
         "payment_method": "paypal"
     },
     "redirect_urls": {
-        "return_url": "http://localhost:3000/success",
-        "cancel_url": "http://localhost:3000/failure"
+        "return_url": "https://onlinevendr.herokuapp.com/success",
+        "cancel_url": "https://onlinevendr.herokuapp.com/failure"
     },
     "transactions": [{
         "item_list": {
