@@ -23,14 +23,10 @@ class LoadingPaypal extends React.Component {
 		}
 
 
+		console.log("Executing payment.");
 		axios.post('/users/executepayment', request).then(res => {
 			console.log(res);
-			if (res.data.success) {
-				axios.post('/users/addOrder', this.state.submittedOrder).then(res => {
-					if (res.data.success) this.setState({p1: <p> Payment successful. Order has been processed. </p>} );
-					else this.setState({p1: <p> There was a failure while processing the order. </p>} );
-				}) 
-			}
+			if (res.data.success) this.setState({p1: <p> Payment successful. Order has been processed. </p>} );
 			else this.setState({p1: <p> There was a failure while processing payment. </p>} );	 		
 		});
   	}
