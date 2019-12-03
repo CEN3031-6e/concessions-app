@@ -1,4 +1,5 @@
 import React from 'react'
+import {Button} from 'react-bootstrap'
 import '../../views/User/User.css'
 
 export default (props) => {
@@ -16,13 +17,13 @@ export default (props) => {
             <div className="list-item" key={venue._id}>
                 <h2>{venue.name}</h2>
                 <p>{venue.address}</p>
-                <button onClick={selectVenue} id={venue._id}>Select Venue</button>
-                {props.adminPriv ? <button onClick={deleteVenue} id={venue._id}>Delete Venue</button> : null}
+                <Button className="select-button" onClick={selectVenue} id={venue._id}>Select Venue</Button>
+                {props.adminPriv ? <Button className="select-button" onClick={deleteVenue} id={venue._id}>Delete Venue</Button> : null}
             </div>
         );
     });
     
-    let addVenue = props.adminPriv ? <button onClick={props.openModal}>Add New Venue</button> : null;
+    let addVenue = props.adminPriv ? <Button className="select-button" onClick={props.openModal}>Add New Venue</Button> : null;
 
     return (
         <div>

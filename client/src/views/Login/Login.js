@@ -2,6 +2,10 @@ import React from 'react'
 import { Redirect, withRouter } from 'react-router-dom'
 import './Login.css'
 import {Button} from 'react-bootstrap'
+import wordCloud from './wordcloud.jpg'
+import Card from 'react-bootstrap/Card'
+import Form from 'react-bootstrap/Form'
+import FormControl from 'react-bootstrap/FormControl'
 
 class Login extends React.Component {
 
@@ -20,6 +24,8 @@ class Login extends React.Component {
       loginError: '',
       isLoading: false,
       redirTo: '/login',
+      forget:false,
+      sent:false,
       user: {}
     };
   }
@@ -28,6 +34,13 @@ class Login extends React.Component {
   setRoleVendor = () => this.setState({role: 'Vendor'});
   resetRole = () => this.setState({role: '', loginError: ''});
   onChange = (e) => this.setState({[e.target.name]: e.target.value});
+  forgetP=()=>{
+    this.setState({forget:true})
+  }
+  emailSent=()=>{
+    this.setState({forget:false})
+    this.setState({sent:true})
+  }
 
   onSubmit(e) {
     this.setState({isLoading: true});
@@ -40,6 +53,7 @@ class Login extends React.Component {
       role
     };
 
+
     //User login
     if (role === 'User') {
       this.props.login('/users/login', user, data => {
@@ -51,7 +65,7 @@ class Login extends React.Component {
             isLoading: false,
             redirTo: "/users"
           });
-          
+
           this.props.setUserRole('user');
         } else {
           this.setState({
@@ -62,7 +76,7 @@ class Login extends React.Component {
           });
         }
       });
-    } 
+    }
 
     //Vendor login
     else if (role === 'Vendor') {
@@ -87,7 +101,7 @@ class Login extends React.Component {
       })
     }
   }
-  
+
   render() {
 
     if (this.props.loggedIn) return <Redirect to={this.state.redirTo}/>;
@@ -100,6 +114,9 @@ class Login extends React.Component {
           <h1 className="login">Login Page</h1>
           <Button className="loginButton" onClick={this.setRoleUser}>User</Button>
           <Button className="loginButton" onClick={this.setRoleVendor}>Vendor</Button>
+          <div className = "wordimg">
+              <img className="wordCloud" src={wordCloud} alt="Words" width="100%" height="200%"></img>
+          </div>
           </center>
         </div>
       );
@@ -112,6 +129,26 @@ class Login extends React.Component {
           <div className="login-input-container">
             <h3 className="login">{this.state.role} Login</h3>
             <br />
+            {this.state.sent? <p>Check your email to reset Password!</p> : null}
+            {this.state.forget ?
+              <Card  style={{backgroundColor: 'lightblue'}}>
+                <Card.Header>Forgot Password</Card.Header>
+                  {this.state.notify ?
+                  <Card.Title style={{backgroundColor: 'white'}}> Enter email</Card.Title>:null}
+                <Card.Body>
+
+                  <Card.Text>
+                    <Form style={{
+                    left:650}}>
+                    <Form.Control placeholder="email@email.com" />
+                      <Button onClick={this.emailSent}>
+                          Submit
+                          </Button>
+                    </Form>
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+               : null}
           </div>
           {this.state.loginError ? <p>{this.state.loginError}</p> : null}
           <form
@@ -127,7 +164,7 @@ class Login extends React.Component {
                 name="email"
                 placeholder="Enter Email"
                 required
-                className="login-input"
+                className="form-control"
                 value={this.state.email}
                 onChange={e => this.onChange(e)}
               />
@@ -142,7 +179,7 @@ class Login extends React.Component {
                 name="password"
                 placeholder="Enter Password"
                 required
-                className="login-input"
+                className="form-control"
                 value={this.state.password}
                 onChange={e => this.onChange(e)}
               />
@@ -151,13 +188,16 @@ class Login extends React.Component {
             <div className="login-input-container">
               <input type="submit" value="Login" className="loginButton" />
             </div>
-            <Button className="loginButton">Forgot password?</Button>
+            <Button className="loginButton" onClick={this.forgetP}>Forgot password?</Button>
             <Button className="loginButton" onClick={this.resetRole.bind(this)}>Return</Button>
           </form>
         </div>
+        <div className = "wordloginimg">
+              <img className="wordCloud" src={wordCloud} alt="Words" width="100%" height="200%"></img>
+        </div>
       </div>
       </center>
-            
+
     );
   }
 }

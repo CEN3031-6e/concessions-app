@@ -32,36 +32,60 @@ class User extends React.Component {
         cart: [],
         orders: [],
 
+
         addingVenue: false,
         addingVendor: false,
         showingCart: false,
         clearingCart: false,
         showingOrders: false,
-        checkout: false
+
+        posMessage: "",
+        negMessage: "",
+
+        checkout: false,
+        card: false,
       };
 
 
   }
   returnPage = () => {
       if (this.state.selectedVendor){
-        this.toggleClearCartModal();this.setState({checkout:false})
+        this.toggleClearCartModal();
+        this.setState({ checkout:false })
       }
-      else if (this.state.selectedVenue) this.setState({filter: '', selectedVenue: null, checkout:false});
+      else if (this.state.selectedVenue) this.setState({ filter: '', selectedVenue: null, checkout:false });
       else this.props.history.push('/home');
   }
 
   filterUpdate(event) {
-      this.setState({filter: event.target.value});
+      this.setState({ filter: event.target.value });
   }
 
   selectVenue = (id) => {
-      this.setState({filter: '', selectedVenue: this.state.venues.find((venue) => venue._id === id)});
+      this.setState({ filter: '', selectedVenue: this.state.venues.find((venue) => venue._id === id) });
       this.updateVendors(id);
+  }
+  deleteVenue = (id) => {
+    axios.post('/admin/deleteVenue', {id}).then(res => {
+      if (res.data.success) {
+        this.setState({ posMessage: "Successfully deleted vendor.", negMessage: "" });
+        this.updateVenues();
+      } else this.setState({ negMessage: "Failed to delete venue.", posMessage: "" });
+    })
   }
 
   selectVendor = (id) => {
     this.setState({filter: '', selectedVendor: this.state.vendors.find((vendor) => vendor._id === id)});
     this.updateGoods(this.state.selectedVenue._id, id);
+  }
+  deleteVendor = (id) => {
+    let venueID = this.state.selectedVenue._id;
+    axios.post('/admin/deleteVendor', {venueID, id}).then(res => {
+      if (res.data.success) {
+        this.setState({ posMessage: "Successfully deleted vendor.", negMessage: "" });
+        this.updateVendors(venueID);
+      } else this.setState({ negMessage: "Failed to delete vendor.", posMessage: "" });
+    })
   }
 
   selectGood = (id) => {
@@ -75,19 +99,23 @@ class User extends React.Component {
   updateOrders = () => axios.get('/users/orders', {params: {userID: this.props.user.id}}).then(res => this.setState({orders: res.data.orders}));
 
   addGood = (quantity) => {
-    const name = this.state.selectedGood.name;
-    const price = this.state.selectedGood.price;
-    const id = this.state.selectedGood._id;
-    const good = {
-      id,
-      name,
-      price,
-      quantity
+    if (!this.state.selectedGood) this.setState({filter: '', showingGood: false, posMessage: "", negMessage: "Failed to add good to cart." });
+    else {
+      const name = this.state.selectedGood.name;
+      const price = this.state.selectedGood.price;
+      const id = this.state.selectedGood._id;
+      const good = {
+        id,
+        name,
+        price,
+        quantity
+      }
+      let cart = this.state.cart;
+      cart.push(good);
+      this.setState({filter: '', cart: cart, showingGood: false, posMessage: "Added " + quantity + " " + name + " to cart.", negMessage: "" });
     }
-    let cart = this.state.cart;
-    cart.push(good);
-    this.setState({filter: '', cart: cart, showingGood: false});
   }
+
   something(){
     this.setState((prevState) =>({checkout:true}))
     console.log("checkout"+this.state.checkout)
@@ -118,13 +146,15 @@ class User extends React.Component {
 
     axios.post('/users/addOrder', order).then(res => {
       if (res.data.success) {
-        this.toggleShowCartModal();
+        this.setState({ showingCart: false, posMessage: "Successfully submitted order.", negMessage: "" });
         this.updateOrders();
           this.something();
-      } else console.log("Something went wrong");
+      } else this.setState({ showingCart: false, negMessage: "Failed to submit order.", posMessage: "" });
     })
   }
-  clearCart= () => this.setState({filter: '', selectedVendor: null, goods: [], cart: [], clearingCart: false});
+
+  resetCart = () => this.setState({ cart: [], showingCart: false, posMessage: "Successfully cleared cart.", negMessage: "" });
+  clearCart = () => this.setState({ filter: '', selectedVendor: null, goods: [], cart: [], clearingCart: false, posMessage: "Successfully paid for order.", checkout:false});
 
   toggleAddVenueModal = () => this.setState({ addingVenue: !this.state.addingVenue });
   toggleAddVendorModal = () => this.setState({ addingVendor: !this.state.addingVendor });
@@ -136,8 +166,6 @@ class User extends React.Component {
 
   componentDidMount = () => {
     this.updateVenues();
-    this.updateVendors();
-    this.updateGoods();
     this.updateOrders();
   }
 
@@ -156,6 +184,8 @@ class User extends React.Component {
                 selectedVendor={this.state.selectedVendor}
                 cart={this.state.cart}
                 orders={this.state.orders}
+                card={this.state.card}
+                clearCart={this.clearCart.bind(this)}
                     />
                   :
 
@@ -174,6 +204,7 @@ class User extends React.Component {
           <Vendors
             vendors={this.state.vendors}
             selectVendor={this.selectVendor.bind(this)}
+            deleteVendor={this.deleteVendor.bind(this)}
             filter={this.state.filter}
             adminPriv={adminPriv}
             openModal={this.toggleAddVendorModal.bind(this)}/>
@@ -186,6 +217,7 @@ class User extends React.Component {
           <Venues
             venues={this.state.venues}
             selectVenue={this.selectVenue.bind(this)}
+            deleteVenue={this.deleteVenue.bind(this)}
             filter={this.state.filter}
             adminPriv={adminPriv}
             openModal={this.toggleAddVenueModal.bind(this)}/>
@@ -198,7 +230,7 @@ class User extends React.Component {
         {this.state.addingVenue ? <AddVenueModal show={true} addVenue={this.updateVenues.bind(this)} modalClose={this.toggleAddVenueModal.bind(this)}/> : null}
         {this.state.addingVendor ? <AddVendorModal show={true} selectedVenue={this.state.selectedVenue} addVendor={this.updateVendors.bind(this)} modalClose={this.toggleAddVendorModal.bind(this)}/> : null}
         {this.state.showingGood ? <ShowGoodModal show={true} good={this.state.selectedGood} addGood={this.addGood.bind(this)} modalClose={this.toggleShowGoodModal.bind(this)} /> : null}
-        {this.state.showingCart ? <ShowCartModal show={true} cart={this.state.cart} submitCart={this.submitCart.bind(this)} modalClose={this.toggleShowCartModal.bind(this)} /> : null}
+        {this.state.showingCart ? <ShowCartModal show={true} cart={this.state.cart} submitCart={this.submitCart.bind(this)} clearCart={this.resetCart.bind(this)} modalClose={this.toggleShowCartModal.bind(this)} /> : null}
         {this.state.clearingCart ? <ClearCartModal show={true} clearCart={this.clearCart.bind(this)} modalClose={this.toggleClearCartModal.bind(this)} /> : null}
         {this.state.showingOrders ? <ShowOrdersModal show={true} orders={this.state.orders} modalClose={this.toggleShowOrdersModal.bind(this)} /> : null}
         <header className="app-header">

@@ -2,6 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import { Redirect, withRouter } from 'react-router-dom'
 import './Register.css'
+import wordCloud from './wordcloud.jpg'
 
 class Register extends React.Component {
 
@@ -69,7 +70,7 @@ class Register extends React.Component {
         return (
             <div>
                 <center>
-                <h3>User Registration</h3>
+                <h3 className = "register_title">User Registration</h3>
                 {this.state.registerErrors ? this.state.registerErrors.length > 0
                     ? this.state.registerErrors.map((errMsg, index) => (
                             <p className="register-error-message" key={index}>
@@ -85,7 +86,8 @@ class Register extends React.Component {
                         type="text" 
                         name="name"
                         placeholder = "Enter Name" 
-                        required className="form-control" 
+                        required 
+                        className="form-control" 
                         value={this.state.name} 
                         onChange={e => this.onChange(e)}/>
                         </div>
@@ -97,7 +99,8 @@ class Register extends React.Component {
                         type="email" 
                         name="email"
                         placeholder = "Enter Email" 
-                        required className="form-control" 
+                        required 
+                        className="form-control" 
                         value={this.state.email} 
                         onChange={e => this.onChange(e)}/>
                         </div>
@@ -136,7 +139,9 @@ class Register extends React.Component {
                     </center>
                 </form>
                 </center>
-                
+                <div className = "wordloginimg">
+                    <img className="wordCloud" src={wordCloud} alt="Words" width="100%" height="200%"></img>
+                </div> 
             </div>
         );
     }
