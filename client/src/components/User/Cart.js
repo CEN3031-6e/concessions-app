@@ -25,6 +25,7 @@ export default (props) => {
       </ul>
       <p> SUBTOTAL: </p>
       <button onClick={messIn()}>Checkout</button>
+      <button onClick={props.hideCart}>Return</button>
       </div>
       </div>
     );
