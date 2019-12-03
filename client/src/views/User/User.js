@@ -275,7 +275,7 @@ class User extends React.Component {
               {this.state.selectedVendor ? <Button className="user-button" onClick={this.toggleShowCartModal.bind(this)}>My Cart</Button> : null}
               <Button className="user-button" onClick={this.toggleShowOrdersModal.bind(this)}>My Orders</Button>
               {!this.state.checkout ? <Search filterValue={this.state.filter} filterUpdate={this.filterUpdate.bind(this)}/>: null}
-              {this.state.cart.length > 0 ? <Button className="user-button" onClick={this.bypassSubmit.bind(this)}>Bypass Paypal</Button> : null}
+              {/* {this.state.cart.length > 0 ? <Button className="user-button" onClick={this.bypassSubmit.bind(this)}>Bypass Paypal</Button> : null} */}
               <p className="pos-message">{this.state.posMessage}</p>
               <p className="neg-message">{this.state.negMessage}</p>
               </center>
