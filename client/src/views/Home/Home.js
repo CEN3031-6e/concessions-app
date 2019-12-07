@@ -7,6 +7,7 @@ import VendorHome from './VendorHome'
 
 function Home(props) {
 
+    //render the appropriate home page based on who is logged in
     let pageView = <DefaultHome/>;
 
     if (props.userType === 'user') {

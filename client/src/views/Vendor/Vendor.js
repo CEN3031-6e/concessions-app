@@ -29,9 +29,10 @@ class Vendor extends React.Component {
         };
     }
 
-    viewOrder = (e) => {
-        this.setState({showingOrder: true, selectedOrder: this.state.orders.find((order) => order._id === e.currentTarget.getAttribute('id'))});
-    }
+    //Toggle the modal to display an order's information
+    viewOrder = (e) => this.setState({showingOrder: true, selectedOrder: this.state.orders.find((order) => order._id === e.currentTarget.getAttribute('id'))});
+
+    //Call the route to complete an order
     completeOrder = (id) => {
         const order = {
             userID: this.state.orders.find((order) => order._id === id).userID,
@@ -46,6 +47,8 @@ class Vendor extends React.Component {
             } else this.setState({ showingOrder: false, negMessage: "Unable to complete order.", posMessage: "" });
         });
     }
+
+    //Call the route to cancel an order
     cancelOrder = (id) => {
         axios.post('/vendors/cancelOrder', {id}).then(res => {
             if (res.data.success) {
@@ -55,21 +58,27 @@ class Vendor extends React.Component {
         })
     }
 
+    //Toggle the modal to delete a good
     deleteGood = (good) => this.setState({ deletingGood: true, selectedGood: good });
 
+    //Toggle between which page is being displayed
     setGoodsPage = () => this.setState({ goodsPage: true });
     setOrdersPage = () => this.setState({ goodsPage: false });
 
+    //Set the messages upon user action
     setNegMessage = (msg) => this.setState({ negMessage: msg });
     setPosMessage = (msg) => this.setState({ posMessage: msg });
 
+    //Toggle all modals
     toggleAddGoodModal = () => this.setState({ addingGood: !this.state.addingGood }); 
     toggleShowOrderModal = () => this.setState({ showingOrder: !this.state.showingOrder });
     toggleDeleteGoodModal = () => this.setState({ deletingGood: !this.state.deletingGood });
     
+    //Update the data displayed to the vendor
     updateGoods = () => axios.get('/vendors/goods', {params: {venueID: this.props.vendor.venueID, linkedID: this.props.vendor.linkedID}}).then(res => this.setState({ goods: res.data.goods }));
     updateOrders = () => axios.get('/vendors/orders', {params: {venueID: this.props.vendor.venueID, linkedID: this.props.vendor.linkedID}}).then(res => this.setState({ orders: res.data.orders }));
 
+    //Upon mounting the component, update goods and orders
     componentDidMount = () => {
         this.updateGoods();
         this.updateOrders();
@@ -100,7 +109,7 @@ class Vendor extends React.Component {
 
         return (
             <div>
-                {this.state.deletingGood ? <DeleteGoodModal show={true} vendor={this.props.vendor} good={this.state.selectedGood} deleteGood={this.updateGoods.bind(this)} setNegMessage={this.setNegMessage.bind(this)} setPosMessage={this.setPosMessage.bind(this)} modalClose={this.toggleDeleteGoodModal.bind(this)}/> : null}
+                {this.state.deletingGood ? <DeleteGoodModal show={true} good={this.state.selectedGood} deleteGood={this.updateGoods.bind(this)} setNegMessage={this.setNegMessage.bind(this)} setPosMessage={this.setPosMessage.bind(this)} modalClose={this.toggleDeleteGoodModal.bind(this)}/> : null}
                 {this.state.addingGood ? <AddGoodModal show={true} vendor={this.props.vendor} addGood={this.updateGoods.bind(this)} setNegMessage={this.setNegMessage.bind(this)} setPosMessage={this.setPosMessage.bind(this)} modalClose={this.toggleAddGoodModal.bind(this)}/> : null}
                 {this.state.showingOrder ? <ShowOrderModal show={true} order={this.state.selectedOrder} completeOrder={this.completeOrder.bind(this)} cancelOrder={this.cancelOrder.bind(this)} modalClose={this.toggleShowOrderModal.bind(this)} /> : null}
                 <header className="app-header">

@@ -34,6 +34,7 @@ class ShowGoodModal extends React.Component {
         this.props.modalClose();
     }
 
+    //Render the selected good
     render() {
         return (
             <div>

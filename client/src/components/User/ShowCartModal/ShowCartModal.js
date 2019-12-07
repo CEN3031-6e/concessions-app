@@ -2,10 +2,7 @@ import React from 'react'
 import Backdrop from '../../UI/Backdrop/Backdrop'
 import {Button} from 'react-bootstrap'
 import './ShowCartModal.css'
-import Card from 'react-bootstrap/Card'
 import ListGroup from 'react-bootstrap/ListGroup'
-import Form from 'react-bootstrap/Form'
-import FormControl from 'react-bootstrap/FormControl'
 
 class ShowCartModal extends React.Component {
 
@@ -27,15 +24,14 @@ class ShowCartModal extends React.Component {
 
     clearCart = () => this.props.clearCart();
 
-    deletingG = (id) =>{
-      this.state.please= this.props.cart.findIndex(good => good.id === this.state.deleteG[0])
+    deletingG = () => this.setState({ please: this.props.cart.findIndex(good => good.id === this.state.deleteG[0]) });
 
-        }
+    deleted = () => {
+      this.props.cart.splice(this.state.please,1)
+      this.setState({notify:true})
+    }
 
-      deleted =()=>{
-        this.props.cart.splice(this.state.please,1)
-        this.setState({notify:true})
-      }
+    //Render the cart's contents
     render() {
 
         let subtotal = 0;

@@ -5,6 +5,7 @@ const router = express.Router()
 const Venue = require('../models/VenueSchema');
 const User = require('../models/UserSchema');
 
+//Login handle (done through passport)
 router.post("/login", passport.authenticate("vendor-login"), (req, res) => {
     req.session.vendorID = req.user._id;
     res.locals.vendor = req.user;
@@ -16,6 +17,7 @@ router.post("/login", passport.authenticate("vendor-login"), (req, res) => {
     })
 })
 
+//Retrieving vendor's goods
 router.get('/goods', (req, res) => {
     const { venueID, linkedID } = req.query;
     Venue.findOne({'_id': venueID}, function(err, venue) {
@@ -30,6 +32,7 @@ router.get('/goods', (req, res) => {
     })
 })
 
+//Retrieving vendor's current orders
 router.get('/orders', (req, res) => {
     const { venueID, linkedID } = req.query;
     Venue.findOne({'_id': venueID}, function(err, venue) {
@@ -44,6 +47,7 @@ router.get('/orders', (req, res) => {
     })
 })
 
+//Vendors adding a good to their store
 router.post('/addGood', (req, res) => {
     const { name, venueID, linkedID, price, quantity } = req.body;
 
@@ -66,9 +70,9 @@ router.post('/addGood', (req, res) => {
     }
 })
 
-
+//Vendors removing a good from their store
 router.post('/deleteGood', (req, res) => {
-    const { goodID, venueID, linkedID } = req.body;
+    const { goodID } = req.body;
     
         Venue.findOneAndUpdate({'vendors.goods._id': goodID}, {$pull: {"vendors.$.goods":{_id: goodID} }}, function(err) {
             if (err) return res.send({
@@ -82,7 +86,7 @@ router.post('/deleteGood', (req, res) => {
         })
 })
 
-
+//Vendors completing an order
 router.post("/completeOrder", (req, res) => {
     let {userID, venueID, vendorID, orderID} = req.body;
 
@@ -106,6 +110,7 @@ router.post("/completeOrder", (req, res) => {
     })
 })
 
+//Vendors cancelling an order
 router.post("/cancelOrder", (req, res) => {
     let {id} = req.body;
     Venue.findOneAndUpdate({'vendors.orders._id': id}, {$pull: {"vendors.$.orders": {_id: id}}}, function(err, venue) {

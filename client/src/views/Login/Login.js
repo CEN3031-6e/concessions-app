@@ -5,7 +5,6 @@ import {Button} from 'react-bootstrap'
 import wordCloud from './wordcloud.jpg'
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
-import FormControl from 'react-bootstrap/FormControl'
 
 class Login extends React.Component {
 
@@ -30,18 +29,22 @@ class Login extends React.Component {
     };
   }
 
+  //Controls page display based on user actions
   setRoleUser = () => this.setState({role: 'User'});
   setRoleVendor = () => this.setState({role: 'Vendor'});
   resetRole = () => this.setState({role: '', loginError: ''});
-  onChange = (e) => this.setState({[e.target.name]: e.target.value});
-  forgetP=()=>{
-    this.setState({forget:true})
-  }
-  emailSent=()=>{
+
+  onChange = (e) => this.setState({ [e.target.name]: e.target.value });
+
+  //Logic for forgetting password
+  //TODO: Send an actual email when emailSent() gets called
+  forgetP = () => this.setState({ forget:true });
+  emailSent = () => {
     this.setState({forget:false})
     this.setState({sent:true})
   }
 
+  //Upon submitting a login form, call the appropriate route
   onSubmit(e) {
     this.setState({isLoading: true});
     e.preventDefault();
@@ -52,7 +55,6 @@ class Login extends React.Component {
       password,
       role
     };
-
 
     //User login
     if (role === 'User') {
@@ -102,6 +104,7 @@ class Login extends React.Component {
     }
   }
 
+  //Render the appropriate input fields
   render() {
 
     if (this.props.loggedIn) return <Redirect to={this.state.redirTo}/>;
