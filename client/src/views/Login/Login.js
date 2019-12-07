@@ -3,6 +3,9 @@ import { Redirect, withRouter } from 'react-router-dom'
 import './Login.css'
 import {Button} from 'react-bootstrap'
 import wordCloud from './wordcloud.jpg'
+import Card from 'react-bootstrap/Card'
+import Form from 'react-bootstrap/Form'
+
 class Login extends React.Component {
 
   constructor(props) {
@@ -20,15 +23,28 @@ class Login extends React.Component {
       loginError: '',
       isLoading: false,
       redirTo: '/login',
+      forget:false,
+      sent:false,
       user: {}
     };
   }
 
+  //Controls page display based on user actions
   setRoleUser = () => this.setState({role: 'User'});
   setRoleVendor = () => this.setState({role: 'Vendor'});
   resetRole = () => this.setState({role: '', loginError: ''});
-  onChange = (e) => this.setState({[e.target.name]: e.target.value});
 
+  onChange = (e) => this.setState({ [e.target.name]: e.target.value });
+
+  //Logic for forgetting password
+  //TODO: Send an actual email when emailSent() gets called
+  forgetP = () => this.setState({ forget:true });
+  emailSent = () => {
+    this.setState({forget:false})
+    this.setState({sent:true})
+  }
+
+  //Upon submitting a login form, call the appropriate route
   onSubmit(e) {
     this.setState({isLoading: true});
     e.preventDefault();
@@ -51,7 +67,7 @@ class Login extends React.Component {
             isLoading: false,
             redirTo: "/users"
           });
-          
+
           this.props.setUserRole('user');
         } else {
           this.setState({
@@ -62,7 +78,7 @@ class Login extends React.Component {
           });
         }
       });
-    } 
+    }
 
     //Vendor login
     else if (role === 'Vendor') {
@@ -87,7 +103,8 @@ class Login extends React.Component {
       })
     }
   }
-  
+
+  //Render the appropriate input fields
   render() {
 
     if (this.props.loggedIn) return <Redirect to={this.state.redirTo}/>;
@@ -115,6 +132,26 @@ class Login extends React.Component {
           <div className="login-input-container">
             <h3 className="login">{this.state.role} Login</h3>
             <br />
+            {this.state.sent? <p>Check your email to reset Password!</p> : null}
+            {this.state.forget ?
+              <Card  style={{backgroundColor: 'lightblue'}}>
+                <Card.Header>Forgot Password</Card.Header>
+                  {this.state.notify ?
+                  <Card.Title style={{backgroundColor: 'white'}}> Enter email</Card.Title>:null}
+                <Card.Body>
+
+                  <Card.Text>
+                    <Form style={{
+                    left:650}}>
+                    <Form.Control placeholder="email@email.com" />
+                      <Button onClick={this.emailSent}>
+                          Submit
+                          </Button>
+                    </Form>
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+               : null}
           </div>
           {this.state.loginError ? <p>{this.state.loginError}</p> : null}
           <form
@@ -130,7 +167,7 @@ class Login extends React.Component {
                 name="email"
                 placeholder="Enter Email"
                 required
-                className="login-input"
+                className="form-control"
                 value={this.state.email}
                 onChange={e => this.onChange(e)}
               />
@@ -145,7 +182,7 @@ class Login extends React.Component {
                 name="password"
                 placeholder="Enter Password"
                 required
-                className="login-input"
+                className="form-control"
                 value={this.state.password}
                 onChange={e => this.onChange(e)}
               />
@@ -154,16 +191,16 @@ class Login extends React.Component {
             <div className="login-input-container">
               <input type="submit" value="Login" className="loginButton" />
             </div>
-            <Button className="loginButton">Forgot password?</Button>
+            <Button className="loginButton" onClick={this.forgetP}>Forgot password?</Button>
             <Button className="loginButton" onClick={this.resetRole.bind(this)}>Return</Button>
           </form>
         </div>
-        <div className = "wordloginimg">
+        {this.state.role === '' ? <div className = "wordloginimg">
               <img className="wordCloud" src={wordCloud} alt="Words" width="100%" height="200%"></img>
-        </div>
+        </div> : null}
       </div>
       </center>
-            
+
     );
   }
 }

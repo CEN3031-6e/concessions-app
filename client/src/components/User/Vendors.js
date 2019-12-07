@@ -1,4 +1,5 @@
 import React from 'react'
+import {Button} from 'react-bootstrap'
 import '../../views/User/User.css'
 
 
@@ -17,13 +18,14 @@ export default (props) => {
         return (
             <div className="list-item" key={vendor._id}>
                 <h2>{vendor.name}</h2>
-                <button onClick={selectVendor} id={vendor._id}>Select Vendor</button>
-                {props.adminPriv ? <button onClick={deleteVendor} id={vendor._id}>Delete Vendor</button> : null}
+                <Button className="select-button" onClick={selectVendor} id={vendor._id}>Select Vendor</Button>
+                {props.adminPriv ? <Button className="select-button" onClick={deleteVendor} id={vendor._id}>Delete Vendor</Button> : null}
             </div>
         );
     });
-    let addVendor = props.adminPriv ? <button onClick={props.openModal}>Register New Vendor</button> : null;
+    let addVendor = props.adminPriv ? <Button className="select-button" onClick={props.openModal}>Register New Vendor</Button> : null;
 
+    //Render the vendors and appropriate buttons
     return (
         <div>
             {vendorList}

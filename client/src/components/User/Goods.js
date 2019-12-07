@@ -1,10 +1,12 @@
 import React from 'react'
+import {Button} from 'react-bootstrap'
 import '../../views/User/User.css'
 
 export default (props) => {
 
     const selectGood = event => props.selectGood(event.currentTarget.getAttribute('id'));
 
+    //Render the goods and appropriate buttons
     return props.selectedVendor.goods
     //.sort()
     .filter((good) => {
@@ -15,7 +17,7 @@ export default (props) => {
             <div className="list-item" key={good._id}>
                 <h1>{good.name}</h1>
                 <p>${good.price.toFixed(2)}</p>
-                <button onClick={selectGood} id={good._id}>View Good</button>
+                <Button className="select-button" onClick={selectGood} id={good._id}>View Good</Button>
             </div>
         )
     });

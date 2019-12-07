@@ -51,6 +51,7 @@ class AddVenueModal extends React.Component {
         })
     }
 
+    //Render the inputs to add a venue
     render() {
         return (
             <div>

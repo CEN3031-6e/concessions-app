@@ -1,5 +1,6 @@
 import React from 'react'
 import Backdrop from '../../UI/Backdrop/Backdrop'
+import {Button} from 'react-bootstrap'
 import './ShowOrdersModal.css'
 
 class ShowOrdersModal extends React.Component {
@@ -16,6 +17,7 @@ class ShowOrdersModal extends React.Component {
     showCompleted = () => this.setState({ showCompleted: true });
     modalClose = () => this.props.modalClose();
 
+    //Render the user's orders, active and completed
     render() {
         return (
             <div>
@@ -28,8 +30,8 @@ class ShowOrdersModal extends React.Component {
                     }}>
                     <center>
                     <h1>Your Orders</h1>
-                    <button onClick={this.showActive.bind(this)}>Active Orders</button>
-                    <button onClick={this.showCompleted.bind(this)}>All Orders</button>
+                    <Button className="show-order-btn" active={!this.state.showCompleted} onClick={this.showActive.bind(this)}>Active Orders</Button>
+                    <Button className="show-order-btn" active={this.state.showCompleted} onClick={this.showCompleted.bind(this)}>All Orders</Button>
                     {this.props.orders ? this.props.orders.map((order) => {
                         if (!this.state.showCompleted && order.completed) return null;
                         return (

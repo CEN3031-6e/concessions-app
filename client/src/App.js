@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Route, Switch, Redirect  } from 'react-router-dom'
+import { Router, Route, Switch, Redirect } from 'react-router-dom'
 import axios from 'axios'
 import history from './history'
 import Header from "./components/Header/Header"
@@ -11,6 +11,7 @@ import NotFound from "./views/NotFound/NotFound"
 import Login from "./views/Login/Login"
 import AuthenticatedComponent from "./components/AuthenticatedComponent/AuthenticatedComponent"
 import Protected from "./components/ProtectedRoute/ProtectedRoute"
+import LoadingPaypal from "./components/User/LoadingPaypal"
 
 class App extends React.Component {
 
@@ -29,7 +30,7 @@ class App extends React.Component {
     };
   }
 
-
+  //Control whether the logged in person is a user or vendor
   setUserRole(userRole) {
       if (userRole === 'user') {
         this.setState({userRole: 'user'});
@@ -42,17 +43,14 @@ class App extends React.Component {
       }
   }
 
+  //Log a user in
   login(route, user, cb) {
-    //in production a .catch(err => console.log(err)) should be implemented
     axios.post(route, user).then(response => {
-      //set own state and execute the callback
 
       if (response.data.success) {
         this.setState({
           loggedIn: true
         });
-
-        //console.log(`Successfully logged in! ${JSON.stringify(response.data)}`);
       }
       cb(response.data);
     })
@@ -61,9 +59,9 @@ class App extends React.Component {
     });
   }
 
+  //Verify that the user is logged in
   verify(route, cb) {
     axios.get(route).then(response => {
-      //on success res.data has: success, message, user.name, user.email, user.logggedIn
       if (!response.data.success) {
         this.setState({
           loggedIn: response.data.user.loggedIn,
@@ -78,6 +76,8 @@ class App extends React.Component {
       cb(response.data);
     });
   }
+
+  //Log a user out
   logout(route, redirTo) {
     axios.post(route).then(response => {
       if (response.data.success) {
@@ -90,17 +90,19 @@ class App extends React.Component {
     });
   }
 
+  //Render the appropriate route
   render() {
     return (
       <Router history={history}>
         <Header user={this.state.user} userType={this.state.userRole} loggedIn={this.state.loggedIn} updateUser={this.updateUser} logout={this.logout}/>
         <Switch>
-
           <Route
             exact path="/home" 
-            render={(props) => <Home userType={this.state.userRole} user={this.state.user} />}
+            render={() => <Home userType={this.state.userRole} user={this.state.user} />}
           />
           <Route exact path="/"><Redirect to="/home"/></Route>
+          <Route path="/success" render={() => <LoadingPaypal/>}/>
+          <Route path="/failure" render={() => <p>Payment failed.</p>}/>
           <Route exact path="/register" render={() => <Register loggedIn={this.state.loggedIn}/>}/>
           <Route exact path="/login" render={() => <Login setUserRole={this.setUserRole} loggedIn={this.state.loggedIn} login={this.login}/>}/>
           <AuthenticatedComponent verify={this.verify}>

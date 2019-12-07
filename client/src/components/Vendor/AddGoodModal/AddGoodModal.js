@@ -26,6 +26,7 @@ class AddGoodModal extends React.Component {
 
     onChange = (e) => this.setState({[e.target.name]: e.target.value});
 
+    //Upon adding a good, call the appropriate route
     onSubmit = (e) => {
         e.preventDefault();
 
@@ -60,6 +61,7 @@ class AddGoodModal extends React.Component {
         })
     }
 
+    //Render the inputs for adding a good, and the associated buttons
     render() {
         return (
             <div>

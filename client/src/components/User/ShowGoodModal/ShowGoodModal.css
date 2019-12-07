@@ -2,7 +2,7 @@
     position: fixed;
     z-index: 500;
     border-radius: 10px;
-    background-color: white;
+    background-color: skyblue;
     width: 50%;
     border: 1px solid #ccc;
     box-shadow: 1px 1px 1px black;
@@ -11,4 +11,20 @@
     top: 30%;
     box-sizing: border-box;
     transition: all 0.3s ease-out;
+}
+
+.show-good-pos {
+    margin: 4px;
+    background-color: lightblue;
+    border: white;
+}
+
+.show-good-neg {
+    margin: 4px;
+    background-color: lightcoral;
+    border: white;
+}
+
+.refresh-msg {
+    color: red;
 }

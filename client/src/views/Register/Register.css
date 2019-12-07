@@ -15,4 +15,9 @@
   border: none;
   border-radius: 8px;
 }
+.register_title{
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  color: gray;
+  font-size: 40px;
+}
 

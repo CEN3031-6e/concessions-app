@@ -15,12 +15,15 @@
 
 #submit {
     background-color: skyblue;
-    position: relative;
-    right: 32px;
-    
+    float: center;
 }
 
 #return {
-     background-color: skyblue;
+     background-color: lightgray;
      float: left;
+}
+
+#clear {
+    background-color: lightcoral;
+    float: right;
 }
