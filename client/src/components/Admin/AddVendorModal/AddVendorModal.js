@@ -71,6 +71,7 @@ class AddVendorModal extends React.Component {
         })
     }
 
+    //Render the inputs to register a vendor
     render() {
         return (
             <div>

@@ -25,6 +25,7 @@ export default (props) => {
     });
     let addVendor = props.adminPriv ? <Button className="select-button" onClick={props.openModal}>Register New Vendor</Button> : null;
 
+    //Render the vendors and appropriate buttons
     return (
         <div>
             {vendorList}

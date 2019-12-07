@@ -15,7 +15,7 @@ paypal.configure({
 
 let currentSubtotal = '';
 
-//Verify - this is for the frontend
+//Verify the logged in user
 router.get("/verify", (req, res) => {
     if (req.isAuthenticated()) {
       const { name, email, password, orders, linkedID, venueID } = req.user;
@@ -246,7 +246,7 @@ router.get('/orders', (req, res) => {
 
 })
 
-
+//Executing the payment
 router.post('/executepayment', (req, res) => {
 
 console.log()

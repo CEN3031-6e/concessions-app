@@ -10,6 +10,7 @@ class Header extends React.Component {
 
    
 
+    //Render the header information based on the user
     render() {
 
         let l1;

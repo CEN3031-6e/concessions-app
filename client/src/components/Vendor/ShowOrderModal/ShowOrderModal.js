@@ -5,10 +5,9 @@ import './ShowOrderModal.css'
 
 class ShowOrderModal extends React.Component {
 
-    modalClose = () => {
-        this.props.modalClose();
-    }
+    modalClose = () => this.props.modalClose();
 
+    //Display an order with its associated information and buttons
     render() {
 
         let page = this.props.order ? (

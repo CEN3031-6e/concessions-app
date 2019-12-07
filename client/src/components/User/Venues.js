@@ -25,6 +25,7 @@ export default (props) => {
     
     let addVenue = props.adminPriv ? <Button className="select-button" onClick={props.openModal}>Add New Venue</Button> : null;
 
+    //Render venues and appropriate buttons
     return (
         <div>
             {venueList}

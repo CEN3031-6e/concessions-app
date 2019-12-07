@@ -6,6 +6,7 @@ export default (props) => {
 
     const selectGood = event => props.selectGood(event.currentTarget.getAttribute('id'));
 
+    //Render the goods and appropriate buttons
     return props.selectedVendor.goods
     //.sort()
     .filter((good) => {

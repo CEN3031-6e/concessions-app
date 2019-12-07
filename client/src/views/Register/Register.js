@@ -2,7 +2,6 @@ import React from 'react'
 import axios from 'axios'
 import { Redirect, withRouter } from 'react-router-dom'
 import './Register.css'
-import wordCloud from './wordcloud.jpg'
 
 class Register extends React.Component {
 
@@ -23,11 +22,10 @@ class Register extends React.Component {
         };
     }
 
-    onChange(e) {
-        this.setState({[e.target.name]: e.target.value});
-    }
+    onChange = (e) => this.setState({[e.target.name]: e.target.value});
 
-    onSubmit(e) {
+    //When submitting your registration info, call the appropriate route
+    onSubmit = (e) => {
         this.setState({isLoading: true});
         e.preventDefault();
 
@@ -63,6 +61,7 @@ class Register extends React.Component {
         })
     }
 
+    //Renders forms for user input and appropriate error messages
     render() {
         if (this.props.loggedIn) return <Redirect to='/users'/>
         if (this.state.isLoading) return <p>Loading...</p>

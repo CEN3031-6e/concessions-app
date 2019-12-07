@@ -5,6 +5,7 @@ const router = express.Router();
 const Venue = require('../models/VenueSchema');
 const Vendor = require('../models/VendorSchema');
 
+//Retrieving venues
 router.get("/venues", (req, res) => {
     Venue.find(function(err, venues) {
         if (err) throw err;
@@ -15,6 +16,7 @@ router.get("/venues", (req, res) => {
       });
 })
 
+//Retrieving vendors
 router.get("/vendors", (req, res) => {
     if (req.query.selectedVenueID) {
         Venue.findOne({'_id': req.query.selectedVenueID}, function(err, venue) {
@@ -33,6 +35,7 @@ router.get("/vendors", (req, res) => {
     });
 })
 
+//Retrieving goods
 router.get("/goods", (req, res) => {
     if (req.query.selectedVenueID) {
         Venue.find({'_id': req.query.selectedVenueID}, function(err, venue) {
@@ -58,6 +61,7 @@ router.get("/goods", (req, res) => {
     })
 })
 
+//Adding venue
 router.post("/addVenue", (req, res) => {
 
     const { name, address } = req.body;
@@ -91,6 +95,7 @@ router.post("/addVenue", (req, res) => {
     });
 })
 
+//Deleting venue
 router.post("/deleteVenue", (req, res) => {
 
     //First delete all vendor accounts that correspond to the deleted venue
@@ -114,6 +119,7 @@ router.post("/deleteVenue", (req, res) => {
     })
 })
 
+//Adding vendor
 router.post("/addVendor", (req, res) => {
 
     let {name, email, password, password2, venueID} = req.body;
@@ -175,6 +181,7 @@ router.post("/addVendor", (req, res) => {
     })
 })
 
+//Deleting vendor
 router.post('/deleteVendor', (req, res) => {
     Vendor.deleteOne({'linkedID': req.body.id}, function(err) {
         if (err) return res.send({
@@ -196,6 +203,7 @@ router.post('/deleteVendor', (req, res) => {
     });
 });
 
+//Registering vendor
 router.post('/regVendor', (req, res) => {
     let { name, email, password, venueID, linkedID } = req.body;
     email = email.toLowerCase();

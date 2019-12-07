@@ -12,6 +12,7 @@ class ClearCartModal extends React.Component {
         this.props.clearCart();
     }
 
+    //Render options to clear a cart or cancel
     render() {
         return (
             <div>

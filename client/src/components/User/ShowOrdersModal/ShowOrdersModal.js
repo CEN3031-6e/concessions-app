@@ -17,6 +17,7 @@ class ShowOrdersModal extends React.Component {
     showCompleted = () => this.setState({ showCompleted: true });
     modalClose = () => this.props.modalClose();
 
+    //Render the user's orders, active and completed
     render() {
         return (
             <div>

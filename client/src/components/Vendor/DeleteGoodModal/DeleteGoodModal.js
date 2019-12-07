@@ -6,43 +6,40 @@ import './DeleteGoodModal.css'
 
 class DeleteGoodModal extends React.Component {
 
- constructor(props) {
-       super(props);
+    constructor(props) {
+        super(props);
 
-       this.state = {
-           negMessage: ""
-       };
- }
+        this.state = {
+            negMessage: ""
+        };
+    }
 
- deleteGood = () => {
+    modalClose = () => this.props.modalClose();
 
-     let goodID = this.props.good._id;
-     let venueID = this.props.venueID;
-     let linkedID = this.props.linkedID;
+    //When deleting a good, call the appropriate route
+    deleteGood = () => {
 
+        let goodToDelete = {
+            goodID: this.props.good._id,   
+        };
 
-     let goodToDelete = {
-            goodID,
-            venueID,
-            linkedID    
-    };
+        axios.post('/vendors/deleteGood', goodToDelete).then(res => {
+            if (res.data.success) {
+                this.setState({ negMessage: "" });
+                this.props.setPosMessage(this.props.good.name + " successfully deleted.");
+                this.props.modalClose();
+                this.props.deleteGood();
+            } else this.setState({ negMessage: "Unable to delete " + this.props.good.name });
+        });
+    }
 
-    axios.post('/vendors/deleteGood', goodToDelete).then(res => {
-        if (res.data.success) {
-            this.setState({ negMessage: "" });
-            this.props.setPosMessage(this.props.good.name + " successfully deleted.");
-            this.props.modalClose();
-            this.props.deleteGood();
-        } else this.setState({ negMessage: "Unable to delete " + this.props.good.name });
-     });
- }
-
+    //Render the good with options to delete it or cancel
     render() {
         let goodName = this.props.good ? this.props.good.name : "";
 
         return (
             <div>
-                <Backdrop show={this.props.show} clicked={this.close}/>
+                <Backdrop show={this.props.show} clicked={this.modalClose.bind(this)}/>
                 <div 
                     className='DeleteGoodModal'
                     style={{
