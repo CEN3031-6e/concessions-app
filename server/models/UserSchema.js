@@ -6,27 +6,38 @@ const userSchema = mongoose.Schema({
     email: {type: String, required: true},
     password: {type: String, required: true},
     Date: {type: Date, default: Date.now()},
-    orders: [
+
+    // Orders is an array for users see their cart before payment
+
+    orders: [                                           
         {
-            linkedID: {type: String, required: true},
-            vendorID: {type: String, required: true},
-            vendorName: {type: String, required: true},
+            linkedID: {type: String, required: true},       // Unique ID
+            vendorID: {type: String, required: true},       // ID Vendor 
+            vendorName: {type: String, required: true},     // Name of vendor 
+
+            // An array of goods that a user is looking to purchase 
+
             cart: [
                 {
-                    name: {type: String, required: true},
-                    price: {type: Number, required: true},
-                    quantity: {type: Number, required: true}
+                    name: {type: String, required: true},       // Item Name
+                    price: {type: Number, required: true},      // Item Price
+                    quantity: {type: Number, required: true}    // Amount of item to be purchased
                 }
             ],
-            subtotal: {type: Number, required: true},
-            completed: {type: Boolean, required: true}
+            subtotal: {type: Number, required: true},           // Subtotal price of all items to be purchased
+            completed: {type: Boolean, required: true}          // Boolean value that is only changed to true when the vendor completes the order
         }
     ]
 });
 
+// Protects an account's password by encrypting it through Passport API
+
 userSchema.methods.generateHash = function (password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
 };
+
+// Checks inputted passwords against the one stored in the database
+
 userSchema.methods.validatePassword = function (password) {
     return bcrypt.compareSync(password, this.password);
 };

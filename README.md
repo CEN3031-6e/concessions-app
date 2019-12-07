@@ -1,3 +1,21 @@
+This project was deploted using Heroku [https://onlinevendr.herokuapp.com/](https://onlinevendr.herokuapp.com/)
+This project used the Passport and PayPal APIs to implement login and payment security, respectively.
+
+To run locally you must use [http://localhost:5000](http://localhost:5000) and to run on Heroku use the link [https://onlinevendr.herokuapp.com/](https://onlinevendr.herokuapp.com/)
+
+Database is updated automatically through the addition/deletion of a venue, vendor or good, and the cart and orders update as the user adds/deltes an item to the cart or pays for the order, and the vendor completes the order
+
+## _**GitHub Issues**_
+Place all bugs here
+
+
+
+For use in the creation of README (take out before we turn in)
+Make a link ["link to be clicked"](link)
+## Heading 
+_** Marks something important **_
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 This project contains an example project board meant to showcase how one can be used. The issues posted to it are not real issues.
 
