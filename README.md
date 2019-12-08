@@ -3,7 +3,7 @@ This project used the Passport and PayPal APIs to implement login and payment se
 
 To run locally you must use [http://localhost:5000](http://localhost:5000) and to run on Heroku use the link [https://onlinevendr.herokuapp.com/](https://onlinevendr.herokuapp.com/)
 
-Database is updated automatically through the addition/deletion of a venue, vendor or good, and the cart and orders update as the user adds/deltes an item to the cart or pays for the order, and the vendor completes the order
+Database is updated automatically through the addition/deletion of a venue, vendor or good, and the cart and orders update as the user adds/deletes an item to the cart or pays for the order, and the vendor completes the order
 
 ## _**GitHub Issues**_
 Place all bugs here
@@ -18,6 +18,19 @@ _** Marks something important **_
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 This project contains an example project board meant to showcase how one can be used. The issues posted to it are not real issues.
+
+## Features Implemented 
+-Home page for the application with navigation links
+-Users and vendors must pass a login screen to access their information
+-Users can view venues, vendors, and goods
+-Users can search for venues, vendors, and goods
+-Implementing a database to store users
+-Customizing the application to look compelling
+-Landing pages for users and vendors
+-Users can register for an account/login
+-Users can add/delete goods to their cart
+-Submitted cart information can be sent to our database
+-Users and vendors must pass a login screen to access their information
 
 #### _**IMPORTANT NOTE**_ - 
 This project does not have a mongoDB connection setup. Setup the connection based on the environments below.
