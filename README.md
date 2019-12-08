@@ -20,17 +20,22 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 This project contains an example project board meant to showcase how one can be used. The issues posted to it are not real issues.
 
 ## Features Implemented 
--Home page for the application with navigation links
--Users and vendors must pass a login screen to access their information
--Users can view venues, vendors, and goods
--Users can search for venues, vendors, and goods
--Implementing a database to store users
--Customizing the application to look compelling
--Landing pages for users and vendors
--Users can register for an account/login
--Users can add/delete goods to their cart
--Submitted cart information can be sent to our database
--Users and vendors must pass a login screen to access their information
+- Home page for the application with navigation links
+- Users and vendors must pass a login screen to access their information
+- Users can view venues, vendors, and goods
+- Users can search for venues, vendors, and goods
+- Users can register for an account/login
+- Users can add/delete goods to their cart
+- Implementing a database to store users
+- Customizing the application to look compelling
+- Landing pages for users and vendors
+- Vendors can update their menu 
+- Vendors can create menus
+- Users can pay for their order through PayPal
+- Submitted cart information can be sent to our database
+- Users and vendors must pass a login screen to access their information
+- Admin can establish new vendors
+- Admin can add and delete new venues and vendors
 
 #### _**IMPORTANT NOTE**_ - 
 This project does not have a mongoDB connection setup. Setup the connection based on the environments below.
