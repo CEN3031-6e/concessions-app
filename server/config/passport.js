@@ -1,10 +1,10 @@
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypyt = require("bcryptjs");
 
-//const User = require("../models/users.server.model");
 const User = require('../models/UserSchema');
 const Vendor = require("../models/VendorSchema");
 
+//All passport code comes from http://www.passportjs.org/docs/
 function SessionConstructor(userId, userGroup, details) {
   this.userId = userId;
   this.userGroup = userGroup;
@@ -80,13 +80,13 @@ module.exports = function(passport) {
     if (sessionConstructor.userGroup == 'user') {
       User.findOne({
           _id: sessionConstructor.userId
-      }, '-localStrategy.password', function (err, user) { // When using string syntax, prefixing a path with - will flag that path as excluded.
+      }, '-localStrategy.password', function (err, user) {
           done(err, user);
       });
     } else if (sessionConstructor.userGroup == 'vendor') {
       Vendor.findOne({
           _id: sessionConstructor.userId
-      }, '-localStrategy.password', function (err, user) { // When using string syntax, prefixing a path with - will flag that path as excluded.
+      }, '-localStrategy.password', function (err, user) {
           done(err, user);
       });
     }
