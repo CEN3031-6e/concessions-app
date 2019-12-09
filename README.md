@@ -1,4 +1,4 @@
-This project was deploted using Heroku [https://onlinevendr.herokuapp.com/](https://onlinevendr.herokuapp.com/)
+This project was deployed using Heroku [https://onlinevendr.herokuapp.com/](https://onlinevendr.herokuapp.com/)
 This project used the Passport and PayPal APIs to implement login and payment security, respectively.
 
 To run locally you must use [http://localhost:5000](http://localhost:5000). Use the command 'npm run dev' to launch the app locally. To run on Heroku, use the link [https://onlinevendr.herokuapp.com/](https://onlinevendr.herokuapp.com/)
@@ -8,7 +8,12 @@ The file server/config/config.js needs a MongoDB URI when running locally. To ch
 Database is updated automatically through the addition/deletion of a venue, vendor or good, and the cart and orders update as the user adds/deletes an item to the cart or pays for the order, and the vendor completes the order
 
 ## _**GitHub Issues**_
-Place all bugs here
+ - Orders are currently submitted to the database before users pay.
+ - Users cannot edit/delete specific items within their cart.
+ - There is no existing link to reset your password.
+ - There is no additional fee per order that is paid to Vendr itself.
+ - All payments go to a Vendr account rather than specific vendor accounts.
+ - Users do not receive any kind of notification when their order is ready.
 
 ## Features Implemented 
 - Home page for the application with navigation links
@@ -29,7 +34,7 @@ Place all bugs here
 - Admin can add and delete new venues and vendors
 
 ## Passport API
-- For the login mechanisms of the website, we borrowed the Passport API that was given to us in the class lectures, located at 
+- For the login mechanisms of the website, we borrowed code from the Passport API that can be found at http://www.passportjs.org/docs/. 
 
 ## Stylesheet API
 - For styling the website, we used Bootstrap at https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css
