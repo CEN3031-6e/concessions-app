@@ -6,6 +6,7 @@ const User = require('../models/UserSchema');
 const Venue = require('../models/VenueSchema');
 const paypal = require('paypal-rest-sdk');
 
+//paypal.configure comes from sample code from https://developer.paypal.com/docs/api/quickstart/environment/
 paypal.configure({
   'mode': 'sandbox', //sandbox or live
   'client_id': 'AeXyaba9NU8B2YXTuT4m5DKI4TzWy4370mjw9x_xb7U3JKyK6Z6Eogvv5tcXBO2fYrJIT8VhrjiZ5hyp',
@@ -200,6 +201,7 @@ router.get('/orders', (req, res) => {
 
   currentSubtotal = subtotal.toString();
 
+   //code for defPayment borrowed from sample at https://github.com/paypal/PayPal-node-SDK
   var defPayment = {
    "intent": "sale",
  "payer": {
@@ -227,6 +229,7 @@ router.get('/orders', (req, res) => {
  }]
 };
 
+ //code for paypal.payment.create comes from sample code from the following PayPal Node API tutorial: https://www.youtube.com/watch?v=7k03jobKGXM
  paypal.payment.create(defPayment, function(error, payment){
 
    if(error){
@@ -249,9 +252,6 @@ router.get('/orders', (req, res) => {
 //Executing the payment
 router.post('/executepayment', (req, res) => {
 
-console.log()
-console.log()
-console.log()
  console.log('executepayment')
 
    console.log(req.body);
@@ -265,6 +265,7 @@ console.log(paymentId)
 console.log('payerId')
 console.log(payerId)
 
+ //execute_payment comes from sample code from https://github.com/paypal/PayPal-node-SDK
  const execute_payment = {
  payer_id: payerId,
  transactions: [{
@@ -279,7 +280,7 @@ console.log(payerId)
  console.log(currentSubtotal);
 
 
-
+    //paypal.payment.execute comes from sample code from https://github.com/paypal/PayPal-node-SDK
    paypal.payment.execute(paymentId, execute_payment, function(error, payment){
        if(error){
          console.error(JSON.stringify(error));
