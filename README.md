@@ -49,6 +49,12 @@ This project contains an example project board meant to showcase how one can be 
 
 - In router.post('/executepayment', (req, res), the variable execute_payment and the function paypal.payment.execute have sample code from the PayPal Node SDK GitHub page mentioned above.
 
+## Website Screenshots
+Note: Not all screens are shown here, but all the functionality is.
+
+- Home Page
+!![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/Home%20page.JPG)
+
 #### _**IMPORTANT NOTE**_ - 
 This project does not have a mongoDB connection setup. Setup the connection based on the environments below.
 - local development: create a config file (make sure to name it config.js) in the config folder, which exports your db.uri connection. An example is provided, config/config.example.js. This file will be ignored by git so your db credentials will be kept safe when the app is deployed.
