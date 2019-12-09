@@ -53,19 +53,47 @@ This project contains an example project board meant to showcase how one can be 
 Note: Not all screens are shown here, but all the functionality is.
 
 - Home Page
-!![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/Home%20page.JPG)
+![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/Home%20page.JPG)
 
-#### _**IMPORTANT NOTE**_ - 
-This project does not have a mongoDB connection setup. Setup the connection based on the environments below.
-- local development: create a config file (make sure to name it config.js) in the config folder, which exports your db.uri connection. An example is provided, config/config.example.js. This file will be ignored by git so your db credentials will be kept safe when the app is deployed.
-- production: Since the config file is not pushed when you deploy your app, you must specifiy your db uri in heorku. Set the uri in heroku as specified in [this](https://devcenter.heroku.com/articles/config-vars) resource. Make sure you name the environement variable "DB_URI".
+- Register
+![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/Register.JPG)
 
-## Getting Started
-This repository aims to assist you in beginning work on a MERN stack application with a solid file structure as a foundation. To get started make a copy of this template repo for your project teams.
+- Login
+![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/Login.JPG)
 
-Since this project will hold both the client application and the server application there will be node modules in two different places. First run `npm install` from the root. After this you will run `npm run-script install-all` from the root. From now on run this command anytime you want to install all modules again. This is a script we have defined in package.json .
+- Choose Vendor (as user)
+![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/Choose%20Vendor.JPG)
 
-This app can be deployed directly to heroku since there is a script defined in package.json which will automatically handle building and deploying the app. For more information on deploying to heroku reference the extra resources at the bottom of this file. 
+- Make Order (as user)
+![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/User%20Order%20Food.JPG)
+
+- View Cart (as user)
+![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/User%20View%20Cart.JPG)
+
+- View Orders (as user)
+![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/User%20View%20Orders.JPG)
+
+- Pay Order (as user)
+![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/Pay%20Order.JPG)
+
+- Pay Order with API (as user)
+![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/User%20PayPal%20Checkout.png)
+
+- View, Add, or Delete Goods (as vendor)
+![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/Vendor%20Add%20or%20Delete%20Goods.JPG)
+
+- View Orders (as vendor)
+![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/Vendor%20View%20Orders.png)
+
+- View Specific Order(as vendor)
+![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/Vendor%20View%20or%20Complete%20Order.png)
+
+- Add or Remove Venues (as admin)
+![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/Admin%20Manage%20Venues.JPG)
+
+- Add or Remove Vendors (as admin) 
+![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/Admin%20Add%20Remove%20Vendor.JPG)
+
 
 ## File structure
 #### `client` - Holds the client application
@@ -118,16 +146,3 @@ If deploying to heroku this does not need to be run since it is handled by the h
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn how to setup a local MongoDB instance for testing, check out how to [Connect to MongoDB](https://docs.mongodb.com/guides/server/drivers/).
-
-To learn how to deploy a full-stack web app to heroku, check out [this great guide](https://daveceddia.com/deploy-react-express-app-heroku/).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
