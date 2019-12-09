@@ -5,6 +5,8 @@ import DefaultHome from './DefaultHome'
 import UserHome from './UserHome'
 import VendorHome from './VendorHome'
 
+// Deafult home view after user (user, vendor, or admin) has logged in
+
 function Home(props) {
 
     //render the appropriate home page based on who is logged in

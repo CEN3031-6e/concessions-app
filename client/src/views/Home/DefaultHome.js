@@ -1,5 +1,7 @@
 import React from 'react';
 
+// Default home page before a user (user, vendor, or admin) logs in 
+
 function DefaultHome() {
     return (
         <div className="App">
