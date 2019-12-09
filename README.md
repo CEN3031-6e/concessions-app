@@ -8,12 +8,12 @@ The file server/config/config.js needs a MongoDB URI when running locally. To ch
 Database is updated automatically through the addition/deletion of a venue, vendor or good, and the cart and orders update as the user adds/deletes an item to the cart or pays for the order, and the vendor completes the order
 
 ## _**GitHub Issues**_
-Orders are currently submitted to the database before users pay.
-Users cannot edit/delete specific items within their cart.
-There is no existing link to reset your password.
-There is no additional fee per order that is paid to Vendr itself.
-All payments go to a Vendr account rather than specific vendor accounts.
-Users do not receive any kind of notification when their order is ready.
+ - Orders are currently submitted to the database before users pay.
+ - Users cannot edit/delete specific items within their cart.
+ - There is no existing link to reset your password.
+ - There is no additional fee per order that is paid to Vendr itself.
+ - All payments go to a Vendr account rather than specific vendor accounts.
+ - Users do not receive any kind of notification when their order is ready.
 
 ## Features Implemented 
 - Home page for the application with navigation links
