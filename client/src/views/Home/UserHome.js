@@ -1,5 +1,7 @@
 import React from 'react';
 
+// Home page properties after a user logs in; different for admin user sincethey have more capabilities
+
 function UserHome(props) {
 
     let p1;

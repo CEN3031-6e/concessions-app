@@ -1,5 +1,7 @@
 import React from 'react';
 
+// Properties for the vendor login page after the vendor user has logged in
+
 function VendorHome(props) {
     return (
         <div className="App">
