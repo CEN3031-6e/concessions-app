@@ -1,7 +1,9 @@
 This project was deploted using Heroku [https://onlinevendr.herokuapp.com/](https://onlinevendr.herokuapp.com/)
 This project used the Passport and PayPal APIs to implement login and payment security, respectively.
 
-To run locally you must use [http://localhost:5000](http://localhost:5000) and to run on Heroku use the link [https://onlinevendr.herokuapp.com/](https://onlinevendr.herokuapp.com/)
+To run locally you must use [http://localhost:5000](http://localhost:5000). Use the command 'npm run dev' to launch the app locally. To run on Heroku, use the link [https://onlinevendr.herokuapp.com/](https://onlinevendr.herokuapp.com/)
+
+The file server/config/config.js needs a MongoDB URI when running locally. To change the database connection, the URI in that file must be changed. In addition, the file client/package.json neeeds the line "proxy": "http://localhost:5000" in order for the app to work locally. If pushing the file client/package.json to master for Heroku to use, that proxy line must be removed.
 
 Database is updated automatically through the addition/deletion of a venue, vendor or good, and the cart and orders update as the user adds/deletes an item to the cart or pays for the order, and the vendor completes the order
 
