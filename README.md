@@ -37,6 +37,13 @@ This project contains an example project board meant to showcase how one can be 
 - Admin can establish new vendors
 - Admin can add and delete new venues and vendors
 
+## API Code
+- For the integration of the PayPal checkout, some sample code was borrowed from the PayPal Node SDK GitHub page at https://github.com/paypal/PayPal-node-SDK. Specifically, the borrowed code appears in server/routes/users.server.routes.js. The definition of the defPayment variable in router.post('/pay', (req, res) has sample code from the GitHub page. In addition, the function paypal.payment.create has sample code from the following PayPal Node API tutorial: https://www.youtube.com/watch?v=7k03jobKGXM
+
+- The function paypal.configure in server/routes/users.server.routes.js comes from sample code in https://developer.paypal.com/docs/api/quickstart/environment/
+
+- In router.post('/executepayment', (req, res), the variable execute_payment and the function paypal.payment.execute have sample code from the PayPal Node SDK GitHub page mentioned above.
+
 #### _**IMPORTANT NOTE**_ - 
 This project does not have a mongoDB connection setup. Setup the connection based on the environments below.
 - local development: create a config file (make sure to name it config.js) in the config folder, which exports your db.uri connection. An example is provided, config/config.example.js. This file will be ignored by git so your db credentials will be kept safe when the app is deployed.
