@@ -1,9 +1,11 @@
 This project was deploted using Heroku [https://onlinevendr.herokuapp.com/](https://onlinevendr.herokuapp.com/)
 This project used the Passport and PayPal APIs to implement login and payment security, respectively.
 
-To run locally you must use [http://localhost:5000](http://localhost:5000) and to run on Heroku use the link [https://onlinevendr.herokuapp.com/](https://onlinevendr.herokuapp.com/)
+To run locally you must use [http://localhost:5000](http://localhost:5000). Use the command 'npm run dev' to launch the app locally. To run on Heroku, use the link [https://onlinevendr.herokuapp.com/](https://onlinevendr.herokuapp.com/)
 
-Database is updated automatically through the addition/deletion of a venue, vendor or good, and the cart and orders update as the user adds/deltes an item to the cart or pays for the order, and the vendor completes the order
+The file server/config/config.js needs a MongoDB URI when running locally. To change the database connection, the URI in that file must be changed. In addition, the file client/package.json neeeds the line "proxy": "http://localhost:5000" in order for the app to work locally. If pushing the file client/package.json to master for Heroku to use, that proxy line must be removed.
+
+Database is updated automatically through the addition/deletion of a venue, vendor or good, and the cart and orders update as the user adds/deletes an item to the cart or pays for the order, and the vendor completes the order
 
 ## _**GitHub Issues**_
 Place all bugs here
@@ -19,17 +21,106 @@ _** Marks something important **_
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 This project contains an example project board meant to showcase how one can be used. The issues posted to it are not real issues.
 
-#### _**IMPORTANT NOTE**_ - 
-This project does not have a mongoDB connection setup. Setup the connection based on the environments below.
-- local development: create a config file (make sure to name it config.js) in the config folder, which exports your db.uri connection. An example is provided, config/config.example.js. This file will be ignored by git so your db credentials will be kept safe when the app is deployed.
-- production: Since the config file is not pushed when you deploy your app, you must specifiy your db uri in heorku. Set the uri in heroku as specified in [this](https://devcenter.heroku.com/articles/config-vars) resource. Make sure you name the environement variable "DB_URI".
+## Features Implemented 
+- Home page for the application with navigation links
+- Users and vendors must pass a login screen to access their information
+- Users can view venues, vendors, and goods
+- Users can search for venues, vendors, and goods
+- Users can register for an account/login
+- Users can add/delete goods to their cart
+- Implementing a database to store users
+- Customizing the application to look compelling
+- Landing pages for users and vendors
+- Vendors can update their menu 
+- Vendors can create menus
+- Users can pay for their order through PayPal
+- Submitted cart information can be sent to our database
+- Users and vendors must pass a login screen to access their information
+- Admin can establish new vendors
+- Admin can add and delete new venues and vendors
 
-## Getting Started
-This repository aims to assist you in beginning work on a MERN stack application with a solid file structure as a foundation. To get started make a copy of this template repo for your project teams.
+## Stylesheet API
+- For styling the website, we used Bootstrap at https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css
 
-Since this project will hold both the client application and the server application there will be node modules in two different places. First run `npm install` from the root. After this you will run `npm run-script install-all` from the root. From now on run this command anytime you want to install all modules again. This is a script we have defined in package.json .
+## PayPal API
+- For the integration of the PayPal checkout, some sample code was borrowed from the PayPal Node SDK GitHub page at https://github.com/paypal/PayPal-node-SDK. Specifically, the borrowed code appears in server/routes/users.server.routes.js. The definition of the defPayment variable in router.post('/pay', (req, res) has sample code from the GitHub page. In addition, the function paypal.payment.create has sample code from the following PayPal Node API tutorial: https://www.youtube.com/watch?v=7k03jobKGXM
 
-This app can be deployed directly to heroku since there is a script defined in package.json which will automatically handle building and deploying the app. For more information on deploying to heroku reference the extra resources at the bottom of this file. 
+- The function paypal.configure in server/routes/users.server.routes.js comes from sample code in https://developer.paypal.com/docs/api/quickstart/environment/
+
+- In router.post('/executepayment', (req, res), the variable execute_payment and the function paypal.payment.execute have sample code from the PayPal Node SDK GitHub page mentioned above.
+
+## Website Screenshots
+Note: Not all screens are shown here, but all the functionality is.
+
+- Home Page
+![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/Home%20page.JPG)
+
+
+
+- Register
+![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/Register.JPG)
+
+
+
+- Login
+![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/Login.JPG)
+
+
+
+- Choose Vendor (as user)
+![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/Choose%20Vendor.JPG)
+
+
+
+- Make Order (as user)
+![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/User%20Order%20Food.JPG)
+
+
+
+- View Cart (as user)
+![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/User%20View%20Cart.JPG)
+
+
+
+- View Orders (as user)
+![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/User%20View%20Orders.JPG)
+
+
+
+- Pay Order (as user)
+![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/Pay%20Order.JPG)
+
+
+
+- Pay Order with API (as user)
+![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/User%20PayPal%20Checkout.png)
+
+
+
+- View, Add, or Delete Goods (as vendor)
+![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/Vendor%20Add%20or%20Delete%20Goods.JPG)
+
+
+
+- View Orders (as vendor)
+![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/Vendor%20View%20Orders.png)
+
+
+
+- View Specific Order(as vendor)
+![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/Vendor%20View%20or%20Complete%20Order.png)
+
+
+
+- Add or Remove Venues (as admin)
+![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/Admin%20Manage%20Venues.JPG)
+
+
+
+- Add or Remove Vendors (as admin) 
+![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/Admin%20Add%20Remove%20Vendor.JPG)
+
+
 
 ## File structure
 #### `client` - Holds the client application
@@ -82,16 +173,3 @@ If deploying to heroku this does not need to be run since it is handled by the h
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn how to setup a local MongoDB instance for testing, check out how to [Connect to MongoDB](https://docs.mongodb.com/guides/server/drivers/).
-
-To learn how to deploy a full-stack web app to heroku, check out [this great guide](https://daveceddia.com/deploy-react-express-app-heroku/).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify

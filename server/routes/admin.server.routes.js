@@ -74,13 +74,13 @@ router.post("/addVenue", (req, res) => {
           });
     }
 
-    const newVenue = new Venue({
+    const newVenue = new Venue({            // Creates new venue
         name,
         address,
         vendors
     });
 
-    newVenue.save((error, venue) => {
+    newVenue.save((error, venue) => {       // Saves new venue; posts an error message if failed, otherwise success message prints
         if (error) {
           return res.send({
             success: false,
