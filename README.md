@@ -37,7 +37,10 @@ This project contains an example project board meant to showcase how one can be 
 - Admin can establish new vendors
 - Admin can add and delete new venues and vendors
 
-## API Code
+## Stylesheet API
+- For styling the website, we used Bootstrap at https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css
+
+## PayPal API
 - For the integration of the PayPal checkout, some sample code was borrowed from the PayPal Node SDK GitHub page at https://github.com/paypal/PayPal-node-SDK. Specifically, the borrowed code appears in server/routes/users.server.routes.js. The definition of the defPayment variable in router.post('/pay', (req, res) has sample code from the GitHub page. In addition, the function paypal.payment.create has sample code from the following PayPal Node API tutorial: https://www.youtube.com/watch?v=7k03jobKGXM
 
 - The function paypal.configure in server/routes/users.server.routes.js comes from sample code in https://developer.paypal.com/docs/api/quickstart/environment/
