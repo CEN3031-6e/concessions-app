@@ -55,44 +55,71 @@ Note: Not all screens are shown here, but all the functionality is.
 - Home Page
 ![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/Home%20page.JPG)
 
+
+
 - Register
 ![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/Register.JPG)
+
+
 
 - Login
 ![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/Login.JPG)
 
+
+
 - Choose Vendor (as user)
 ![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/Choose%20Vendor.JPG)
+
+
 
 - Make Order (as user)
 ![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/User%20Order%20Food.JPG)
 
+
+
 - View Cart (as user)
 ![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/User%20View%20Cart.JPG)
+
+
 
 - View Orders (as user)
 ![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/User%20View%20Orders.JPG)
 
+
+
 - Pay Order (as user)
 ![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/Pay%20Order.JPG)
+
+
 
 - Pay Order with API (as user)
 ![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/User%20PayPal%20Checkout.png)
 
+
+
 - View, Add, or Delete Goods (as vendor)
 ![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/Vendor%20Add%20or%20Delete%20Goods.JPG)
+
+
 
 - View Orders (as vendor)
 ![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/Vendor%20View%20Orders.png)
 
+
+
 - View Specific Order(as vendor)
 ![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/Vendor%20View%20or%20Complete%20Order.png)
+
+
 
 - Add or Remove Venues (as admin)
 ![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/Admin%20Manage%20Venues.JPG)
 
+
+
 - Add or Remove Vendors (as admin) 
 ![alt text](https://github.com/CEN3031-6e/concessions-app/blob/master/Screenshots/Admin%20Add%20Remove%20Vendor.JPG)
+
 
 
 ## File structure
